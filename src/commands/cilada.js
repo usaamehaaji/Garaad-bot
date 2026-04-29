@@ -51,14 +51,19 @@ module.exports = async function ciladaCommand(message, args) {
 
     for (const adminId of admins) {
         try {
-            const admin = await message.client.users.fetch(adminId).catch(() => null);
+            const admin = await message.client.users.fetch(adminId).catch((err) => {
+                console.warn(`[Cilada] Admin lama heli karo (${adminId}):`, err?.message);
+                return null;
+            });
             if (!admin) continue;
             await admin.send({ embeds: [adminEmbed] });
+            console.log(`[Cilada] DM la diray admin: ${admin.tag} (${adminId})`);
             delivered++;
         } catch (e) {
-            // Admin wuxuu xidhay DM-yada
+            console.warn(`[Cilada] DM ku fashilmay admin ${adminId}:`, e?.message);
         }
     }
+    console.log(`[Cilada] Wadarta admin: ${admins.length}, La gaarsiiyay: ${delivered}`);
 
     // Xaqiijin user-ka
     const userEmbed = new EmbedBuilder()
@@ -68,7 +73,7 @@ module.exports = async function ciladaCommand(message, args) {
             `**Cilada aad qortay:**\n> ${description.length > 200 ? description.slice(0, 200) + '...' : description}\n\n` +
             (delivered > 0
                 ? `📨 La gaadhsiiyay **${delivered}** admin.`
-                : `⚠️ Cilada waa la kaydiyay laakiin DM admin lama gaarsiin (waa la eegi doonaa).`)
+                : `⚠️ Cilada waa la kaydiyay. Admin-yada DM ma ay heleyn (waxaa laga yaabaa inay xidhan tahay DM-yadooda).`)
         )
         .setColor('#2ecc71');
 
