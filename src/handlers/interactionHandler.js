@@ -5,6 +5,7 @@
 const { MessageFlags }              = require('discord.js');
 const { handleSoloAnswer }          = require('../games/solo');
 const { startDuelGame }             = require('../games/duel');
+const { startFourrowGame, handleDrop: handleFourrowDrop } = require('../games/fourrow');
 const { sendRushQuestion }          = require('../games/rush');
 const { beginQuizGame, refreshLobby } = require('../games/quiz');
 const { userData, saveData, activeBets, activeRush, activeQuiz, isUserBusy } = require('../store');
@@ -65,6 +66,44 @@ module.exports = function setupInteractionHandler(client) {
         // ── Solo: Jawaab ──────────────────────────────────────────────
         if (id.startsWith('q_')) {
             return handleSoloAnswer(interaction);
+        }
+
+        // ── 4-Row: Aqbal ──────────────────────────────────────────────
+        if (id.startsWith('accept_4row_')) {
+            const parts    = id.split('_');
+            const authorId = parts[2];
+            const targetId = parts[3];
+            if (interaction.user.id !== targetId) {
+                return interaction.reply({ content: 'Adiga laguma casuumin.', flags: MessageFlags.Ephemeral });
+            }
+            const aBusy = isUserBusy(authorId);
+            if (aBusy) {
+                return interaction.reply({ content: `Casuumaha mar hore wuxuu ku jiraa ciyaar **${aBusy}**.`, flags: MessageFlags.Ephemeral });
+            }
+            const tBusy = isUserBusy(targetId);
+            if (tBusy) {
+                return interaction.reply({ content: `Adigu mar hore waxaad ku jirtaa ciyaar **${tBusy}**.`, flags: MessageFlags.Ephemeral });
+            }
+            await interaction.update({
+                content:    `🎯 <@${targetId}> wuu aqbalay! Ciyaartu wey bilaabmaysaa...`,
+                embeds:     [],
+                components: [],
+            });
+            return startFourrowGame(interaction.channel, authorId, targetId);
+        }
+
+        // ── 4-Row: Diid ───────────────────────────────────────────────
+        if (id.startsWith('decline_4row_')) {
+            const targetId = id.split('_')[3];
+            if (interaction.user.id !== targetId) {
+                return interaction.reply({ content: 'Adiga laguma casuumin.', flags: MessageFlags.Ephemeral });
+            }
+            return interaction.update({ content: '❌ 4-Row codsi waa la diiday.', embeds: [], components: [] });
+        }
+
+        // ── 4-Row: Riix column ────────────────────────────────────────
+        if (id.startsWith('4row_drop_')) {
+            return handleFourrowDrop(interaction);
         }
 
         // ── Bet: Jawaab ───────────────────────────────────────────────
