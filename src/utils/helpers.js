@@ -28,6 +28,7 @@ function checkUser(userId) {
                 betsWon: 0, betsLost: 0,
                 rushBest: 0,
                 quizWins: 0, quizPlayed: 0,
+                fourRowWins: 0, fourRowLosses: 0, fourRowDraws: 0,
                 bugsReported: 0,
             },
         };
@@ -64,6 +65,9 @@ function checkUser(userId) {
         s.rushBest      ??= 0;
         s.quizWins      ??= 0;
         s.quizPlayed    ??= 0;
+        s.fourRowWins   ??= 0;
+        s.fourRowLosses ??= 0;
+        s.fourRowDraws  ??= 0;
         s.bugsReported  ??= 0;
     }
 }
