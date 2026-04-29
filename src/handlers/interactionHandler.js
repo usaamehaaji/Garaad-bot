@@ -5,7 +5,7 @@
 const { MessageFlags }              = require('discord.js');
 const { handleSoloAnswer }          = require('../games/solo');
 const { startDuelGame }             = require('../games/duel');
-const { startFourrowGame, handleDrop: handleFourrowDrop } = require('../games/fourrow');
+const { startFourrowGame, handleDrop: handleFourrowDrop, MIN_XP_TO_PLAY: FOURROW_MIN_XP } = require('../games/fourrow');
 const { sendRushQuestion }          = require('../games/rush');
 const { beginQuizGame, refreshLobby } = require('../games/quiz');
 const { userData, saveData, activeBets, activeRush, activeQuiz, isUserBusy } = require('../store');
@@ -83,6 +83,14 @@ module.exports = function setupInteractionHandler(client) {
             const tBusy = isUserBusy(targetId);
             if (tBusy) {
                 return interaction.reply({ content: `Adigu mar hore waxaad ku jirtaa ciyaar **${tBusy}**.`, flags: MessageFlags.Ephemeral });
+            }
+            // ⭐ Hubi mar kale XP-ga (waxaa laga yaabaa inuu xaalku is bedelay codsiga ka dib)
+            checkUser(authorId); checkUser(targetId);
+            if (userData[authorId].xp < FOURROW_MIN_XP) {
+                return interaction.reply({ content: `Casuumaha ma haysto XP ku filan (${FOURROW_MIN_XP} XP loo baahan yahay).`, flags: MessageFlags.Ephemeral });
+            }
+            if (userData[targetId].xp < FOURROW_MIN_XP) {
+                return interaction.reply({ content: `Adigu ma haysid XP ku filan! Waxaad u baahan tahay **${FOURROW_MIN_XP} XP**, hadda waxaad haysataa **${userData[targetId].xp} XP**.`, flags: MessageFlags.Ephemeral });
             }
             await interaction.update({
                 content:    `🎯 <@${targetId}> wuu aqbalay! Ciyaartu wey bilaabmaysaa...`,
