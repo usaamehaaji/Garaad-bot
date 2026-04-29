@@ -11,6 +11,7 @@ const removeAdm = require('./adminRemoveAdmin');
 const listAdm   = require('./adminList');
 const bugs      = require('./adminBugs');
 const reset     = require('./adminReset');
+const resetAll  = require('./adminResetAll');
 const dm        = require('./adminDm');
 
 module.exports = async function adminCommand(message, args) {
@@ -45,6 +46,11 @@ module.exports = async function adminCommand(message, args) {
         case 'reset':
             return reset(message, args);
 
+        case 'resetall':
+        case 'resetdhammaan':
+        case 'eberka':
+            return resetAll(message, args);
+
         case 'dm':
         case 'message':
             return dm(message, args);
@@ -59,7 +65,8 @@ module.exports = async function adminCommand(message, args) {
                 `\`${PREFIX}admin remove @user\` — Admin ka saar liiska\n` +
                 `\`${PREFIX}admin list\` — Liiska admin-yada\n` +
                 `\`${PREFIX}admin bugs\` — Eeg cilada-yaha la soo sheegay\n` +
-                `\`${PREFIX}admin reset @user\` — Xog user ka tirtir`
+                `\`${PREFIX}admin reset @user\` — Xog user ka tirtir\n` +
+                `\`${PREFIX}admin resetall\` — Eber u samee dhammaan user-yada (digniin + confirm)`
             );
     }
 };
