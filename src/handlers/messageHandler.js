@@ -19,6 +19,7 @@ const betCmd        = require('../commands/bet');
 // ⭐ ?rush waa la joojiyay — laguma baahan tahay (user request)
 // const rushCmd    = require('../commands/rush');
 const quizCmd       = require('../commands/quiz');
+const fourrowCmd    = require('../commands/fourrow');
 const ciladaCmd     = require('../commands/cilada');
 const adminCmd      = require('../commands/admin/admin');
 
@@ -74,6 +75,13 @@ module.exports = function setupMessageHandler(client) {
             case 'friends':
             case 'team':
                 return quizCmd(message, args);
+
+            case '4row':
+            case '4':
+            case 'fourrow':
+            case 'afar':
+            case 'connect4':
+                return fourrowCmd(message, args);
 
             case 'cilada':
             case 'cilad':
