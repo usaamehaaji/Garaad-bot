@@ -12,11 +12,12 @@ const DATA_PATH = path.join(__dirname, '..', 'data', 'users.json');
 let userData = {};
 
 // Ciyaaraha firfircoon
-const activeGames = new Map(); // userId -> solo game state
-const activeDuels = new Map(); // channelId -> duel state
-const activeBets  = new Map(); // userId -> bet state
-const activeRush  = new Map(); // userId -> rush state
-const activeQuiz  = new Map(); // channelId -> quiz state
+const activeGames   = new Map(); // userId -> solo game state
+const activeDuels   = new Map(); // channelId -> duel state
+const activeBets    = new Map(); // userId -> bet state
+const activeRush    = new Map(); // userId -> rush state
+const activeQuiz    = new Map(); // channelId -> quiz state
+const activeFourrow = new Map(); // channelId -> 4-row state
 
 // Akhri xogta hore
 try {
@@ -49,6 +50,9 @@ function isUserBusy(userId) {
     for (const state of activeQuiz.values()) {
         if (state.players && state.players.has(userId)) return 'quiz';
     }
+    for (const state of activeFourrow.values()) {
+        if (state.p1 === userId || state.p2 === userId) return '4row';
+    }
     return null;
 }
 
@@ -60,5 +64,6 @@ module.exports = {
     activeBets,
     activeRush,
     activeQuiz,
+    activeFourrow,
     isUserBusy,
 };
