@@ -3,7 +3,9 @@
 // =====================================================================
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { activeFourrow, isUserBusy } = require('../store');
+const { activeFourrow, isUserBusy, userData } = require('../store');
+const { checkUser }                 = require('../utils/helpers');
+const { MIN_XP_TO_PLAY }            = require('../games/fourrow');
 const { PREFIX, GLOBAL_WAIT_MS }    = require('../config');
 
 module.exports = async function fourrowCommand(message, args) {
@@ -27,13 +29,30 @@ module.exports = async function fourrowCommand(message, args) {
         return message.reply(`⚠️ <@${target.id}> wuxuu mar hore ku jiraa ciyaar **${targetBusy}**! Sug ilaa ay dhammaato.`);
     }
 
+    // ⭐ Hubi labadooduba inay haystaan ugu yaraan MIN_XP_TO_PLAY XP
+    checkUser(userId);
+    checkUser(target.id);
+    if (userData[userId].xp < MIN_XP_TO_PLAY) {
+        return message.reply(
+            `⚠️ Ma haysid XP ku filan! Si aad u ciyaarto **4-Row** waxaad u baahan tahay ugu yaraan **${MIN_XP_TO_PLAY} XP** ` +
+            `(maxaa yeelay haddii aad lumiso ${MIN_XP_TO_PLAY} XP ayaa lagaa jarayaa).\n` +
+            `Hadda waxaad haysataa: **${userData[userId].xp} XP**.`
+        );
+    }
+    if (userData[target.id].xp < MIN_XP_TO_PLAY) {
+        return message.reply(
+            `⚠️ <@${target.id}> ma haysto XP ku filan! Wuxuu u baahan yahay ugu yaraan **${MIN_XP_TO_PLAY} XP** si uu u ciyaaro.\n` +
+            `Hadda wuxuu haystaa: **${userData[target.id].xp} XP**.`
+        );
+    }
+
     const embed = new EmbedBuilder()
         .setTitle('🎯 4-Row Codsi')
         .setDescription(
             `<@${userId}> wuxuu ku casuumayaa <@${target.id}> ciyaarta **4 Isku-xig**!\n\n` +
             `**Sida ay u shaqayso:** Board 6×7 ah. Mid kasta isku day inuu sameeyo 4 sheyga ah oo isugu xigxiga (jiif, taagan, ama xagal).\n` +
             `**Wakhti turn:** 30 ilbiriqsi qof kasta\n` +
-            `**Abaalgudka:** Guulaystaha → +25 XP. Lumiyaha → wax dhibaato ah ma jirto.\n\n` +
+            `**Abaalgudka:** Guulaystaha → **+25 XP**. Lumiyaha → **−${MIN_XP_TO_PLAY} XP**.\n\n` +
             `<@${target.id}>, ma aqbalaysaa? *(${GLOBAL_WAIT_MS / 1000} ilbiriqsi)*`
         )
         .setColor('#9b59b6');
