@@ -14,7 +14,8 @@ module.exports = async function helpCommand(message) {
         `🎲 **Ciyaaraha** _(dhammaantood waxaa la dooran karaa tirada su'aalaha)_\n` +
         `\`${PREFIX}solo\` - Ciyaar shakhsi ah _(3-25 su'aalood)_\n` +
         `\`${PREFIX}duel @user\` - Dagaal labo qof _(3-15 su'aalood)_\n` +
-        `\`${PREFIX}quiz\` - Quiz kooxeed _(ugu yaraan 3 qof, 3-25 su'aalood)_\n\n` +
+        `\`${PREFIX}quiz\` - Quiz kooxeed _(ugu yaraan 3 qof, 3-25 su'aalood)_\n` +
+        `\`${PREFIX}4row @user\` - 4 Isku-xig (Connect 4) — XP guulaystaha\n\n` +
 
         `💰 **Khamaar & Dukaanka**\n` +
         `\`${PREFIX}bet [amount]\` - Khamaar IQ\n` +
