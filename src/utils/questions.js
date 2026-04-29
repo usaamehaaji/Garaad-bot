@@ -14,7 +14,13 @@ const { TWO_WEEKS_MS }            = require('../config');
 // ───── Soo akhri su'aalaha game kasta ─────
 const GAMES = ['solo', 'duel', 'rush', 'quiz', 'bet'];
 const questionsByGame = {};
-const fallback        = require('../../data/questions.json');
+
+let fallback = [];
+try {
+    fallback = require('../../data/questions.json');
+} catch (_) {
+    // Faylka guud mar dambe lama isticmaalo — per-game files ayaa la isticmaalayaa
+}
 
 for (const game of GAMES) {
     try {
