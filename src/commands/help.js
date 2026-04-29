@@ -11,11 +11,13 @@ module.exports = async function helpCommand(message) {
     const description =
         `Ku soo dhawoow **Garaad Quiz Bot v3**. Hoos waxaa ku qoran amarrada oo qaybo loo kala saaray:\n\n` +
 
-        `🎲 **Ciyaaraha** _(dhammaantood waxaa la dooran karaa tirada su'aalaha)_\n` +
+        `🎲 **Ciyaaraha Su'aalaha** _(dhammaantood waxaa la dooran karaa tirada su'aalaha)_\n` +
         `\`${PREFIX}solo\` - Ciyaar shakhsi ah _(3-25 su'aalood)_\n` +
         `\`${PREFIX}duel @user\` - Dagaal labo qof _(3-15 su'aalood)_\n` +
-        `\`${PREFIX}quiz\` - Quiz kooxeed _(ugu yaraan 3 qof, 3-25 su'aalood)_\n` +
-        `\`${PREFIX}4row @user\` - 4 Isku-xig (Connect 4) — XP guulaystaha\n\n` +
+        `\`${PREFIX}quiz\` - Quiz kooxeed _(ugu yaraan 3 qof, 3-25 su'aalood)_\n\n` +
+
+        `🎮 **Ciyaaraha Kale (Other Games)**\n` +
+        `\`${PREFIX}4row @user\` - 4 Isku-xig (Connect 4) — Guulaystay +25 XP / Lumiyay −10 XP\n\n` +
 
         `💰 **Khamaar & Dukaanka**\n` +
         `\`${PREFIX}bet [amount]\` - Khamaar IQ\n` +
