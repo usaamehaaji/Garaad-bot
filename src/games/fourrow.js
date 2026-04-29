@@ -14,8 +14,10 @@ const { markUserPlayed }                   = require('../utils/reminders');
 // ───── Habayn ─────
 const ROWS         = 6;
 const COLS         = 7;
-const TURN_TIME_MS = 30 * 1000;            // 30 ilbiriqsi turn kasta
-const WINNER_XP    = 25;                   // XP guulaystaha
+const TURN_TIME_MS  = 30 * 1000;           // 30 ilbiriqsi turn kasta
+const WINNER_XP     = 25;                  // XP guulaystaha
+const LOSER_XP      = 10;                  // XP laga jarayo lumiyaha
+const MIN_XP_TO_PLAY = LOSER_XP;           // Ugu yaraan loo baahanyahay si la u ciyaaro
 const NUM_EMOJI    = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣'];
 const PIECE        = { p1: '🔴', p2: '🟡', empty: '⚫' };
 
@@ -160,11 +162,12 @@ async function handleTimeout(channel, state) {
     state.finished = true;
     activeFourrow.delete(channel.id);
 
-    awardWinner(winner, loser);
+    const lostXp = awardWinner(winner, loser);
 
     const embed = buildBoardEmbed(state,
         `⏰ <@${loser}> wakhti dhamaaday — wuu lumiyay!\n\n` +
-        `🏆 Guulaystay: <@${winner}> (+${WINNER_XP} XP)`
+        `🏆 Guulaystay: <@${winner}> (+${WINNER_XP} XP)\n` +
+        `💀 Lumiyay: <@${loser}> (−${lostXp} XP)`
     );
     if (state.message) {
         await state.message.edit({ embeds: [embed], components: buildButtons(state) }).catch(() => {});
@@ -206,11 +209,12 @@ async function handleDrop(interaction) {
         state.finished = true;
         activeFourrow.delete(state.channelId);
 
-        awardWinner(winner, loser);
+        const lostXp = awardWinner(winner, loser);
 
         const embed = buildBoardEmbed(state,
             `🏆 <@${winner}> wuu guulaystay!\n` +
-            `💎 +${WINNER_XP} XP — Mahadsanid ciyaarta!`
+            `💎 +${WINNER_XP} XP — Mahadsanid ciyaarta!\n` +
+            `💀 <@${loser}> −${lostXp} XP`
         );
         return interaction.update({ embeds: [embed], components: buildButtons(state) }).catch(() => {});
     }
@@ -241,14 +245,20 @@ async function handleDrop(interaction) {
     return interaction.update({ embeds: [embed], components: buildButtons(state) }).catch(() => {});
 }
 
-// ───── Abaalmari guulaystaha ─────
+// ───── Abaalmari guulaystaha + ciqaab lumiyaha ─────
+// Soo celi inta XP ee laga jaray lumiyaha (si farriinta loogu muujiyo)
 function awardWinner(winnerId, loserId) {
     checkUser(winnerId);
     checkUser(loserId);
     addXp(winnerId, WINNER_XP);
-    userData[winnerId].stats.fourRowWins   = (userData[winnerId].stats.fourRowWins   || 0) + 1;
-    userData[loserId].stats.fourRowLosses  = (userData[loserId].stats.fourRowLosses  || 0) + 1;
+
+    const lostXp = Math.min(LOSER_XP, userData[loserId].xp);
+    userData[loserId].xp = Math.max(0, userData[loserId].xp - LOSER_XP);
+
+    userData[winnerId].stats.fourRowWins  = (userData[winnerId].stats.fourRowWins  || 0) + 1;
+    userData[loserId].stats.fourRowLosses = (userData[loserId].stats.fourRowLosses || 0) + 1;
     saveData();
+    return lostXp;
 }
 
-module.exports = { startFourrowGame, handleDrop };
+module.exports = { startFourrowGame, handleDrop, MIN_XP_TO_PLAY };
