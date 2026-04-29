@@ -20,6 +20,9 @@ const LOSER_XP      = 10;                  // XP laga jarayo lumiyaha
 const MIN_XP_TO_PLAY = LOSER_XP;           // Ugu yaraan loo baahanyahay si la u ciyaaro
 const NUM_EMOJI    = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣'];
 const PIECE        = { p1: '🔴', p2: '🟡', empty: '⚫' };
+// ⭐ U dhexeeyaha unugyada — em-space (\u2003) — wuxuu siinayaa kala-bax cad oo isku mid ah Discord mobile/desktop
+const CELL_SEP     = '\u2003';
+const SIDE_PAD     = '\u2003'; // hareeraha bidix iyo midig
 
 // ───── Sameey board cusub ─────
 function emptyBoard() {
@@ -70,15 +73,18 @@ function isBoardFull(board) {
 }
 
 // ───── U sawir board emojis ─────
+// • Em-space (\u2003) ayaa loo isticmaalay si pieces-ka u kala muuqdaan
+// • Wadar walba waxaa ku jira "frame" hareeraha (📍 sare iyo 🔵 hoose)
 function renderBoard(board) {
-    let lines = [NUM_EMOJI.join(' ')];
+    const header = SIDE_PAD + NUM_EMOJI.join(CELL_SEP) + SIDE_PAD;
+    const lines  = [header];
     for (const row of board) {
-        const line = row.map(cell => {
+        const cells = row.map(cell => {
             if (cell === 'p1') return PIECE.p1;
             if (cell === 'p2') return PIECE.p2;
             return PIECE.empty;
-        }).join(' ');
-        lines.push(line);
+        });
+        lines.push(SIDE_PAD + cells.join(CELL_SEP) + SIDE_PAD);
     }
     return lines.join('\n');
 }
