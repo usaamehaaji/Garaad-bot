@@ -92,6 +92,12 @@ function pickQuestionsForGame(userId, game, count) {
         if (anyPool) pool = anyPool;
     }
 
+    // Haddii dhammaan pools madhan yihiin, isticmaal emergency pool.
+    // Tani waa in ay ka horeyso unseenIdx loop-ka si pool uusan madnayn.
+    if (pool.length === 0) {
+        pool = EMERGENCY_POOL;
+    }
+
     for (let i = 0; i < pool.length; i++) {
         const q = pool[i];
         if (i in seenIdx)             continue;     // index horay loo arkay (game-kan)
@@ -99,26 +105,23 @@ function pickQuestionsForGame(userId, game, count) {
         unseenIdx.push(i);
     }
 
-    // Haddii dhammaan pools madhan yihiin, isticmaal emergency pool.
-    if (pool.length === 0) {
-        pool = EMERGENCY_POOL;
-    }
-
     // Haddii "unseen" dhammaado, su'aalaha dib u wareeji si ciyaartu u sii socoto
     // halkii user-ka loo diri lahaa "2 toddobaad sug".
+    // Haddii unseenIdx madhan yahay, isticmaal dhammaan indices-ka pool-ka.
     const sourceIdx = unseenIdx.length > 0
         ? unseenIdx
         : Array.from({ length: pool.length }, (_, i) => i);
 
     // Had iyo jeer celi tiradii la codsaday, xitaa haddii pool-ku yar yahay
     // (su'aalaha waa la soo celinayaa / repeat).
+    // sourceIdx had iyo jeer waa non-empty maadaama pool.length > 0 hadda.
     const pickedIdx = [];
-    if (sourceIdx.length > 0) {
-        let bag = shuffleArray(sourceIdx);
+    {
+        let bag = shuffleArray([...sourceIdx]);
         let ptr = 0;
         while (pickedIdx.length < count) {
             if (ptr >= bag.length) {
-                bag = shuffleArray(sourceIdx);
+                bag = shuffleArray([...sourceIdx]);
                 ptr = 0;
             }
             pickedIdx.push(bag[ptr]);
