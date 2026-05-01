@@ -204,5 +204,11 @@
   { "question": "Waa maxay 12 × 6?", "options": ["62", "72", "82", "92"], "correct": "72" },
   { "question": "Waa maxay 200 ÷ 4?", "options": ["40", "45", "50", "55"], "correct": "50" },
   { "question": "Waa maxay 99 - 44?", "options": ["45", "55", "65", "75"], "correct": "55" },
-  { "question": "Waa maxay 14 + 28?", "options": ["40", "41", "42", "43"], "correct": "42" }
+  { "question": "Waa maxay 14 + 28?", "options": ["40", "41", "42", "43"], "correct": "42" },
+  { "question": "Waa maxay 6 + 7?", "options": ["12", "13", "14", "15"], "correct": "13" },
+  { "question": "Waa maxay 5 × 8?", "options": ["35", "40", "45", "50"], "correct": "40" },
+  { "question": "Waa maxay 49 ÷ 7?", "options": ["6", "7", "8", "9"], "correct": "7" },
+  { "question": "Waa maxay 33 + 22?", "options": ["54", "55", "56", "57"], "correct": "55" },
+  { "question": "Waa maxay 70 - 18?", "options": ["50", "51", "52", "53"], "correct": "52" },
+  { "question": "Waa maxay 4 × 11?", "options": ["40", "42", "44", "46"], "correct": "44" }
 ]

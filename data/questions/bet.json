@@ -204,5 +204,11 @@
   { "question": "What is the synonym of 'rapid'?", "options": ["slow", "quick", "late", "weak"], "correct": "quick" },
   { "question": "Waa maxay 17 + 26?", "options": ["41", "42", "43", "44"], "correct": "43" },
   { "question": "Waa maxay caasimadda dalka Algeria?", "options": ["Oran", "Algiers", "Tunis", "Rabat"], "correct": "Algiers" },
-  { "question": "Qofka ugu horreeyay ee muslimiinta hijro ku hogaamiyay Xabashi wuxuu ahaa?", "options": ["Jaafar bin Abi Taalib", "Cumar bin Khadaab", "Cali bin Abi Taalib", "Khalid bin Waliid"], "correct": "Jaafar bin Abi Taalib" }
+  { "question": "Qofka ugu horreeyay ee muslimiinta hijro ku hogaamiyay Xabashi wuxuu ahaa?", "options": ["Jaafar bin Abi Taalib", "Cumar bin Khadaab", "Cali bin Abi Taalib", "Khalid bin Waliid"], "correct": "Jaafar bin Abi Taalib" },
+  { "question": "Waa maxay 35 × 2?", "options": ["60", "65", "70", "75"], "correct": "70" },
+  { "question": "Choose correct: 'I have ___ homework.'", "options": ["many", "much", "more", "most"], "correct": "much" },
+  { "question": "Waa maxay caasimadda dalka Morocco?", "options": ["Casablanca", "Rabat", "Marrakesh", "Fes"], "correct": "Rabat" },
+  { "question": "Waa maxay 84 ÷ 7?", "options": ["10", "11", "12", "13"], "correct": "12" },
+  { "question": "Suuradda koowaad ee Qur'aanka waa?", "options": ["Al-Baqara", "Al-Faatixa", "Al-Ikhlaas", "An-Naas"], "correct": "Al-Faatixa" },
+  { "question": "Waa maxay 19 + 19?", "options": ["36", "37", "38", "39"], "correct": "38" }
 ]

@@ -204,5 +204,11 @@
   { "question": "Rukunka Islaamka ee bixinta maal gaar ah waa?", "options": ["Salaad", "Soom", "Sakada", "Xaj"], "correct": "Sakada" },
   { "question": "Waa maxay 13 × 7?", "options": ["84", "91", "96", "101"], "correct": "91" },
   { "question": "The plural of 'child' is?", "options": ["childs", "children", "childes", "childer"], "correct": "children" },
-  { "question": "Waa maxay caasimadda dalka UAE?", "options": ["Dubai", "Abu Dhabi", "Sharjah", "Doha"], "correct": "Abu Dhabi" }
+  { "question": "Waa maxay caasimadda dalka UAE?", "options": ["Dubai", "Abu Dhabi", "Sharjah", "Doha"], "correct": "Abu Dhabi" },
+  { "question": "Waa maxay 45 + 55?", "options": ["95", "100", "105", "110"], "correct": "100" },
+  { "question": "Qaaradda ugu weyn adduunka waa?", "options": ["Africa", "Europe", "Asia", "South America"], "correct": "Asia" },
+  { "question": "Who painted the Mona Lisa?", "options": ["Picasso", "Van Gogh", "Leonardo da Vinci", "Michelangelo"], "correct": "Leonardo da Vinci" },
+  { "question": "Waa maxay 72 ÷ 9?", "options": ["6", "7", "8", "9"], "correct": "8" },
+  { "question": "Waa kuma madaxweynihii ugu horreeyay ee Soomaaliya?", "options": ["Aadan Cadde", "Cabdullaahi Yuusuf", "Siyaad Barre", "Hassan Sheikh"], "correct": "Aadan Cadde" },
+  { "question": "Choose correct: 'They ___ in Mogadishu now.'", "options": ["is", "am", "are", "was"], "correct": "are" }
 ]

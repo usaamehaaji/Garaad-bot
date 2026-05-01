@@ -44,5 +44,11 @@
   { "question": "Waa maxay badda u dhexeysa Afrika iyo Yurub?", "options": ["Badda Cas", "Badda Mediterranean", "Badweynta Hindiya", "Badda Madow"], "correct": "Badda Mediterranean" },
   { "question": "The opposite of 'early' is?", "options": ["quick", "late", "small", "short"], "correct": "late" },
   { "question": "Waa maxay 11 × 9?", "options": ["88", "99", "101", "111"], "correct": "99" },
-  { "question": "Waa kuma nebiga lagu liqay kalluunka?", "options": ["Nabi Yuusuf", "Nabi Yuunus", "Nabi Daawuud", "Nabi Sulaymaan"], "correct": "Nabi Yuunus" }
+  { "question": "Waa kuma nebiga lagu liqay kalluunka?", "options": ["Nabi Yuusuf", "Nabi Yuunus", "Nabi Daawuud", "Nabi Sulaymaan"], "correct": "Nabi Yuunus" },
+  { "question": "Siyaasigii yiri 'Yahuud ma tihiin albaabka fura' waa kuma?", "options": ["Farmaajo", "Hassan Ali Kheyre", "Sheikh Shariif", "Cumar Cabdirashiid"], "correct": "Hassan Ali Kheyre" },
+  { "question": "Waa maxay 32 + 19?", "options": ["49", "50", "51", "52"], "correct": "51" },
+  { "question": "Caasimadda dalka Eritrea waa?", "options": ["Asmara", "Massawa", "Keren", "Mekelle"], "correct": "Asmara" },
+  { "question": "The opposite of 'strong' is?", "options": ["hard", "weak", "tall", "loud"], "correct": "weak" },
+  { "question": "Waa maxay 18 × 2?", "options": ["34", "36", "38", "40"], "correct": "36" },
+  { "question": "Soonka Ramadaan badanaa imisa maalmood ayuu yahay?", "options": ["20", "25", "29 ama 30", "31"], "correct": "29 ama 30" }
 ]

@@ -203,5 +203,11 @@
   { "question": "Waa maxay 90 ÷ 9?", "options": ["8", "9", "10", "11"], "correct": "10" },
   { "question": "Nebiga lagu magacaabo 'Kaliimullah' waa?", "options": ["Nabi Ciise", "Nabi Muuse", "Nabi Ibraahim", "Nabi Yuusuf"], "correct": "Nabi Muuse" },
   { "question": "Waa maxay xubin ka tirsan jirka oo dhiigga pump gareysa?", "options": ["Maskaxda", "Sambabka", "Wadnaha", "Beerka"], "correct": "Wadnaha" },
-  { "question": "They ___ finished the work already.", "options": ["has", "have", "had", "having"], "correct": "have" }
+  { "question": "They ___ finished the work already.", "options": ["has", "have", "had", "having"], "correct": "have" },
+  { "question": "Waa maxay 27 + 16?", "options": ["41", "42", "43", "44"], "correct": "43" },
+  { "question": "Caasimadda dalka Yemen waa?", "options": ["Aden", "Sana'a", "Taiz", "Hudaydah"], "correct": "Sana'a" },
+  { "question": "Choose correct: 'She ___ to school yesterday.'", "options": ["go", "goes", "went", "going"], "correct": "went" },
+  { "question": "Waa maxay 9 × 6?", "options": ["48", "52", "54", "56"], "correct": "54" },
+  { "question": "Imisa maalmood ayaa usbuuc ku jira?", "options": ["5", "6", "7", "8"], "correct": "7" },
+  { "question": "Waa maxay 64 ÷ 8?", "options": ["6", "7", "8", "9"], "correct": "8" }
 ]
