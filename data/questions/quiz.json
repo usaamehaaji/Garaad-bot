@@ -195,5 +195,14 @@
   { "question": "Gabadhii u horreysay ee ku shahiidday Islaamka?", "options": ["Khadiija", "Caisha", "Sumaya", "Faadumo"], "correct": "Sumaya" },
   { "question": "Magaalada loogu yeero 'Magaalada aan waligeed seexan'?", "options": ["London", "Tokyo", "New York", "Paris"], "correct": "New York" },
   { "question": "Waa maxay xididka 100?", "options": ["10", "20", "30", "40"], "correct": "10" },
-  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" }
+  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" },
+  { "question": "Waa maxay caasimadda dalka Soomaaliya?", "options": ["Hargeysa", "Muqdisho", "Boosaaso", "Kismaayo"], "correct": "Muqdisho" },
+  { "question": "Waa maxay 25 + 75?", "options": ["90", "95", "100", "110"], "correct": "100" },
+  { "question": "Badda ku taalla xeebaha Soomaaliya waa?", "options": ["Badda Cas", "Badweynta Hindiya", "Badweynta Atlaantik", "Badda Mediterranean"], "correct": "Badweynta Hindiya" },
+  { "question": "Who wrote Romeo and Juliet?", "options": ["Charles Dickens", "William Shakespeare", "Mark Twain", "Leo Tolstoy"], "correct": "William Shakespeare" },
+  { "question": "Waa maxay meeraha ugu dhow qorraxda?", "options": ["Earth", "Mercury", "Mars", "Venus"], "correct": "Mercury" },
+  { "question": "Rukunka Islaamka ee bixinta maal gaar ah waa?", "options": ["Salaad", "Soom", "Sakada", "Xaj"], "correct": "Sakada" },
+  { "question": "Waa maxay 13 × 7?", "options": ["84", "91", "96", "101"], "correct": "91" },
+  { "question": "The plural of 'child' is?", "options": ["childs", "children", "childes", "childer"], "correct": "children" },
+  { "question": "Waa maxay caasimadda dalka UAE?", "options": ["Dubai", "Abu Dhabi", "Sharjah", "Doha"], "correct": "Abu Dhabi" }
 ]

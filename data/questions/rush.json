@@ -195,5 +195,14 @@
   { "question": "Gabadhii u horreysay ee ku shahiidday Islaamka?", "options": ["Khadiija", "Caisha", "Sumaya", "Faadumo"], "correct": "Sumaya" },
   { "question": "Magaalada loogu yeero 'Magaalada aan waligeed seexan'?", "options": ["London", "Tokyo", "New York", "Paris"], "correct": "New York" },
   { "question": "Waa maxay xididka 100?", "options": ["10", "20", "30", "40"], "correct": "10" },
-  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" }
+  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" },
+  { "question": "Waa maxay 8 + 9?", "options": ["15", "16", "17", "18"], "correct": "17" },
+  { "question": "Waa maxay 7 × 7?", "options": ["42", "49", "56", "63"], "correct": "49" },
+  { "question": "Waa maxay 100 - 37?", "options": ["61", "62", "63", "64"], "correct": "63" },
+  { "question": "Waa maxay 81 ÷ 9?", "options": ["7", "8", "9", "10"], "correct": "9" },
+  { "question": "Waa maxay 15 + 16?", "options": ["29", "30", "31", "32"], "correct": "31" },
+  { "question": "Waa maxay 12 × 6?", "options": ["62", "72", "82", "92"], "correct": "72" },
+  { "question": "Waa maxay 200 ÷ 4?", "options": ["40", "45", "50", "55"], "correct": "50" },
+  { "question": "Waa maxay 99 - 44?", "options": ["45", "55", "65", "75"], "correct": "55" },
+  { "question": "Waa maxay 14 + 28?", "options": ["40", "41", "42", "43"], "correct": "42" }
 ]

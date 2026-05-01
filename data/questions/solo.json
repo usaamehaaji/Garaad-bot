@@ -35,5 +35,14 @@
   { "question": "He ___ a car next year.", "options": ["buy", "buys", "will buy", "bought"], "correct": "will buy" },
 
   { "question": "Waa maxay 12 × 4?", "options": ["36", "40", "48", "52"], "correct": "48" },
-  { "question": "Waa kuma saynisyahankii helay cuf-isjiidadka?", "options": ["Einstein", "Newton", "Galileo", "Tesla"], "correct": "Newton" }
+  { "question": "Waa kuma saynisyahankii helay cuf-isjiidadka?", "options": ["Einstein", "Newton", "Galileo", "Tesla"], "correct": "Newton" },
+  { "question": "Waa maxay caasimadda dalka Jabuuti?", "options": ["Tadjoura", "Jabuuti", "Dikhil", "Ali Sabieh"], "correct": "Jabuuti" },
+  { "question": "Waa maxay 18 + 27?", "options": ["43", "44", "45", "46"], "correct": "45" },
+  { "question": "Rukniga 3aad ee Islaamka waa?", "options": ["Salaad", "Zakada", "Soon", "Xaj"], "correct": "Zakada" },
+  { "question": "He ___ dinner every night at 8.", "options": ["eat", "eats", "ate", "eating"], "correct": "eats" },
+  { "question": "Waa maxay 144 ÷ 12?", "options": ["10", "11", "12", "13"], "correct": "12" },
+  { "question": "Waa maxay badda u dhexeysa Afrika iyo Yurub?", "options": ["Badda Cas", "Badda Mediterranean", "Badweynta Hindiya", "Badda Madow"], "correct": "Badda Mediterranean" },
+  { "question": "The opposite of 'early' is?", "options": ["quick", "late", "small", "short"], "correct": "late" },
+  { "question": "Waa maxay 11 × 9?", "options": ["88", "99", "101", "111"], "correct": "99" },
+  { "question": "Waa kuma nebiga lagu liqay kalluunka?", "options": ["Nabi Yuusuf", "Nabi Yuunus", "Nabi Daawuud", "Nabi Sulaymaan"], "correct": "Nabi Yuunus" }
 ]

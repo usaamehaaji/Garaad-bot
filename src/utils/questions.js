@@ -11,6 +11,13 @@ const { userData }                = require('../store');
 const { checkUser, shuffleArray } = require('./helpers');
 const { TWO_WEEKS_MS }            = require('../config');
 
+// Emergency fallback haddii faylasha su'aalaha dhammaantood fashilmaan.
+const EMERGENCY_POOL = [
+    { question: 'Waa maxay 2 + 2?', options: ['3', '4', '5', '6'], correct: '4' },
+    { question: 'Caasimadda Soomaaliya waa?', options: ['Hargeysa', 'Muqdisho', 'Boosaaso', 'Baydhabo'], correct: 'Muqdisho' },
+    { question: 'Waa maxay 5 x 5?', options: ['20', '25', '30', '35'], correct: '25' },
+];
+
 // ───── Soo akhri su'aalaha game kasta ─────
 const GAMES = ['solo', 'duel', 'rush', 'quiz', 'bet'];
 const questionsByGame = {};
@@ -92,8 +99,10 @@ function pickQuestionsForGame(userId, game, count) {
         unseenIdx.push(i);
     }
 
-    // Haddii dhammaan pools madhan yihiin, markaas kaliya null celi
-    if (pool.length === 0) return null;
+    // Haddii dhammaan pools madhan yihiin, isticmaal emergency pool.
+    if (pool.length === 0) {
+        pool = EMERGENCY_POOL;
+    }
 
     // Haddii "unseen" dhammaado, su'aalaha dib u wareeji si ciyaartu u sii socoto
     // halkii user-ka loo diri lahaa "2 toddobaad sug".
@@ -101,9 +110,23 @@ function pickQuestionsForGame(userId, game, count) {
         ? unseenIdx
         : Array.from({ length: pool.length }, (_, i) => i);
 
-    return shuffleArray(sourceIdx)
-        .slice(0, count)
-        .map(i => ({ ...pool[i], _idx: i, _game: game }));
+    // Had iyo jeer celi tiradii la codsaday, xitaa haddii pool-ku yar yahay
+    // (su'aalaha waa la soo celinayaa / repeat).
+    const pickedIdx = [];
+    if (sourceIdx.length > 0) {
+        let bag = shuffleArray(sourceIdx);
+        let ptr = 0;
+        while (pickedIdx.length < count) {
+            if (ptr >= bag.length) {
+                bag = shuffleArray(sourceIdx);
+                ptr = 0;
+            }
+            pickedIdx.push(bag[ptr]);
+            ptr++;
+        }
+    }
+
+    return pickedIdx.map(i => ({ ...pool[i], _idx: i, _game: game }));
 }
 
 // ─────────────────────────────────────────────────────────────────────

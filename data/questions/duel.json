@@ -195,5 +195,13 @@
   { "question": "Gabadhii u horreysay ee ku shahiidday Islaamka?", "options": ["Khadiija", "Caisha", "Sumaya", "Faadumo"], "correct": "Sumaya" },
   { "question": "Magaalada loogu yeero 'Magaalada aan waligeed seexan'?", "options": ["London", "Tokyo", "New York", "Paris"], "correct": "New York" },
   { "question": "Waa maxay xididka 100?", "options": ["10", "20", "30", "40"], "correct": "10" },
-  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" }
+  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" },
+  { "question": "Waa maxay 14 × 3?", "options": ["36", "40", "42", "48"], "correct": "42" },
+  { "question": "Qofkii ugu horreeyay ee qaata billadda dahabka ee Olombikada Soomaaliya waa?", "options": ["Cali Cumar", "Bashiir Cabdi", "Ma jiro weli", "Faarax Cabdi"], "correct": "Ma jiro weli" },
+  { "question": "Choose the correct sentence.", "options": ["He don't like tea", "He doesn't likes tea", "He doesn't like tea", "He not like tea"], "correct": "He doesn't like tea" },
+  { "question": "Waa maxay caasimadda dalka Japan?", "options": ["Osaka", "Tokyo", "Kyoto", "Nagoya"], "correct": "Tokyo" },
+  { "question": "Waa maxay 90 ÷ 9?", "options": ["8", "9", "10", "11"], "correct": "10" },
+  { "question": "Nebiga lagu magacaabo 'Kaliimullah' waa?", "options": ["Nabi Ciise", "Nabi Muuse", "Nabi Ibraahim", "Nabi Yuusuf"], "correct": "Nabi Muuse" },
+  { "question": "Waa maxay xubin ka tirsan jirka oo dhiigga pump gareysa?", "options": ["Maskaxda", "Sambabka", "Wadnaha", "Beerka"], "correct": "Wadnaha" },
+  { "question": "They ___ finished the work already.", "options": ["has", "have", "had", "having"], "correct": "have" }
 ]

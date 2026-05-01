@@ -195,5 +195,14 @@
   { "question": "Gabadhii u horreysay ee ku shahiidday Islaamka?", "options": ["Khadiija", "Caisha", "Sumaya", "Faadumo"], "correct": "Sumaya" },
   { "question": "Magaalada loogu yeero 'Magaalada aan waligeed seexan'?", "options": ["London", "Tokyo", "New York", "Paris"], "correct": "New York" },
   { "question": "Waa maxay xididka 100?", "options": ["10", "20", "30", "40"], "correct": "10" },
-  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" }
+  { "question": "She ___ a doctor next month.", "options": ["is visiting", "visits", "visited", "visit"], "correct": "is visiting" },
+  { "question": "Waa maxay 19 × 5?", "options": ["85", "90", "95", "100"], "correct": "95" },
+  { "question": "Midkee sax ah?", "options": ["There is many books", "There are many books", "There be many books", "There many books"], "correct": "There are many books" },
+  { "question": "Waa maxay caasimadda dalka Nigeria?", "options": ["Lagos", "Abuja", "Kano", "Kaduna"], "correct": "Abuja" },
+  { "question": "Waa maxay 121 ÷ 11?", "options": ["9", "10", "11", "12"], "correct": "11" },
+  { "question": "Suuradda labaad ee Qur'aanka waa?", "options": ["Al-Faatixa", "Al-Baqara", "Aali Cimraan", "An-Nisaa"], "correct": "Al-Baqara" },
+  { "question": "What is the synonym of 'rapid'?", "options": ["slow", "quick", "late", "weak"], "correct": "quick" },
+  { "question": "Waa maxay 17 + 26?", "options": ["41", "42", "43", "44"], "correct": "43" },
+  { "question": "Waa maxay caasimadda dalka Algeria?", "options": ["Oran", "Algiers", "Tunis", "Rabat"], "correct": "Algiers" },
+  { "question": "Qofka ugu horreeyay ee muslimiinta hijro ku hogaamiyay Xabashi wuxuu ahaa?", "options": ["Jaafar bin Abi Taalib", "Cumar bin Khadaab", "Cali bin Abi Taalib", "Khalid bin Waliid"], "correct": "Jaafar bin Abi Taalib" }
 ]
