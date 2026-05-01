@@ -1,7 +1,7 @@
 // =====================================================================
 // GARAAD BOT - Maareynta Su'aalaha
 // • Per-game pools (solo.json, duel.json, rush.json, quiz.json, bet.json)
-// • Global text-based dedup per user (su'aal mar la arkay marna laguma soo celin)
+// • Per-game index tracking (su'aal kasta waxay leedahay wareeg madaxbannaan)
 // =====================================================================
 
 const fs   = require('fs');
@@ -57,33 +57,13 @@ function cleanExpiredSeenForGame(userId, game) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// ⭐ GLOBAL SEEN BY TEXT (cusub — ka hortaga in su'aal isku mid ah ay
-//    kasoo baxdo ciyaar walba)
-// ─────────────────────────────────────────────────────────────────────
-function getSeenTexts(userId) {
-    checkUser(userId);
-    if (!userData[userId].seenTexts) userData[userId].seenTexts = {};
-    return userData[userId].seenTexts;
-}
-
-function cleanExpiredSeenTexts(userId) {
-    const seen = getSeenTexts(userId);
-    const now  = Date.now();
-    for (const txt of Object.keys(seen)) {
-        if (now - seen[txt] >= TWO_WEEKS_MS) delete seen[txt];
-    }
-}
-
-// ─────────────────────────────────────────────────────────────────────
-// Dooro su'aalo aan WELIGOOD la arkin (per-game + global text)
+// Dooro su'aalo aan la arkin (per-game index tracking kaliya)
 // ─────────────────────────────────────────────────────────────────────
 function pickQuestionsForGame(userId, game, count) {
     cleanExpiredSeenForGame(userId, game);
-    cleanExpiredSeenTexts(userId);
 
     let pool        = questionsByGame[game] || [];
     const seenIdx   = getSeenForGame(userId, game);
-    const seenTxt   = getSeenTexts(userId);
     const unseenIdx = [];
 
     // Haddii file game-kan uusan loadmin, ka faa'iidayso pool kale oo la heli karo.
@@ -93,9 +73,7 @@ function pickQuestionsForGame(userId, game, count) {
     }
 
     for (let i = 0; i < pool.length; i++) {
-        const q = pool[i];
-        if (i in seenIdx)             continue;     // index horay loo arkay (game-kan)
-        if (q.question in seenTxt)    continue;     // text horay loo arkay (game KASTA)
+        if (i in seenIdx) continue;     // index horay loo arkay (game-kan)
         unseenIdx.push(i);
     }
 
@@ -104,11 +82,15 @@ function pickQuestionsForGame(userId, game, count) {
         pool = EMERGENCY_POOL;
     }
 
-    // Haddii "unseen" dhammaado, su'aalaha dib u wareeji si ciyaartu u sii socoto
-    // halkii user-ka loo diri lahaa "2 toddobaad sug".
-    const sourceIdx = unseenIdx.length > 0
-        ? unseenIdx
-        : Array.from({ length: pool.length }, (_, i) => i);
+    // Haddii user-ku dhammeeyo su'aalaha game-kan, dib u bilow wareegga:
+    // nadiifi seenByGame[game] oo dib u dhis unseenIdx ka pool-ka oo dhan.
+    let sourceIdx;
+    if (unseenIdx.length > 0) {
+        sourceIdx = unseenIdx;
+    } else {
+        userData[userId].seenByGame[game] = {};
+        sourceIdx = Array.from({ length: pool.length }, (_, i) => i);
+    }
 
     // Had iyo jeer celi tiradii la codsaday, xitaa haddii pool-ku yar yahay
     // (su'aalaha waa la soo celinayaa / repeat).
@@ -130,20 +112,12 @@ function pickQuestionsForGame(userId, game, count) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// Calaamadee su'aal la arkay (per-game index + global text)
+// Calaamadee su'aal la arkay (per-game index kaliya)
 // ─────────────────────────────────────────────────────────────────────
 function markSeenForGame(userId, game, idx) {
     if (idx === undefined || idx === null) return;
     const seen = getSeenForGame(userId, game);
     seen[idx]  = Date.now();
-
-    // ⭐ Calaamadee text-ka si ay ciyaarta kale ugu kala mid ahaano
-    const pool = questionsByGame[game] || [];
-    const q    = pool[idx];
-    if (q && q.question) {
-        const seenTxt = getSeenTexts(userId);
-        seenTxt[q.question] = Date.now();
-    }
 }
 
 function markSeenForUsersInGame(userIds, game, idx) {
