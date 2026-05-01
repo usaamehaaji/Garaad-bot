@@ -74,10 +74,16 @@ function pickQuestionsForGame(userId, game, count) {
     cleanExpiredSeenForGame(userId, game);
     cleanExpiredSeenTexts(userId);
 
-    const pool      = questionsByGame[game] || [];
+    let pool        = questionsByGame[game] || [];
     const seenIdx   = getSeenForGame(userId, game);
     const seenTxt   = getSeenTexts(userId);
     const unseenIdx = [];
+
+    // Haddii file game-kan uusan loadmin, ka faa'iidayso pool kale oo la heli karo.
+    if (pool.length === 0) {
+        const anyPool = Object.values(questionsByGame).find(arr => Array.isArray(arr) && arr.length > 0);
+        if (anyPool) pool = anyPool;
+    }
 
     for (let i = 0; i < pool.length; i++) {
         const q = pool[i];
@@ -86,7 +92,7 @@ function pickQuestionsForGame(userId, game, count) {
         unseenIdx.push(i);
     }
 
-    // Haddii pool-ka su'aalo madhan yahay, waxba lama qaadi karo
+    // Haddii dhammaan pools madhan yihiin, markaas kaliya null celi
     if (pool.length === 0) return null;
 
     // Haddii "unseen" dhammaado, su'aalaha dib u wareeji si ciyaartu u sii socoto

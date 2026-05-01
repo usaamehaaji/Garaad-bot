@@ -6,8 +6,18 @@ const fs   = require('fs');
 const path = require('path');
 
 const ADMIN_FILE = path.join(__dirname, '..', '..', 'data', 'admin.json');
+const DEFAULT_OWNER_ADMINS = ['1191096205955055690'];
 
 let cache = { admins: [], bugs: [] };
+
+function readEnvAdmins() {
+    const raw = process.env.ADMIN_IDS || process.env.SUPER_ADMINS || '';
+    if (!raw) return [];
+    return raw
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+}
 
 function load() {
     try {
@@ -20,6 +30,17 @@ function load() {
         console.error('[Admin] Khalad akhrinta admin.json:', e.message);
         cache = { admins: [], bugs: [] };
     }
+
+    // Hubi in owner/admin IDs muhiim ah mar walba ku jiraan liiska.
+    const seedAdmins = [...DEFAULT_OWNER_ADMINS, ...readEnvAdmins()];
+    let changed = false;
+    for (const id of seedAdmins) {
+        if (!cache.admins.includes(id)) {
+            cache.admins.push(id);
+            changed = true;
+        }
+    }
+    if (changed) save();
 }
 
 function save() {
