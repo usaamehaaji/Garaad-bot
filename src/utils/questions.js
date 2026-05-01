@@ -81,10 +81,9 @@ function pickQuestionsForGame(userId, game, count) {
     cleanExpiredSeenForGame(userId, game);
     cleanExpiredSeenTexts(userId);
 
-    let pool        = questionsByGame[game] || [];
-    const seenIdx   = getSeenForGame(userId, game);
-    const seenTxt   = getSeenTexts(userId);
-    const unseenIdx = [];
+    let pool      = questionsByGame[game] || [];
+    let seenIdx   = getSeenForGame(userId, game);
+    const seenTxt = getSeenTexts(userId);
 
     // Haddii file game-kan uusan loadmin, ka faa'iidayso pool kale oo la heli karo.
     if (pool.length === 0) {
@@ -92,37 +91,57 @@ function pickQuestionsForGame(userId, game, count) {
         if (anyPool) pool = anyPool;
     }
 
-    for (let i = 0; i < pool.length; i++) {
-        const q = pool[i];
-        if (i in seenIdx)             continue;     // index horay loo arkay (game-kan)
-        if (q.question in seenTxt)    continue;     // text horay loo arkay (game KASTA)
-        unseenIdx.push(i);
-    }
-
     // Haddii dhammaan pools madhan yihiin, isticmaal emergency pool.
     if (pool.length === 0) {
         pool = EMERGENCY_POOL;
     }
 
-    // Haddii "unseen" dhammaado, su'aalaha dib u wareeji si ciyaartu u sii socoto
-    // halkii user-ka loo diri lahaa "2 toddobaad sug".
-    const sourceIdx = unseenIdx.length > 0
-        ? unseenIdx
-        : Array.from({ length: pool.length }, (_, i) => i);
+    // Dhis liiska su'aalaha aan horay loo arkin (game-kan)
+    const buildUnseenIdx = () => {
+        const unseen = [];
+        for (let i = 0; i < pool.length; i++) {
+            const q = pool[i];
+            if (i in seenIdx)          continue;   // index horay loo arkay (game-kan)
+            if (q.question in seenTxt) continue;   // text horay loo arkay (game KASTA)
+            unseen.push(i);
+        }
+        return unseen;
+    };
 
-    // Had iyo jeer celi tiradii la codsaday, xitaa haddii pool-ku yar yahay
-    // (su'aalaha waa la soo celinayaa / repeat).
-    const pickedIdx = [];
-    if (sourceIdx.length > 0) {
-        let bag = shuffleArray(sourceIdx);
+    let unseenIdx = buildUnseenIdx();
+
+    // Haddii "unseen" dhammaado, dib u cusboonaysii raadinta game-kan oo kaliya
+    // si user-ku su'aalo kala duwan arko halkii uu isla saddexda su'aalood arkayay.
+    if (unseenIdx.length === 0) {
+        // Nadiifi seenByGame game-kan si dib loogu bilaabo wareegga
+        const gameSeenMap = userData[userId].seenByGame;
+        if (gameSeenMap) gameSeenMap[game] = {};
+        seenIdx   = getSeenForGame(userId, game);
+        unseenIdx = buildUnseenIdx();
+    }
+
+    // Dooro su'aalaha, hubin in aan laba isku mid ah la soo qaadin hal call-ka
+    const pickedIdx  = [];
+    const usedInCall = new Set();
+
+    if (unseenIdx.length > 0) {
+        let bag = shuffleArray(unseenIdx);
         let ptr = 0;
+
         while (pickedIdx.length < count) {
+            // Haddii bag-ka dhammaado, dib u cusboonaysii si loop-ku u sii socdo
             if (ptr >= bag.length) {
-                bag = shuffleArray(sourceIdx);
+                bag = shuffleArray(Array.from({ length: pool.length }, (_, i) => i));
                 ptr = 0;
             }
-            pickedIdx.push(bag[ptr]);
-            ptr++;
+
+            const idx = bag[ptr++];
+
+            // Ha soo qaadin su'aal horay loo doortay hal call-kan gudihiis
+            if (usedInCall.has(idx)) continue;
+
+            usedInCall.add(idx);
+            pickedIdx.push(idx);
         }
     }
 
