@@ -44,6 +44,18 @@ function rowButtons(channelId) {
     return [topRow, bottomRow];
 }
 
+function getRowPlayerLabel(playerId) {
+    return playerId === 'computer' ? 'Computer 🤖' : `<@${playerId}>`;
+}
+
+function pickComputerColumn(board) {
+    const valid = [];
+    for (let col = 0; col < 7; col++) {
+        if (board[0][col] === 0) valid.push(col);
+    }
+    return valid[Math.floor(Math.random() * valid.length)];
+}
+
 function checkRowWin(board, row, col, token) {
     const directions = [ [0, 1], [1, 0], [1, 1], [1, -1] ];
     for (const [dr, dc] of directions) {
@@ -214,9 +226,15 @@ module.exports = function setupInteractionHandler(client) {
             const boardText = renderRowBoard(board);
             const winner = checkRowWin(board, placedRow, col, token);
             if (winner) {
+                const winnerId = state.players[state.currentPlayer];
+                if (winnerId !== 'computer') {
+                    checkUser(winnerId);
+                    addXp(winnerId, 20);
+                    saveData();
+                }
                 const embed = new EmbedBuilder()
                     .setTitle('🏆 ?row — Guuleystay!')
-                    .setDescription(`Guuleystay <@${state.players[state.currentPlayer]}>!\n\n${boardText}`)
+                    .setDescription(`Guuleystay ${getRowPlayerLabel(winnerId)}!\n\n${boardText}`)
                     .setColor('#2ecc71');
                 activeRows.delete(channelId);
                 return interaction.update({ embeds: [embed], components: [] });
@@ -230,10 +248,50 @@ module.exports = function setupInteractionHandler(client) {
                 return interaction.update({ embeds: [embed], components: [] });
             }
 
+            if (state.isComputer && state.currentPlayer === 0) {
+                state.currentPlayer = 1;
+                const computerCol = pickComputerColumn(board);
+                let computerRow = -1;
+                for (let r = board.length - 1; r >= 0; r--) {
+                    if (board[r][computerCol] === 0) {
+                        board[r][computerCol] = 2;
+                        computerRow = r;
+                        break;
+                    }
+                }
+                const computerBoard = renderRowBoard(board);
+                const computerWinner = checkRowWin(board, computerRow, computerCol, 2);
+                if (computerWinner) {
+                    const embed = new EmbedBuilder()
+                        .setTitle('😵 ?row — Computer guuleystay')
+                        .setDescription(`Computer 🤖 ayaa guuleystay!\n\n${computerBoard}`)
+                        .setColor('#e74c3c');
+                    activeRows.delete(channelId);
+                    return interaction.update({ embeds: [embed], components: [] });
+                }
+                if (isBoardFull(board)) {
+                    const embed = new EmbedBuilder()
+                        .setTitle('🤝 ?row — Isku dheellitir')
+                        .setDescription(`Gool la helin, ciyaarta waa barbaro.\n\n${computerBoard}`)
+                        .setColor('#95a5a6');
+                    activeRows.delete(channelId);
+                    return interaction.update({ embeds: [embed], components: [] });
+                }
+                state.currentPlayer = 0;
+                const embed = new EmbedBuilder()
+                    .setTitle('▶️ ?row — Wareeggaaga')
+                    .setDescription(`Computer 🤖 ayaa dooray column ${computerCol + 1}.\n\n` +
+                        `Ciyaaryahanka hadda jira: ${getRowPlayerLabel(state.players[state.currentPlayer])} (🔴)\n\n` +
+                        `🔴 = Player 1   🟡 = Computer\n` +
+                        `Dooro column 1 ilaa 7 adoo gujinaya button-ka hoos.\n\n${computerBoard}`)
+                    .setColor('#3498db');
+                return interaction.update({ embeds: [embed], components: rowButtons(channelId) });
+            }
+
             state.currentPlayer = 1 - state.currentPlayer;
             const embed = new EmbedBuilder()
                 .setTitle('▶️ ?row — Wareegga xiga')
-                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (${state.currentPlayer === 0 ? '🔴' : '🟡'})\n\n` +
+                .setDescription(`Ciyaaryahanka hadda jira: ${getRowPlayerLabel(state.players[state.currentPlayer])} (${state.currentPlayer === 0 ? '🔴' : '🟡'})\n\n` +
                     `🔴 = Player 1   🟡 = Player 2\n` +
                     `Dooro column 1 ilaa 7 adoo gujinaya button-ka hoos.\n\n${boardText}`)
                 .setColor('#3498db');
