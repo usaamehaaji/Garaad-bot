@@ -99,9 +99,6 @@ module.exports = function setupMessageHandler(client) {
             case 'tartan_bilow':
                 return tournament.cmdOpen(message);
 
-            case 'tartan_stop':
-                return tournament.cmdStop(message);
-
             case 'gal':
                 return tournament.cmdJoin(message, args);
 

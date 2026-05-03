@@ -30,7 +30,6 @@ function buildAdminHelpEmbed() {
             `**Tartan (admin + dadka)**\n` +
             `\`${PREFIX}tartan_bilow\` — admin: fur channel tartanka\n` +
             `\`${PREFIX}admin stop\` — admin: jooji tartanka\n` +
-            `\`${PREFIX}tartan_stop\` — admin: jooji tartanka\n` +
             `\`${PREFIX}isdiiwaangeli\` — qofka: hel code DM\n` +
             `\`${PREFIX}gal CODE\` — channel tartanka kaliya\n` +
             `\`${PREFIX}admin_next\` — admin: bilow wareeg / xiga`
