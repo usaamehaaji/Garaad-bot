@@ -3,12 +3,22 @@
 // =====================================================================
 
 const { userData, saveData } = require('../store');
-const { PREFIX, SHOP_ITEMS } = require('../config');
+const { PREFIX, SHOP_ITEMS, TITLES } = require('../config');
 
 module.exports = async function buyCommand(message, args) {
     const userId  = message.author.id;
     const itemKey = (args[0] || '').toLowerCase();
-    const item    = SHOP_ITEMS[itemKey];
+    let item = SHOP_ITEMS[itemKey];
+
+    // Check if it's a title
+    if (!item) {
+        for (const category in TITLES) {
+            if (TITLES[category][itemKey]) {
+                item = TITLES[category][itemKey];
+                break;
+            }
+        }
+    }
 
     if (!item) {
         return message.reply(`⚠️ Shay aan jirin. Eeg dukaanka: \`${PREFIX}shop\``);
@@ -22,11 +32,26 @@ module.exports = async function buyCommand(message, args) {
     userData[userId].xp -= item.price;
 
     if (itemKey === 'shield') {
-        userData[userId].shields++;
+        userData[userId].inventory.shield++;
     } else if (itemKey === 'double') {
         userData[userId].doubleXpUntil = Date.now() + 60 * 60 * 1000; // 1 saacad
-    } else if (['profesor', 'garaad', 'caalin'].includes(itemKey)) {
-        userData[userId].title = itemKey.charAt(0).toUpperCase() + itemKey.slice(1);
+    } else if (itemKey === 'hint') {
+        userData[userId].inventory.hint++;
+    } else if (itemKey === 'retry') {
+        userData[userId].inventory.retry++;
+    } else {
+        // It's a title
+        if (itemKey === 'custom') {
+            if (data.customTitle !== null) {
+                return message.reply('⚠️ Waxaad hore u iibsatay custom title.');
+            }
+            data.customTitle = ''; // Unlocked
+        } else {
+            if (!userData[userId].ownedTitles.includes(itemKey)) {
+                userData[userId].ownedTitles.push(itemKey);
+            }
+            userData[userId].activeTitle = itemKey;
+        }
     }
 
     saveData();

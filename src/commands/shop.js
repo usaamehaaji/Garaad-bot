@@ -4,7 +4,7 @@
 
 const { EmbedBuilder } = require('discord.js');
 const { userData }     = require('../store');
-const { PREFIX, SHOP_ITEMS } = require('../config');
+const { PREFIX, SHOP_ITEMS, TITLES } = require('../config');
 
 module.exports = async function shopCommand(message) {
     const userId = message.author.id;
@@ -17,7 +17,15 @@ module.exports = async function shopCommand(message) {
                 name:   `${item.name} — ${item.price} XP`,
                 value:  `\`${PREFIX}buy ${key}\`\n${item.desc}`,
                 inline: false,
-            }))
+            })),
+            { name: '\u200B', value: '**🏷️ Titles:**', inline: false },
+            ...Object.entries(TITLES).flatMap(([category, titles]) =>
+                Object.entries(titles).filter(([key, title]) => title.price > 0).map(([key, title]) => ({
+                    name:   `${title.name} — ${title.price} XP`,
+                    value:  `\`${PREFIX}buy ${key}\`\n${title.desc}`,
+                    inline: false,
+                }))
+            )
         )
         .setColor('#16a085');
 

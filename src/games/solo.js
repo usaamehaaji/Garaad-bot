@@ -34,6 +34,8 @@ async function sendQuestion(messageOrInteraction, qNumber, currentMsg = null) {
     }
 
     const q = game.questions[qNumber - 1];
+    game.currentQ = qNumber;
+
     markSeenForGame(userId, 'solo', q._idx);
     saveData();
 
@@ -64,14 +66,20 @@ async function sendQuestion(messageOrInteraction, qNumber, currentMsg = null) {
     collector.on('end', collected => {
         if (collected.size === 0) {
             // Wakhti dhammaaday
-            userData[userId].iq = Math.max(0, userData[userId].iq - 1);
-            userData[userId].stats.soloWrong++;
+            if (userData[userId].inventory.shield > 0) {
+                userData[userId].inventory.shield--;
+                userData[userId].stats.soloWrong++;
+                const timeoutEmbed = EmbedBuilder.from(embed)
+                    .setFields({ name: 'Natiijo', value: '⏰ Wakhti dhammaaday — Laakiin 🛡️ Shield ayaa kuu daboolay! (Shield −1)' });
+                msg.edit({ embeds: [timeoutEmbed], components: [] }).catch(() => {});
+            } else {
+                userData[userId].iq = Math.max(0, userData[userId].iq - 1);
+                userData[userId].stats.soloWrong++;
+                const timeoutEmbed = EmbedBuilder.from(embed)
+                    .setFields({ name: 'Natiijo', value: '⏰ Wakhti dhammaaday (−1 IQ)' });
+                msg.edit({ embeds: [timeoutEmbed], components: [] }).catch(() => {});
+            }
             saveData();
-
-            const timeoutEmbed = EmbedBuilder.from(embed)
-                .setFields({ name: 'Natiijo', value: '⏰ Wakhti dhammaaday (−1 IQ)' });
-
-            msg.edit({ embeds: [timeoutEmbed], components: [] }).catch(() => {});
             setTimeout(() => sendQuestion(messageOrInteraction, qNumber + 1, msg), 2000);
         }
     });
@@ -99,8 +107,8 @@ async function handleSoloAnswer(interaction) {
         userData[ownerId].stats.soloCorrect++;
         msg = `✅ SAX (+2 IQ / +5 XP) — Level ${getLevel(userData[ownerId].iq)}`;
     } else {
-        if (userData[ownerId].shields > 0) {
-            userData[ownerId].shields--;
+        if (userData[ownerId].inventory.shield > 0) {
+            userData[ownerId].inventory.shield--;
             userData[ownerId].stats.soloWrong++;
             msg = '❌ QALAD — Laakiin 🛡️ Shield ayaa kuu daboolay! (Shield −1)';
         } else {

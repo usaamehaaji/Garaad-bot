@@ -3,7 +3,7 @@
 // =====================================================================
 
 const { userData, saveData } = require('../store');
-const { LEVEL_STEP }         = require('../config');
+const { LEVEL_STEP, TITLES }         = require('../config');
 
 // ───── Taariikhda maalinta ─────
 function todayKey() {
@@ -22,6 +22,10 @@ function checkUser(userId) {
             lastPlayed:    0,                      // ⭐ Reminder: waqtigii ugu dambeeyay ee uu ciyaaray
             lastReminderSent: 0,                   // ⭐ Reminder: waqtigii DM ugu dambeeyay
             hostQuota: { date: todayKey(), count: 0 },
+            ownedTitles: ['beginner'],             // Titles owned by user
+            activeTitle: 'beginner',               // Currently active title key
+            customTitle: null,                     // Custom title if bought
+            inventory: { shield: 0, double: 0, hint: 0, retry: 0 }, // Shop items
             stats: {
                 soloPlayed: 0, soloCorrect: 0, soloWrong: 0,
                 duelWins: 0, duelLosses: 0, duelDraws: 0,
@@ -52,6 +56,12 @@ function checkUser(userId) {
         d.lastPlayed       ??= 0;
         d.lastReminderSent ??= 0;
         d.hostQuota        ??= { date: todayKey(), count: 0 };
+        d.ownedTitles      ??= ['beginner'];
+        if (d.ownedTitles.length === 0) d.ownedTitles = ['beginner'];
+        d.activeTitle      ??= 'beginner';
+        if (!d.activeTitle) d.activeTitle = 'beginner';
+        d.customTitle      ??= null;
+        d.inventory        ??= { shield: 0, double: 0, hint: 0, retry: 0 };
         d.stats            ??= {};
         const s = d.stats;
         s.soloPlayed    ??= 0;
@@ -91,4 +101,19 @@ function shuffleArray(array) {
     return shuffled;
 }
 
-module.exports = { todayKey, checkUser, getLevel, addXp, shuffleArray, saveData };
+// ───── Hel title-ka la muujinayo ─────
+function getDisplayTitle(userId) {
+    checkUser(userId);
+    const data = userData[userId];
+    if (data.customTitle) return data.customTitle;
+    if (data.activeTitle) {
+        for (const category in TITLES) {
+            if (TITLES[category][data.activeTitle]) {
+                return TITLES[category][data.activeTitle].name;
+            }
+        }
+    }
+    return null;
+}
+
+module.exports = { todayKey, checkUser, getLevel, addXp, shuffleArray, getDisplayTitle, saveData };

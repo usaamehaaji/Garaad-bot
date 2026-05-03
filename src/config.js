@@ -57,10 +57,41 @@ module.exports = {
 
     // ───── Dukaanka ─────
     SHOP_ITEMS: {
-        shield:   { name: "🛡️ Difaaca IQ",      price: 50,  desc: "Hal mar haddii aad qaldid `?solo`, dhibic lagaama jarayo."          },
-        double:   { name: "✨ Double XP",         price: 80,  desc: "1 saac gudahood, XP-gaaga waxaa la dhigayaa labo laab."             },
-        profesor: { name: "🎓 Title: Profesor",   price: 150, desc: "Magacaaga waxaa ku dheggan noqonaya [Profesor]."                    },
-        garaad:   { name: "👑 Title: Garaad",     price: 250, desc: "Magacaaga waxaa ku dheggan noqonaya [Garaad]."                      },
-        caalin:   { name: "🧠 Title: Caalin",     price: 400, desc: "Magacaaga waxaa ku dheggan noqonaya [Caalin]."                      },
+        shield:   { name: "🛡️ Shield",           price: 50,  desc: "Protects your IQ from one wrong answer in solo games."          },
+        double:   { name: "✨ Double XP",         price: 80,  desc: "Doubles XP earned for 1 hour."             },
+        hint:     { name: "💡 Hint",             price: 30,  desc: "Reveals one letter in a question."          },
+        retry:    { name: "🔄 Retry Ticket",     price: 100, desc: "Allows one retry on a failed solo game."                      },
+    },
+
+    // ───── Titles ─────
+    TITLES: {
+        general: {
+            beginner:   { name: "Beginner",   price: 0,   desc: "Starting title" },
+            student:    { name: "Student",    price: 100, desc: "For learners" },
+            expert:     { name: "Expert",     price: 300, desc: "For knowledgeable players" },
+            master:     { name: "Master",     price: 500, desc: "For masters" },
+            legend:     { name: "Legend",     price: 800, desc: "For legends" },
+        },
+        male: {
+            garaad:     { name: "Garaad",     price: 200, desc: "Wise leader" },
+            aqoonyahan: { name: "Aqoonyahan", price: 400, desc: "Scholar" },
+            macalin:    { name: "Macalin",    price: 600, desc: "Teacher" },
+            halyey:     { name: "Halyey",     price: 900, desc: "Hero" },
+        },
+        female: {
+            garaadad:     { name: "Garaadad",     price: 200, desc: "Wise leader" },
+            aqoonyahanad: { name: "Aqoonyahanad", price: 400, desc: "Scholar" },
+            macalimad:    { name: "Macalimad",    price: 600, desc: "Teacher" },
+            halyeeyad:    { name: "Halyeyad",     price: 900, desc: "Hero" },
+        },
+        premium: {
+            king:       { name: "King 👑",       price: 1000, desc: "Royal title" },
+            queen:      { name: "Queen 👑",      price: 1000, desc: "Royal title" },
+            boss:       { name: "Boss 💼",       price: 1200, desc: "Business leader" },
+            champion:   { name: "Champion 🏆",   price: 0,    desc: "Admin-only title" }, // Admin only
+        },
+        custom: {
+            custom:     { name: "Custom Title", price: 1000, desc: "Create your own title" },
+        },
     },
 };

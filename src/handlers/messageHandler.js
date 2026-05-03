@@ -13,6 +13,8 @@ const topCmd        = require('../commands/top');
 const todayCmd      = require('../commands/today');
 const shopCmd       = require('../commands/shop');
 const buyCmd        = require('../commands/buy');
+const titlesCmd     = require('../commands/titles');
+const setTitleCmd   = require('../commands/settitle');
 const soloCmd       = require('../commands/solo');
 const duelCmd       = require('../commands/duel');
 const betCmd        = require('../commands/bet');
@@ -57,6 +59,12 @@ module.exports = function setupMessageHandler(client) {
 
             case 'buy':
                 return buyCmd(message, args);
+
+            case 'titles':
+                return titlesCmd(message);
+
+            case 'settitle':
+                return setTitleCmd(message, args);
 
             case 'solo':
                 return soloCmd(message, args);

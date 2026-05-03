@@ -13,6 +13,8 @@ const reset     = require('./adminReset');
 const dm        = require('./adminDm');
 const reward    = require('./adminReward');
 const adminHelpPanel = require('./adminHelpPanel');
+const giveChampion = require('./adminGiveChampion');
+const removeChampion = require('./adminRemoveChampion');
 
 module.exports = async function adminCommand(message, args) {
     if (!isAdmin(message.author.id)) {
@@ -54,6 +56,14 @@ module.exports = async function adminCommand(message, args) {
         case 'siin':
         case 'gift':
             return reward(message, args);
+
+        case 'givechampion':
+        case 'champion':
+            return giveChampion(message, args);
+
+        case 'removechampion':
+        case 'rmchampion':
+            return removeChampion(message, args);
 
         case 'help':
         default:

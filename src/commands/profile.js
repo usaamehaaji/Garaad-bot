@@ -4,7 +4,7 @@
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { userData }     = require('../store');
-const { checkUser, getLevel } = require('../utils/helpers');
+const { checkUser, getLevel, getDisplayTitle } = require('../utils/helpers');
 
 module.exports = async function profileCommand(message) {
     const target = message.mentions.users.first() || message.author;
@@ -13,7 +13,7 @@ module.exports = async function profileCommand(message) {
 
     const level      = getLevel(data.iq);
     const nextLvlIq  = (level + 1) * 200;
-    const titleTag   = data.title ? `[${data.title}] ` : '';
+    const titleTag   = getDisplayTitle(target.id) ? `[${getDisplayTitle(target.id)}] ` : '';
 
     const embed = new EmbedBuilder()
         .setTitle(`👤 Profile-ka Garaad: ${titleTag}${target.username}`)
@@ -22,17 +22,19 @@ module.exports = async function profileCommand(message) {
             { name: '🧠 IQ Score',    value: `**${data.iq} IQ**`,    inline: true },
             { name: '✨ XP Points',   value: `**${data.xp} XP**`,    inline: true },
             { name: '📈 Level',       value: `**Level ${level}**`,   inline: true },
-            { name: '🎯 Heerka xiga', value: `**${nextLvlIq} IQ** ayaa Level ${level + 1} ku gaarsiinaya`, inline: false },
+            { name: '🎯 Next Level', value: `**${nextLvlIq} IQ** for Level ${level + 1}`, inline: false },
             { name: '⭐ Stars',       value: `**${data.stars}**`,    inline: true },
-            { name: '🛡️ Shields',    value: `**${data.shields}**`,  inline: true },
+            { name: '🛡️ Shields',    value: `**${data.inventory.shield}**`,  inline: true },
             {
                 name: '⚡ Double XP',
                 value: data.doubleXpUntil > Date.now()
-                    ? `**Active** (${Math.ceil((data.doubleXpUntil - Date.now()) / 60000)} daq)`
+                    ? `**Active** (${Math.ceil((data.doubleXpUntil - Date.now()) / 60000)} min)`
                     : '**Off**',
                 inline: true,
             },
-            { name: '🏷️ Title',      value: data.title ? `**${data.title}**` : '—', inline: true },
+            { name: '💡 Hints',       value: `**${data.inventory.hint}**`,    inline: true },
+            { name: '🔄 Retries',     value: `**${data.inventory.retry}**`,  inline: true },
+            { name: '🏷️ Title',      value: getDisplayTitle(target.id) ? `**${getDisplayTitle(target.id)}**` : '—', inline: true },
         )
         .setColor('#9b59b6');
 
