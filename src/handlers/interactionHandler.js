@@ -21,7 +21,9 @@ function genCode() {
 
 function renderRowBoard(board) {
     const symbols = { 0: '⚪', 1: '🔴', 2: '🟡' };
-    return board.map(row => row.map(cell => symbols[cell]).join(' ')).join('\n');
+    const header = '1️⃣  2️⃣  3️⃣  4️⃣  5️⃣  6️⃣  7️⃣';
+    const rows = board.map(row => row.map(cell => symbols[cell]).join('  '));
+    return ['```', header, ...rows, '```'].join('\n');
 }
 
 function rowButtons(channelId) {
@@ -161,7 +163,9 @@ module.exports = function setupInteractionHandler(client) {
 
             const embed = new EmbedBuilder()
                 .setTitle('▶️ ?row — Ciyaarta waa bilaabatay')
-                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (🔴)\n\n${renderRowBoard(state.board)}`)
+                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (🔴)\n\n` +
+                    `🔴 = Player 1   🟡 = Player 2\n` +
+                    `Dooro column 1 ilaa 7 adoo gujinaya button-ka hoos.\n\n${renderRowBoard(state.board)}`)
                 .setColor('#3498db');
 
             return interaction.update({ embeds: [embed], components: rowButtons(channelId) });
@@ -229,7 +233,9 @@ module.exports = function setupInteractionHandler(client) {
             state.currentPlayer = 1 - state.currentPlayer;
             const embed = new EmbedBuilder()
                 .setTitle('▶️ ?row — Wareegga xiga')
-                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (${state.currentPlayer === 0 ? '🔴' : '🟡'})\n\n${boardText}`)
+                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (${state.currentPlayer === 0 ? '🔴' : '🟡'})\n\n` +
+                    `🔴 = Player 1   🟡 = Player 2\n` +
+                    `Dooro column 1 ilaa 7 adoo gujinaya button-ka hoos.\n\n${boardText}`)
                 .setColor('#3498db');
 
             return interaction.update({ embeds: [embed], components: rowButtons(channelId) });
