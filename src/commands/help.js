@@ -28,18 +28,12 @@ module.exports = async function helpCommand(message) {
         `\`${PREFIX}top\` - Top 10\n` +
         `\`${PREFIX}today\` - Daily reward\n\n` +
 
-        `🏁 **Tartan** _(diiwaangeli + code DM)_\n` +
-        `\`${PREFIX}isdiiwaangeli\` - Code DM kuu yimaada; markaas \`${PREFIX}gal CODE\` channel tartanka\n\n` +
-
         `🛠️ **System**\n` +
         `\`${PREFIX}cilada [farriin]\` - Report cilad`;
 
     if (isAdmin(userId)) {
         description +=
-            `\n\n👑 **Admin & Tartan** _(adiga oo keliya)_\n` +
-            `\`${PREFIX}tartan_bilow\` - Albaabka tartanka channel-ka fur\n` +
-            `\`${PREFIX}admin_next\` - Wareegga xiga bilow (kadib wareeg dhamaad)\n` +
-            `\`${PREFIX}admin help\` - Dhammaan amarrada admin`;
+            `\n\n👑 **Admin** — tilmaamaha tartanka & farriinta dadka: \`${PREFIX}admin help\``;
     }
 
     const embed = new EmbedBuilder()

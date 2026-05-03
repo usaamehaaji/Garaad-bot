@@ -3,7 +3,6 @@
 // =====================================================================
 
 const { isAdmin }  = require('../../utils/admin');
-const { PREFIX }   = require('../../config');
 
 const broadcast = require('./adminBroadcast');
 const addAdmin  = require('./adminAddAdmin');
@@ -13,6 +12,7 @@ const bugs      = require('./adminBugs');
 const reset     = require('./adminReset');
 const dm        = require('./adminDm');
 const reward    = require('./adminReward');
+const adminHelpPanel = require('./adminHelpPanel');
 
 module.exports = async function adminCommand(message, args) {
     if (!isAdmin(message.author.id)) {
@@ -57,17 +57,6 @@ module.exports = async function adminCommand(message, args) {
 
         case 'help':
         default:
-            return message.reply(
-                '📋 **Garaad Admin — Sub-commands:**\n\n' +
-                `\`${PREFIX}admin broadcast [fariin]\` — Fariin u dir user kasta DM\n` +
-                `\`${PREFIX}admin dm @user [fariin]\` — Fariin si toos ah ugu dir user gaar ah\n` +
-                `\`${PREFIX}admin add @user\` — Admin cusub ku dar\n` +
-                `\`${PREFIX}admin remove @user\` — Admin ka saar liiska\n` +
-                `\`${PREFIX}admin list\` — Liiska admin-yada\n` +
-                `\`${PREFIX}admin bugs\` — Eeg cilada-yaha la soo sheegay\n` +
-                `\`${PREFIX}admin reset @user\` — Xog user ka tirtir\n` +
-                `\`${PREFIX}admin reward @user [tiro]\` — IQ ku dar (tiro - waa inay noqon kartaa taban)\n` +
-                `\`${PREFIX}admin reward @user xp [tiro]\` — XP ku dar`
-            );
+            return adminHelpPanel(message);
     }
 };
