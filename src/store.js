@@ -17,6 +17,7 @@ const activeDuels = new Map(); // channelId -> duel state
 const activeBets  = new Map(); // userId -> bet state
 const activeRush  = new Map(); // userId -> rush state
 const activeQuiz  = new Map(); // channelId -> quiz state
+const activeRows  = new Map(); // channelId -> row/Connect4 state
 const activeTournament = new Map(); // channelId -> tartan state
 /** @type {Map<string, { code: string, at: number }>} */
 const tournamentRegistry = new Map(); // userId -> diiwaangeli
@@ -52,6 +53,9 @@ function isUserBusy(userId) {
     for (const state of activeQuiz.values()) {
         if (state.players && state.players.has(userId)) return 'quiz';
     }
+    for (const state of activeRows.values()) {
+        if (state.players && state.players.includes(userId)) return 'row';
+    }
     for (const state of activeTournament.values()) {
         if (state.stage === 'play' && state.survivors && state.survivors.has(userId)) return 'tournament';
     }
@@ -66,6 +70,7 @@ module.exports = {
     activeBets,
     activeRush,
     activeQuiz,
+    activeRows,
     activeTournament,
     tournamentRegistry,
     isUserBusy,

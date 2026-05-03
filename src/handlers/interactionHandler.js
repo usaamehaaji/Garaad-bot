@@ -7,16 +7,66 @@ const { handleSoloAnswer }          = require('../games/solo');
 const { startDuelGame }             = require('../games/duel');
 const { sendRushQuestion }          = require('../games/rush');
 const { beginQuizGame, refreshLobby } = require('../games/quiz');
-const { userData, saveData, activeBets, activeRush, activeQuiz, isUserBusy, tournamentRegistry } = require('../store');
+const { userData, saveData, activeBets, activeRush, activeQuiz, activeRows, isUserBusy, tournamentRegistry } = require('../store');
 const { checkUser, getLevel, addXp } = require('../utils/helpers');
 const { QUIZ_MIN_PLAYERS, QUIZ_MAX_PLAYERS } = require('../config');
-const { EmbedBuilder }              = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 function genCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let s = '';
     for (let i = 0; i < 6; i++) s += chars[Math.floor(Math.random() * chars.length)];
     return s;
+}
+
+function renderRowBoard(board) {
+    const symbols = { 0: '⚪', 1: '🔴', 2: '🟡' };
+    return board.map(row => row.map(cell => symbols[cell]).join(' ')).join('\n');
+}
+
+function rowButtons(channelId) {
+    const topRow = new ActionRowBuilder();
+    const bottomRow = new ActionRowBuilder();
+    for (let col = 0; col < 7; col++) {
+        const button = new ButtonBuilder()
+            .setCustomId(`row_col_${channelId}_${col}`)
+            .setLabel(`${col + 1}`)
+            .setStyle(ButtonStyle.Primary);
+
+        if (col < 4) {
+            topRow.addComponents(button);
+        } else {
+            bottomRow.addComponents(button);
+        }
+    }
+    return [topRow, bottomRow];
+}
+
+function checkRowWin(board, row, col, token) {
+    const directions = [ [0, 1], [1, 0], [1, 1], [1, -1] ];
+    for (const [dr, dc] of directions) {
+        let count = 1;
+        for (let step = 1; step < 4; step++) {
+            const r = row + dr * step;
+            const c = col + dc * step;
+            if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) break;
+            if (board[r][c] !== token) break;
+            count++;
+        }
+        for (let step = 1; step < 4; step++) {
+            const r = row - dr * step;
+            const c = col - dc * step;
+            if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) break;
+            if (board[r][c] !== token) break;
+            count++;
+        }
+        if (count >= 4) return true;
+    }
+    return false;
+}
+
+function isBoardFull(board) {
+    return board.every(row => row.every(cell => cell !== 0));
 }
 
 module.exports = function setupInteractionHandler(client) {
@@ -83,6 +133,106 @@ module.exports = function setupInteractionHandler(client) {
                 return interaction.reply({ content: 'Adiga laguma casuumin.', flags: MessageFlags.Ephemeral });
             }
             return interaction.update({ content: '❌ Duel waa la diiday.', embeds: [], components: [] });
+        }
+
+        // ── Row: Aqbal ────────────────────────────────────────────────
+        if (id.startsWith('row_accept_')) {
+            const parts = id.split('_');
+            const channelId = parts[2];
+            const inviterId = parts[3];
+            const targetId = parts[4];
+            if (interaction.user.id !== targetId) {
+                return interaction.reply({ content: 'Adiga laguma casuumin.', flags: MessageFlags.Ephemeral });
+            }
+            const state = activeRows.get(channelId);
+            if (!state || state.status !== 'invited' || state.inviterId !== inviterId || state.targetId !== targetId) {
+                return interaction.reply({ content: 'Casuumaadkan ma jiro ama waa dhacay.', flags: MessageFlags.Ephemeral });
+            }
+            const authorBusy = isUserBusy(inviterId);
+            const targetBusy = isUserBusy(targetId);
+            if (authorBusy || targetBusy) {
+                activeRows.delete(channelId);
+                return interaction.reply({ content: 'Mid ka mid ah ciyaartoyda hadda ciyaar kale wuu ku jiraa.', flags: MessageFlags.Ephemeral });
+            }
+            state.status = 'playing';
+            state.players = [inviterId, targetId];
+            state.currentPlayer = 0;
+            state.board = Array.from({ length: 6 }, () => Array(7).fill(0));
+
+            const embed = new EmbedBuilder()
+                .setTitle('▶️ ?row — Ciyaarta waa bilaabatay')
+                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (🔴)\n\n${renderRowBoard(state.board)}`)
+                .setColor('#3498db');
+
+            return interaction.update({ embeds: [embed], components: rowButtons(channelId) });
+        }
+
+        // ── Row: Diid ───────────────────────────────────────────────
+        if (id.startsWith('row_decline_')) {
+            const parts = id.split('_');
+            const channelId = parts[2];
+            const targetId = parts[4];
+            if (interaction.user.id !== targetId) {
+                return interaction.reply({ content: 'Adiga laguma casuumin.', flags: MessageFlags.Ephemeral });
+            }
+            activeRows.delete(channelId);
+            return interaction.update({ content: '❌ Row-casuumaad waa la diiday.', embeds: [], components: [] });
+        }
+
+        // ── Row: Wareegga column-ka ───────────────────────────────────
+        if (id.startsWith('row_col_')) {
+            const parts = id.split('_');
+            const channelId = parts[2];
+            const col = parseInt(parts[3], 10);
+            const state = activeRows.get(channelId);
+            if (!state || state.status !== 'playing') {
+                return interaction.reply({ content: 'Ciyaarta ma bilaaban ama ma jiraan xog la heli karo.', flags: MessageFlags.Ephemeral });
+            }
+            if (interaction.user.id !== state.players[state.currentPlayer]) {
+                return interaction.reply({ content: 'Ma ahan wareeggaaga.', flags: MessageFlags.Ephemeral });
+            }
+            const board = state.board;
+            let placed = false;
+            let placedRow = -1;
+            for (let row = board.length - 1; row >= 0; row--) {
+                if (board[row][col] === 0) {
+                    board[row][col] = state.currentPlayer + 1;
+                    placed = true;
+                    placedRow = row;
+                    break;
+                }
+            }
+            if (!placed) {
+                return interaction.reply({ content: 'Column-kan wuu buuxsami yahay. Dooro column kale.', flags: MessageFlags.Ephemeral });
+            }
+
+            const token = state.currentPlayer + 1;
+            const boardText = renderRowBoard(board);
+            const winner = checkRowWin(board, placedRow, col, token);
+            if (winner) {
+                const embed = new EmbedBuilder()
+                    .setTitle('🏆 ?row — Guuleystay!')
+                    .setDescription(`Guuleystay <@${state.players[state.currentPlayer]}>!\n\n${boardText}`)
+                    .setColor('#2ecc71');
+                activeRows.delete(channelId);
+                return interaction.update({ embeds: [embed], components: [] });
+            }
+            if (isBoardFull(board)) {
+                const embed = new EmbedBuilder()
+                    .setTitle('🤝 ?row — Isku dheellitir')
+                    .setDescription(`Gool la helin, ciyaarta waa barbaro.\n\n${boardText}`)
+                    .setColor('#95a5a6');
+                activeRows.delete(channelId);
+                return interaction.update({ embeds: [embed], components: [] });
+            }
+
+            state.currentPlayer = 1 - state.currentPlayer;
+            const embed = new EmbedBuilder()
+                .setTitle('▶️ ?row — Wareegga xiga')
+                .setDescription(`Ciyaaryahanka hadda jira: <@${state.players[state.currentPlayer]}> (${state.currentPlayer === 0 ? '🔴' : '🟡'})\n\n${boardText}`)
+                .setColor('#3498db');
+
+            return interaction.update({ embeds: [embed], components: rowButtons(channelId) });
         }
 
         // ── Solo: Jawaab ──────────────────────────────────────────────
