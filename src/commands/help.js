@@ -4,11 +4,12 @@
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { PREFIX } = require('../config');
+const { isAdmin } = require('../utils/admin');
 
 module.exports = async function helpCommand(message) {
     const userId = message.author.id;
 
-    const description =
+    let description =
         `Ku soo dhawoow **Garaad Quiz Bot v3**. Hoos waxaa ku qoran amarrada oo qaybo loo kala saaray:\n\n` +
 
         `🎲 **Ciyaaraha** _(dhammaantood waxaa la dooran karaa tirada su'aalaha)_\n` +
@@ -27,9 +28,19 @@ module.exports = async function helpCommand(message) {
         `\`${PREFIX}top\` - Top 10\n` +
         `\`${PREFIX}today\` - Daily reward\n\n` +
 
+        `🏁 **Tartan** _(diiwaangeli + code DM)_\n` +
+        `\`${PREFIX}isdiiwaangeli\` - Code DM kuu yimaada; markaas \`${PREFIX}gal CODE\` channel tartanka\n\n` +
+
         `🛠️ **System**\n` +
-        `\`${PREFIX}cilada [farriin]\` - Report cilad\n` +
-        `\`${PREFIX}admin help\` - Admin commands`;
+        `\`${PREFIX}cilada [farriin]\` - Report cilad`;
+
+    if (isAdmin(userId)) {
+        description +=
+            `\n\n👑 **Admin & Tartan** _(adiga oo keliya)_\n` +
+            `\`${PREFIX}tartan_bilow\` - Albaabka tartanka channel-ka fur\n` +
+            `\`${PREFIX}admin_next\` - Wareegga xiga bilow (kadib wareeg dhamaad)\n` +
+            `\`${PREFIX}admin help\` - Dhammaan amarrada admin`;
+    }
 
     const embed = new EmbedBuilder()
         .setTitle('📖 Garaad Quiz - Liiska Amarrada')

@@ -12,7 +12,7 @@ const { checkUser, shuffleArray } = require('./helpers');
 const { TWO_WEEKS_MS }            = require('../config');
 
 // ───── Soo akhri su'aalaha game kasta ─────
-const GAMES = ['solo', 'duel', 'rush', 'quiz', 'bet'];
+const GAMES = ['solo', 'duel', 'rush', 'quiz', 'bet', 'tournament'];
 const questionsByGame = {};
 const fallback        = require('../../data/questions.json');
 

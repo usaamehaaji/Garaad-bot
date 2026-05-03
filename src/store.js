@@ -17,6 +17,9 @@ const activeDuels = new Map(); // channelId -> duel state
 const activeBets  = new Map(); // userId -> bet state
 const activeRush  = new Map(); // userId -> rush state
 const activeQuiz  = new Map(); // channelId -> quiz state
+const activeTournament = new Map(); // channelId -> tartan state
+/** @type {Map<string, { code: string, at: number }>} */
+const tournamentRegistry = new Map(); // userId -> diiwaangeli
 
 // Akhri xogta hore
 try {
@@ -49,6 +52,9 @@ function isUserBusy(userId) {
     for (const state of activeQuiz.values()) {
         if (state.players && state.players.has(userId)) return 'quiz';
     }
+    for (const state of activeTournament.values()) {
+        if (state.stage === 'play' && state.survivors && state.survivors.has(userId)) return 'tournament';
+    }
     return null;
 }
 
@@ -60,5 +66,7 @@ module.exports = {
     activeBets,
     activeRush,
     activeQuiz,
+    activeTournament,
+    tournamentRegistry,
     isUserBusy,
 };

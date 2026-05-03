@@ -7,7 +7,7 @@
 // =====================================================================
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
-const { userData, saveData, activeQuiz, isUserBusy } = require('../store');
+const { userData, saveData, activeQuiz, activeTournament, isUserBusy } = require('../store');
 const { checkUser, addXp }              = require('../utils/helpers');
 const { canHostQuiz, bumpHostQuiz }     = require('../utils/hostQuota');
 const { pickQuestionsForGame, markSeenForUsersInGame, noQuestionsLeftEmbed } = require('../utils/questions');
@@ -28,6 +28,9 @@ async function startQuizLobby(message, args) {
 
     if (activeQuiz.has(channelId)) {
         return message.reply('⚠️ Channel-kan mar hore ayaa quiz koox uu ka socda. Sug ilaa uu dhamaado.');
+    }
+    if (activeTournament.has(channelId)) {
+        return message.reply('⚠️ Channel-kan tartan ayaa ka socda. Sug ilaa uu dhamaado.');
     }
     const busy = isUserBusy(userId);
     if (busy) {

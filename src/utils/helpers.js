@@ -18,7 +18,7 @@ function checkUser(userId) {
             iq: 0, xp: 0, lastDaily: 0,
             shields: 0, doubleXpUntil: 0, title: null, stars: 0,
             seenQuestions: {},                     // (legacy)
-            seenByGame: { solo: {}, duel: {}, rush: {}, quiz: {}, bet: {} },
+            seenByGame: { solo: {}, duel: {}, rush: {}, quiz: {}, bet: {}, tournament: {} },
             lastPlayed:    0,                      // ⭐ Reminder: waqtigii ugu dambeeyay ee uu ciyaaray
             lastReminderSent: 0,                   // ⭐ Reminder: waqtigii DM ugu dambeeyay
             hostQuota: { date: todayKey(), count: 0 },
@@ -42,12 +42,13 @@ function checkUser(userId) {
         d.title            ??= null;
         d.stars            ??= 0;
         d.seenQuestions    ??= {};
-        d.seenByGame       ??= { solo: {}, duel: {}, rush: {}, quiz: {}, bet: {} };
+        d.seenByGame       ??= { solo: {}, duel: {}, rush: {}, quiz: {}, bet: {}, tournament: {} };
         d.seenByGame.solo  ??= {};
         d.seenByGame.duel  ??= {};
         d.seenByGame.rush  ??= {};
         d.seenByGame.quiz  ??= {};
         d.seenByGame.bet   ??= {};
+        d.seenByGame.tournament ??= {};
         d.lastPlayed       ??= 0;
         d.lastReminderSent ??= 0;
         d.hostQuota        ??= { date: todayKey(), count: 0 };

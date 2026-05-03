@@ -21,6 +21,7 @@ const betCmd        = require('../commands/bet');
 const quizCmd       = require('../commands/quiz');
 const ciladaCmd     = require('../commands/cilada');
 const adminCmd      = require('../commands/admin/admin');
+const tournament    = require('../games/tournament');
 
 module.exports = function setupMessageHandler(client) {
     client.on('messageCreate', async (message) => {
@@ -82,6 +83,19 @@ module.exports = function setupMessageHandler(client) {
 
             case 'admin':
                 return adminCmd(message, args);
+
+            case 'isdiiwaangeli':
+            case 'diiwaan':
+                return tournament.cmdRegister(message);
+
+            case 'tartan_bilow':
+                return tournament.cmdOpen(message);
+
+            case 'gal':
+                return tournament.cmdJoin(message, args);
+
+            case 'admin_next':
+                return tournament.cmdAdminNext(message);
 
             // Amaro aan la garanaynin waa la iska daayaa (silent)
         }

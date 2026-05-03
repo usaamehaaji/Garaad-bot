@@ -39,6 +39,12 @@ module.exports = {
     RUSH_DEFAULT_QUESTIONS: 30,
     RUSH_WRONG_PENALTY:     1,          // ⭐ IQ laga jaro marka uu khaldamo
 
+    // ───── Tartan (admin martigelin) ─────
+    TOURNAMENT_MIN_PLAYERS: 2,
+    TOURNAMENT_R1_QUESTIONS: 30,
+    TOURNAMENT_R2_QUESTIONS: 25,
+    TOURNAMENT_FINAL_QUESTIONS: 20,
+
     // ───── IQ & XP abaalgudka ─────
     REWARDS: {
         solo:  { correct: { iq: +2, xp: +5  }, wrong: { iq: -1, xp: 0  }, timeout: { iq: -1 } },

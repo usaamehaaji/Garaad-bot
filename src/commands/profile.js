@@ -2,7 +2,7 @@
 // AMARKA: ?profile [@user]
 // =====================================================================
 
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { userData }     = require('../store');
 const { checkUser, getLevel } = require('../utils/helpers');
 
@@ -36,5 +36,13 @@ module.exports = async function profileCommand(message) {
         )
         .setColor('#9b59b6');
 
-    return message.reply({ embeds: [embed] });
+    const viewerId = message.author.id;
+    const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId(`close_profile_${viewerId}`)
+            .setLabel('Iska xir')
+            .setStyle(ButtonStyle.Danger),
+    );
+
+    return message.reply({ embeds: [embed], components: [row] });
 };
