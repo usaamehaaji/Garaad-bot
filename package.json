@@ -11,6 +11,9 @@
   "keywords": ["discord", "bot", "quiz", "somali", "garaad"],
   "author": "Garaad",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "dependencies": {
     "discord.js": "^14.26.3",
     "dotenv":     "^17.4.2"
