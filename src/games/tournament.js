@@ -116,14 +116,21 @@ async function cmdOpen(message) {
         .setTitle('🏁 Tartan — Albaab furan')
         .setDescription(
             `**Admin:** <@${state.adminId}>\n\n` +
-            `1. Hore u diiwaangeli: \`${PREFIX}isdiiwaangeli\` (code DM kuu yimaadaa).\n` +
-            `2. Halkan ku qor: \`${PREFIX}gal CODE\` (code-ka DM).\n` +
+            `1. Guji badhanka **Register** hoose si code DM kuugu yimaado.\n` +
+            `2. Marka code-ka aad hesho, qor: \`${PREFIX}gal CODE\` (channel-kan).\n` +
             `3. Marka dadku diyaar yihiin, admin-ku qor: \`${PREFIX}admin_next\` si **Wareegga 1aad** loo bilaabo.\n\n` +
             `_Haddii aadan is diiwaangelin, ma geli kartid — raadso code DM._`
         )
         .setColor('#e67e22');
 
-    return message.reply({ embeds: [embed] });
+    const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId('tournament_register')
+            .setLabel('Register')
+            .setStyle(ButtonStyle.Primary),
+    );
+
+    return message.reply({ embeds: [embed], components: [row] });
 }
 
 // ───── ?gal [code] ─────
@@ -186,6 +193,19 @@ async function cmdAdminNext(message) {
     }
 
     return message.reply('⚠️ Hadda wax admin_next loo isticmaali karo ma jiro (sug inta wareeggu dhammaado).');
+}
+
+async function cmdStop(message) {
+    if (!isAdmin(message.author.id)) {
+        return message.reply('⛔ Kaliya admin.');
+    }
+    const cid = message.channel.id;
+    const state = activeTournament.get(cid);
+    if (!state) {
+        return message.reply('⚠️ Channel-kan tartan ma jiro. Ugu horreyn `?tartan_bilow`.');
+    }
+    activeTournament.delete(cid);
+    return message.reply('🛑 Tartan-ka waa la joojiyay. Wax walba waa la damiyay oo channel-kan waa laga saaray tartanka.');
 }
 
 async function beginRound(state, channel) {
@@ -415,4 +435,5 @@ module.exports = {
     cmdOpen,
     cmdJoin,
     cmdAdminNext,
+    cmdStop,
 };

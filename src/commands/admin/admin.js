@@ -16,6 +16,7 @@ const adminHelpPanel = require('./adminHelpPanel');
 const giveChampion = require('./adminGiveChampion');
 const removeChampion = require('./adminRemoveChampion');
 const godMode = require('./adminGodMode');
+const adminStop = require('./adminStop');
 
 module.exports = async function adminCommand(message, args) {
     if (!isAdmin(message.author.id)) {
@@ -65,6 +66,9 @@ module.exports = async function adminCommand(message, args) {
         case 'removechampion':
         case 'rmchampion':
             return removeChampion(message, args);
+
+        case 'stop':
+            return adminStop(message, args);
 
         case 'god':
             return godMode(message, args);

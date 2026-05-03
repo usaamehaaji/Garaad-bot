@@ -7,10 +7,17 @@ const { handleSoloAnswer }          = require('../games/solo');
 const { startDuelGame }             = require('../games/duel');
 const { sendRushQuestion }          = require('../games/rush');
 const { beginQuizGame, refreshLobby } = require('../games/quiz');
-const { userData, saveData, activeBets, activeRush, activeQuiz, isUserBusy } = require('../store');
+const { userData, saveData, activeBets, activeRush, activeQuiz, isUserBusy, tournamentRegistry } = require('../store');
 const { checkUser, getLevel, addXp } = require('../utils/helpers');
 const { QUIZ_MIN_PLAYERS, QUIZ_MAX_PLAYERS } = require('../config');
 const { EmbedBuilder }              = require('discord.js');
+
+function genCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let s = '';
+    for (let i = 0; i < 6; i++) s += chars[Math.floor(Math.random() * chars.length)];
+    return s;
+}
 
 module.exports = function setupInteractionHandler(client) {
     client.on('interactionCreate', async (interaction) => {
@@ -81,6 +88,31 @@ module.exports = function setupInteractionHandler(client) {
         // ── Solo: Jawaab ──────────────────────────────────────────────
         if (id.startsWith('q_')) {
             return handleSoloAnswer(interaction);
+        }
+
+        // ── Tournament: Register ──────────────────────────────────────
+        if (id === 'tournament_register') {
+            const uid = interaction.user.id;
+            const code = genCode();
+            tournamentRegistry.set(uid, { code, at: Date.now() });
+            try {
+                await interaction.user.send({
+                    embeds: [new EmbedBuilder()
+                        .setTitle('🏁 Tartan — Code-kaaga')
+                        .setDescription(
+                            `Code-gaaga gaarka ah waa:\n\n# \`${code}\`\n\n` +
+                            `Marka admin-ku furo tartanka channel-ka, qor:\n` +
+                            `\`?gal ${code}\` **channel-ka tartanka** gudaheeda.`
+                        )
+                        .setColor('#2ecc71')],
+                });
+                return interaction.reply({ content: '✅ Code-gaaga waa laguugu diray **DM**. Fur fariimahaaga gaarka ah.', flags: MessageFlags.Ephemeral });
+            } catch {
+                return interaction.reply({
+                    content: '❌ Ma awoodin inaan kuu dirayo DM. **Fur DM** (Settings → Privacy → Allow DMs) ka dibna isku day mar kale.',
+                    flags: MessageFlags.Ephemeral
+                });
+            }
         }
 
         // ── Bet: Jawaab ───────────────────────────────────────────────

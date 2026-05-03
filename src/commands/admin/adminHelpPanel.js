@@ -24,11 +24,15 @@ function buildAdminHelpEmbed() {
             `\`${PREFIX}admin bugs\` — Ciladaha\n` +
             `\`${PREFIX}admin reset @user\`\n` +
             `\`${PREFIX}admin reward @user [tiro]\` — IQ\n` +
-            `\`${PREFIX}admin reward @user xp [tiro]\` — XP\n\n` +
+            `\`${PREFIX}admin reward @user xp [tiro]\` — XP\n` +
+            `\`${PREFIX}admin givechampion @user\` — Siin Champion 🏆 (admin kaliya, ma iibsan karo)\n` +
+            `\`${PREFIX}admin removechampion @user\` — Ka qaad Champion 🏆\n\n` +
             `**Tartan (admin + dadka)**\n` +
-            `\`${PREFIX}isdiiwaangeli\` — qofka: DM code (ha muujin dadweyne)\n` +
+            `\`${PREFIX}tartan_bilow\` — admin: fur channel tartanka\n` +
+            `\`${PREFIX}admin stop\` — admin: jooji tartanka\n` +
+            `\`${PREFIX}tartan_stop\` — admin: jooji tartanka\n` +
+            `\`${PREFIX}isdiiwaangeli\` — qofka: hel code DM\n` +
             `\`${PREFIX}gal CODE\` — channel tartanka kaliya\n` +
-            `\`${PREFIX}tartan_bilow\` — admin: fur channel\n` +
             `\`${PREFIX}admin_next\` — admin: bilow wareeg / xiga`
         )
         .addFields({
