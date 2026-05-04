@@ -46,6 +46,7 @@ module.exports = function setupMessageHandler(client) {
 
         switch (command) {
             case 'caawin':
+            case 'caaawin':
             case 'help':
                 return helpCmd(message);
 
