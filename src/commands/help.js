@@ -16,21 +16,22 @@ module.exports = async function helpCommand(message) {
         `\`${PREFIX}solo\` - Ciyaar shakhsi ah\n` +
         `\`${PREFIX}duel @user\` - Dagaal labo qof\n` +
         `\`${PREFIX}row @user\` - 4-in-a-row style\n` +
-        `\`${PREFIX}quiz\` - Quiz kooxeed\n\n` +
+        `\`${PREFIX}quiz\` - Quiz kooxeed\n` +
+        `\`${PREFIX}tuur @user [xaddi]\` - Diisku Ciyaar — khamaar IQ tuurnimada\n\n` +
 
-        `� **Forex & Crypto**\n` +
+        `📈 **Forex & Crypto**\n` +
         `\`${PREFIX}trade\` - Ganacsi Forex/Crypto\n` +
         `\`${PREFIX}jeeb\` - Fiiri lacagta iyo hantidaada\n` +
         `\`${PREFIX}suuq\` - Arag suuqa iyo qiimaha SOS\n` +
         `\`${PREFIX}password 1234\` - Samee password ka hor trade\n\n` +
 
-        `💰 **Dhaqaale & Ammaanka**\n` +
+        `💸 **Dhaqaale & Ammaanka**\n` +
         `\`${PREFIX}hadyad @user 1000 sos\` - Dir SOS saaxiib\n` +
         `\`${PREFIX}hadyad @user 1000 iq\` - Dir IQ saaxiib\n` +
         `\`${PREFIX}xatooyo @user\` - Isku day inaad xado hantida\n` +
         `\`${PREFIX}dhumasho\` - Qarso jeebkaaga 1 saac (10,000 IQ)\n\n` +
 
-        `💰 **Dukaanka**\n` +
+        `🛒 **Dukaanka**\n` +
         `\`${PREFIX}bet [amount]\` - Khamaar IQ\n` +
         `\`${PREFIX}shop\` - Fur dukaanka\n` +
         `\`${PREFIX}buy [item]\` - Iibso item\n\n` +

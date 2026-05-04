@@ -42,10 +42,12 @@ module.exports = async function buyCommand(message, args) {
     } else {
         // It's a title
         if (itemKey === 'custom') {
-            if (data.customTitle !== null) {
+            if (userData[userId].customTitle !== null) {
+                // Soo celi XP haddii horeba u iibsaday
+                userData[userId].xp += item.price;
                 return message.reply('⚠️ Waxaad hore u iibsatay custom title.');
             }
-            data.customTitle = ''; // Unlocked
+            userData[userId].customTitle = ''; // Unlocked
         } else {
             if (!userData[userId].ownedTitles.includes(itemKey)) {
                 userData[userId].ownedTitles.push(itemKey);

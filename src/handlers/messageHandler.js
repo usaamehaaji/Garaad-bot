@@ -26,6 +26,7 @@ const soloCmd       = require('../commands/solo');
 const duelCmd       = require('../commands/duel');
 const rowCmd        = require('../commands/row');
 const betCmd        = require('../commands/bet');
+const tuurCmd       = require('../commands/tuur');
 // ⭐ ?rush waa la joojiyay — laguma baahan tahay (user request)
 // const rushCmd    = require('../commands/rush');
 const quizCmd       = require('../commands/quiz');
@@ -109,6 +110,11 @@ module.exports = function setupMessageHandler(client) {
 
             case 'bet':
                 return betCmd(message, args);
+
+            case 'tuur':
+            case 'dice':
+            case 'diisku':
+                return tuurCmd(message, args);
 
             // ⭐ ?rush waa la joojiyay — user wuu damacsanaa in la saaro
             // case 'rush':

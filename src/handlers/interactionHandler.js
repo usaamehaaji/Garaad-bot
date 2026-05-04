@@ -556,5 +556,11 @@ module.exports = function setupInteractionHandler(client) {
 
         // ── Quiz Koox: Butonka su'aasha ───────────────────────────────
         // (quiz_a_ prefix — collector-ku wuxuu maareeyaa)
+
+        // ── Tuur (Dice Duel): Aqbal / Diid ───────────────────────────
+        if (id.startsWith('tuur_accept_') || id.startsWith('tuur_decline_')) {
+            const { handleTuurInteraction, activeTuurChallenges } = require('../commands/tuur');
+            return handleTuurInteraction(interaction, activeTuurChallenges);
+        }
     });
 };
