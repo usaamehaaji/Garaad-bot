@@ -114,6 +114,22 @@ module.exports = function setupInteractionHandler(client) {
             return interaction.message.delete().catch(() => {});
         }
 
+        if (id.startsWith('close_statistics_')) {
+            const ownerId = id.slice('close_statistics_'.length);
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            return interaction.message.delete().catch(() => {});
+        }
+
+        if (id.startsWith('close_shop_')) {
+            const ownerId = id.slice('close_shop_'.length);
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            return interaction.message.delete().catch(() => {});
+        }
+
         // ── Duel: Aqbal ───────────────────────────────────────────────
         if (id.startsWith('accept_duel_')) {
             const parts    = id.split('_');

@@ -2,11 +2,12 @@
 // AMARKA: ?statistics / ?stats [@user]
 // =====================================================================
 
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { userData }     = require('../store');
 const { checkUser }    = require('../utils/helpers');
 
 module.exports = async function statisticsCommand(message) {
+    const viewerId = message.author.id;
     const target = message.mentions.users.first() || message.author;
     checkUser(target.id);
     const s = userData[target.id].stats;
@@ -36,5 +37,12 @@ module.exports = async function statisticsCommand(message) {
         )
         .setColor('#1abc9c');
 
-    return message.reply({ embeds: [embed] });
+    const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId(`close_statistics_${viewerId}`)
+            .setLabel('Iska xir')
+            .setStyle(ButtonStyle.Danger),
+    );
+
+    return message.reply({ embeds: [embed], components: [row] });
 };

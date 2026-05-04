@@ -2,7 +2,7 @@
 // AMARKA: ?shop
 // =====================================================================
 
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { userData }     = require('../store');
 const { PREFIX, SHOP_ITEMS, TITLES } = require('../config');
 
@@ -29,5 +29,12 @@ module.exports = async function shopCommand(message) {
         )
         .setColor('#16a085');
 
-    return message.reply({ embeds: [embed] });
+    const row = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId(`close_shop_${userId}`)
+            .setLabel('Iska xir')
+            .setStyle(ButtonStyle.Danger),
+    );
+
+    return message.reply({ embeds: [embed], components: [row] });
 };
