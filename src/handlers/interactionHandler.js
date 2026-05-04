@@ -150,6 +150,18 @@ module.exports = function setupInteractionHandler(client) {
             return interaction.update({ embeds: [embed], components: interaction.message.components });
         }
 
+        if (id.startsWith('trade_wallet_')) {
+            const ownerId = id.split('_')[2];
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            const state = getTradeState(ownerId) || createTradeState(ownerId);
+            refreshTradePrices(state);
+            const embed = buildTradeEmbed(ownerId, state);
+            await interaction.update({ embeds: [embed], components: interaction.message.components });
+            return interaction.followUp({ content: '💼 Jeebkaaga iyo hantidaada waa la cusbooneysiiyay.', flags: MessageFlags.Ephemeral });
+        }
+
         if (id.startsWith('trade_')) {
             const parts = id.split('_');
             const action = parts[1];

@@ -65,6 +65,7 @@ module.exports = function setupMessageHandler(client) {
             case 'trade':
             case 'forex':
             case 'crypto':
+            case 'jeeb':
                 return tradeCmd(message);
 
             case 'titles':

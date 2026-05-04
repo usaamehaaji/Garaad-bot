@@ -28,6 +28,8 @@ function checkUser(userId) {
             inventory: { shield: 0, double: 0, hint: 0, retry: 0 }, // Shop items
             usdBalance: 500,
             tradePortfolio: { BTC: 0, EUR: 0 },
+            tradeBasis: { BTC: 0, EUR: 0 },
+            tradeRealized: 0,
             tradeHistory: [],
             stats: {
                 soloPlayed: 0, soloCorrect: 0, soloWrong: 0,
@@ -67,6 +69,8 @@ function checkUser(userId) {
         d.inventory        ??= { shield: 0, double: 0, hint: 0, retry: 0 };
         d.usdBalance       ??= 500;
         d.tradePortfolio   ??= { BTC: 0, EUR: 0 };
+        d.tradeBasis       ??= { BTC: 0, EUR: 0 };
+        d.tradeRealized    ??= 0;
         d.tradeHistory     ??= [];
         d.stats            ??= {};
         const s = d.stats;

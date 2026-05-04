@@ -35,6 +35,10 @@ module.exports = async function tradeCommand(message) {
 
     const row2 = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
+            .setCustomId(`trade_wallet_${userId}`)
+            .setLabel('Jeebkaaga')
+            .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
             .setCustomId(`trade_refresh_${userId}`)
             .setLabel('Refresh')
             .setStyle(ButtonStyle.Secondary),

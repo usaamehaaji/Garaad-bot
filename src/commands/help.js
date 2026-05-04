@@ -18,8 +18,11 @@ module.exports = async function helpCommand(message) {
         `\`${PREFIX}row @user\` - 4-in-a-row style\n` +
         `\`${PREFIX}quiz\` - Quiz kooxeed\n\n` +
 
-        `💰 **Dhaqaale & Dukaanka**\n` +
+        `� **Forex & Crypto**\n` +
         `\`${PREFIX}trade\` - Ganacsi Forex/Crypto\n` +
+        `\`${PREFIX}jeeb\` - Fiiri lacagta iyo hantidaada\n\n` +
+
+        `💰 **Dhaqaale & Dukaanka**\n` +
         `\`${PREFIX}bet [amount]\` - Khamaar IQ\n` +
         `\`${PREFIX}shop\` - Fur dukaanka\n` +
         `\`${PREFIX}buy [item]\` - Iibso item\n\n` +
