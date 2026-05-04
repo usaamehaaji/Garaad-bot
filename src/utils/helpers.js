@@ -26,6 +26,9 @@ function checkUser(userId) {
             activeTitle: 'beginner',               // Currently active title key
             customTitle: null,                     // Custom title if bought
             inventory: { shield: 0, double: 0, hint: 0, retry: 0 }, // Shop items
+            usdBalance: 500,
+            tradePortfolio: { BTC: 0, EUR: 0 },
+            tradeHistory: [],
             stats: {
                 soloPlayed: 0, soloCorrect: 0, soloWrong: 0,
                 duelWins: 0, duelLosses: 0, duelDraws: 0,
@@ -62,6 +65,9 @@ function checkUser(userId) {
         if (!d.activeTitle) d.activeTitle = 'beginner';
         d.customTitle      ??= null;
         d.inventory        ??= { shield: 0, double: 0, hint: 0, retry: 0 };
+        d.usdBalance       ??= 500;
+        d.tradePortfolio   ??= { BTC: 0, EUR: 0 };
+        d.tradeHistory     ??= [];
         d.stats            ??= {};
         const s = d.stats;
         s.soloPlayed    ??= 0;

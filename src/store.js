@@ -15,9 +15,10 @@ let userData = {};
 const activeGames = new Map(); // userId -> solo game state
 const activeDuels = new Map(); // channelId -> duel state
 const activeBets  = new Map(); // userId -> bet state
-const activeRush  = new Map(); // userId -> rush state
-const activeQuiz  = new Map(); // channelId -> quiz state
-const activeRows  = new Map(); // channelId -> row/Connect4 state
+const activeRush   = new Map(); // userId -> rush state
+const activeTrades = new Map(); // userId -> trade session
+const activeQuiz   = new Map(); // channelId -> quiz state
+const activeRows   = new Map(); // channelId -> row/Connect4 state
 const activeTournament = new Map(); // channelId -> tartan state
 /** @type {Map<string, { code: string, at: number }>} */
 const tournamentRegistry = new Map(); // userId -> diiwaangeli
@@ -69,6 +70,7 @@ module.exports = {
     activeDuels,
     activeBets,
     activeRush,
+    activeTrades,
     activeQuiz,
     activeRows,
     activeTournament,

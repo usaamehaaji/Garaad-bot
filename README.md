@@ -116,6 +116,7 @@ Bot-ku wuxuu soo muujinayaa:
 | `?bet [xaddi]` | Khamaar IQ ah |
 | `?shop` | Eeg dukaanka |
 | `?buy [shay]` | Iibso shay |
+| `?trade` | Ganacsi Forex/Crypto oo dhexgal leh |
 | `?profile` | Fiiri profile-kaaga |
 | `?statistics` | Tirakoobkaaga oo buuxa |
 | `?top` | 10-ka ugu sare |

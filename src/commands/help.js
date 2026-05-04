@@ -19,6 +19,7 @@ module.exports = async function helpCommand(message) {
         `\`${PREFIX}quiz\` - Quiz kooxeed\n\n` +
 
         `💰 **Dhaqaale & Dukaanka**\n` +
+        `\`${PREFIX}trade\` - Ganacsi Forex/Crypto\n` +
         `\`${PREFIX}bet [amount]\` - Khamaar IQ\n` +
         `\`${PREFIX}shop\` - Fur dukaanka\n` +
         `\`${PREFIX}buy [item]\` - Iibso item\n\n` +

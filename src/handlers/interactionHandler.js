@@ -7,7 +7,8 @@ const { handleSoloAnswer }          = require('../games/solo');
 const { startDuelGame }             = require('../games/duel');
 const { sendRushQuestion }          = require('../games/rush');
 const { beginQuizGame, refreshLobby } = require('../games/quiz');
-const { userData, saveData, activeBets, activeRush, activeQuiz, activeRows, isUserBusy, tournamentRegistry } = require('../store');
+const { createTradeState, getTradeState, refreshTradePrices, executeTrade, buildTradeEmbed } = require('../games/trade');
+const { userData, saveData, activeBets, activeRush, activeTrades, activeQuiz, activeRows, isUserBusy, tournamentRegistry } = require('../store');
 const { checkUser, getLevel, addXp } = require('../utils/helpers');
 const { QUIZ_MIN_PLAYERS, QUIZ_MAX_PLAYERS } = require('../config');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
@@ -128,6 +129,44 @@ module.exports = function setupInteractionHandler(client) {
                 return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
             }
             return interaction.message.delete().catch(() => {});
+        }
+
+        if (id.startsWith('trade_close_')) {
+            const ownerId = id.split('_')[2];
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            return interaction.message.delete().catch(() => {});
+        }
+
+        if (id.startsWith('trade_refresh_')) {
+            const ownerId = id.split('_')[2];
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            const state = getTradeState(ownerId) || createTradeState(ownerId);
+            refreshTradePrices(state);
+            const embed = buildTradeEmbed(ownerId, state);
+            return interaction.update({ embeds: [embed], components: interaction.message.components });
+        }
+
+        if (id.startsWith('trade_')) {
+            const parts = id.split('_');
+            const action = parts[1];
+            const asset = parts[2];
+            const ownerId = parts[3];
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            const state = getTradeState(ownerId) || createTradeState(ownerId);
+            const result = executeTrade(ownerId, asset, action);
+            if (!result.success) {
+                return interaction.reply({ content: result.message, flags: MessageFlags.Ephemeral });
+            }
+            refreshTradePrices(state);
+            const embed = buildTradeEmbed(ownerId, state);
+            await interaction.update({ embeds: [embed], components: interaction.message.components });
+            return interaction.followUp({ content: result.message, flags: MessageFlags.Ephemeral });
         }
 
         // ── Duel: Aqbal ───────────────────────────────────────────────
