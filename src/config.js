@@ -94,4 +94,11 @@ module.exports = {
             custom:     { name: "Custom Title", price: 1000, desc: "Create your own title" },
         },
     },
+
+    // ───── Suuq & Dhaqaale ─────
+    SOS_BASE_RATE: 600,
+    SOS_VOLATILITY: 0.02,
+    SECRET_DAY_CHANCE: 0.08,
+    SECRET_DAY_MULTIPLIER: 2,
+    MARKET_UPDATE_MS: 60000,
 };

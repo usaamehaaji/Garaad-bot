@@ -27,10 +27,13 @@ function checkUser(userId) {
             customTitle: null,                     // Custom title if bought
             inventory: { shield: 0, double: 0, hint: 0, retry: 0 }, // Shop items
             usdBalance: 500,
+            sosBalance: 100000,
             tradePortfolio: { BTC: 0, EUR: 0 },
             tradeBasis: { BTC: 0, EUR: 0 },
             tradeRealized: 0,
             tradeHistory: [],
+            password: null,
+            hiddenUntil: 0,
             stats: {
                 soloPlayed: 0, soloCorrect: 0, soloWrong: 0,
                 duelWins: 0, duelLosses: 0, duelDraws: 0,
@@ -68,10 +71,13 @@ function checkUser(userId) {
         d.customTitle      ??= null;
         d.inventory        ??= { shield: 0, double: 0, hint: 0, retry: 0 };
         d.usdBalance       ??= 500;
+        d.sosBalance       ??= 100000;
         d.tradePortfolio   ??= { BTC: 0, EUR: 0 };
         d.tradeBasis       ??= { BTC: 0, EUR: 0 };
         d.tradeRealized    ??= 0;
         d.tradeHistory     ??= [];
+        d.password         ??= null;
+        d.hiddenUntil      ??= 0;
         d.stats            ??= {};
         const s = d.stats;
         s.soloPlayed    ??= 0;

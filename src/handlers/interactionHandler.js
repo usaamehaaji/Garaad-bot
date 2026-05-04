@@ -7,7 +7,7 @@ const { handleSoloAnswer }          = require('../games/solo');
 const { startDuelGame }             = require('../games/duel');
 const { sendRushQuestion }          = require('../games/rush');
 const { beginQuizGame, refreshLobby } = require('../games/quiz');
-const { createTradeState, getTradeState, refreshTradePrices, executeTrade, buildTradeEmbed } = require('../games/trade');
+const { executeTrade, buildTradeEmbed } = require('../games/trade');
 const { userData, saveData, activeBets, activeRush, activeTrades, activeQuiz, activeRows, isUserBusy, tournamentRegistry } = require('../store');
 const { checkUser, getLevel, addXp } = require('../utils/helpers');
 const { QUIZ_MIN_PLAYERS, QUIZ_MAX_PLAYERS } = require('../config');
@@ -139,14 +139,20 @@ module.exports = function setupInteractionHandler(client) {
             return interaction.message.delete().catch(() => {});
         }
 
+        if (id.startsWith('trade_password_')) {
+            const ownerId = id.split('_')[2];
+            if (interaction.user.id !== ownerId) {
+                return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
+            }
+            return interaction.reply({ content: 'Isticmaal `?password 1234` si aad u dejiso password sir ah oo aad suuqyada u gasho.', flags: MessageFlags.Ephemeral });
+        }
+
         if (id.startsWith('trade_refresh_')) {
             const ownerId = id.split('_')[2];
             if (interaction.user.id !== ownerId) {
                 return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
             }
-            const state = getTradeState(ownerId) || createTradeState(ownerId);
-            refreshTradePrices(state);
-            const embed = buildTradeEmbed(ownerId, state);
+            const embed = buildTradeEmbed(ownerId);
             return interaction.update({ embeds: [embed], components: interaction.message.components });
         }
 
@@ -155,9 +161,7 @@ module.exports = function setupInteractionHandler(client) {
             if (interaction.user.id !== ownerId) {
                 return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
             }
-            const state = getTradeState(ownerId) || createTradeState(ownerId);
-            refreshTradePrices(state);
-            const embed = buildTradeEmbed(ownerId, state);
+            const embed = buildTradeEmbed(ownerId);
             await interaction.update({ embeds: [embed], components: interaction.message.components });
             return interaction.followUp({ content: '💼 Jeebkaaga iyo hantidaada waa la cusbooneysiiyay.', flags: MessageFlags.Ephemeral });
         }
@@ -170,13 +174,11 @@ module.exports = function setupInteractionHandler(client) {
             if (interaction.user.id !== ownerId) {
                 return interaction.reply({ content: 'Adiga ma lihid.', flags: MessageFlags.Ephemeral });
             }
-            const state = getTradeState(ownerId) || createTradeState(ownerId);
             const result = executeTrade(ownerId, asset, action);
             if (!result.success) {
                 return interaction.reply({ content: result.message, flags: MessageFlags.Ephemeral });
             }
-            refreshTradePrices(state);
-            const embed = buildTradeEmbed(ownerId, state);
+            const embed = buildTradeEmbed(ownerId);
             await interaction.update({ embeds: [embed], components: interaction.message.components });
             return interaction.followUp({ content: result.message, flags: MessageFlags.Ephemeral });
         }

@@ -3,16 +3,36 @@
 // =====================================================================
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { createTradeState, buildTradeEmbed, refreshTradePrices } = require('../games/trade');
+const { buildTradeEmbed, executeTrade } = require('../games/trade');
+const { userData } = require('../store');
 const { checkUser } = require('../utils/helpers');
 
 module.exports = async function tradeCommand(message) {
     const userId = message.author.id;
     checkUser(userId);
 
-    const state = createTradeState(userId);
-    refreshTradePrices(state);
-    const embed = buildTradeEmbed(userId, state);
+    const user = userData[userId];
+    if (!user.password) {
+        const embed = new EmbedBuilder()
+            .setTitle('🔒 ?trade — Password Required')
+            .setDescription('Fadlan samee password 4-lambar ah adoo isticmaalaya `?password 1234` ka hor intaadan bilaabin trade.')
+            .setColor('#e74c3c');
+
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId(`trade_password_${userId}`)
+                .setLabel('Samee Password')
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId(`trade_close_${userId}`)
+                .setLabel('Xidh')
+                .setStyle(ButtonStyle.Danger),
+        );
+
+        return message.reply({ embeds: [embed], components: [row] });
+    }
+
+    const embed = buildTradeEmbed(userId);
 
     const row1 = new ActionRowBuilder().addComponents(
         new ButtonBuilder()

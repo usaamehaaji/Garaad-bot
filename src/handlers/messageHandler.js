@@ -14,6 +14,12 @@ const todayCmd      = require('../commands/today');
 const shopCmd       = require('../commands/shop');
 const buyCmd        = require('../commands/buy');
 const tradeCmd      = require('../commands/trade');
+const jeebCmd       = require('../commands/jeeb');
+const suuqCmd       = require('../commands/suuq');
+const passwordCmd   = require('../commands/password');
+const hadyadCmd     = require('../commands/hadyad');
+const xatooyoCmd    = require('../commands/xatooyo');
+const dhumashoCmd   = require('../commands/dhumasho');
 const titlesCmd     = require('../commands/titles');
 const setTitleCmd   = require('../commands/settitle');
 const soloCmd       = require('../commands/solo');
@@ -65,8 +71,25 @@ module.exports = function setupMessageHandler(client) {
             case 'trade':
             case 'forex':
             case 'crypto':
-            case 'jeeb':
                 return tradeCmd(message);
+
+            case 'jeeb':
+                return jeebCmd(message, args);
+
+            case 'suuq':
+                return suuqCmd(message);
+
+            case 'password':
+                return passwordCmd(message, args);
+
+            case 'hadyad':
+                return hadyadCmd(message, args);
+
+            case 'xatooyo':
+                return xatooyoCmd(message, args);
+
+            case 'dhumasho':
+                return dhumashoCmd(message);
 
             case 'titles':
                 return titlesCmd(message);

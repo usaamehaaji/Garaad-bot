@@ -20,9 +20,17 @@ module.exports = async function helpCommand(message) {
 
         `� **Forex & Crypto**\n` +
         `\`${PREFIX}trade\` - Ganacsi Forex/Crypto\n` +
-        `\`${PREFIX}jeeb\` - Fiiri lacagta iyo hantidaada\n\n` +
+        `\`${PREFIX}jeeb\` - Fiiri lacagta iyo hantidaada\n` +
+        `\`${PREFIX}suuq\` - Arag suuqa iyo qiimaha SOS\n` +
+        `\`${PREFIX}password 1234\` - Samee password ka hor trade\n\n` +
 
-        `💰 **Dhaqaale & Dukaanka**\n` +
+        `💰 **Dhaqaale & Ammaanka**\n` +
+        `\`${PREFIX}hadyad @user 1000 sos\` - Dir SOS saaxiib\n` +
+        `\`${PREFIX}hadyad @user 1000 iq\` - Dir IQ saaxiib\n` +
+        `\`${PREFIX}xatooyo @user\` - Isku day inaad xado hantida\n` +
+        `\`${PREFIX}dhumasho\` - Qarso jeebkaaga 1 saac (10,000 IQ)\n\n` +
+
+        `💰 **Dukaanka**\n` +
         `\`${PREFIX}bet [amount]\` - Khamaar IQ\n` +
         `\`${PREFIX}shop\` - Fur dukaanka\n` +
         `\`${PREFIX}buy [item]\` - Iibso item\n\n` +

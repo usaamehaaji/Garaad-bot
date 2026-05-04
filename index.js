@@ -38,6 +38,7 @@ function startPortHealthServerIfNeeded() {
 const setupMessageHandler      = require('./src/handlers/messageHandler');
 const setupInteractionHandler  = require('./src/handlers/interactionHandler');
 const setupReminderScheduler   = require('./src/handlers/reminderScheduler');
+const { initializeMarket }     = require('./src/games/marketManager');
 
 // ───── Client ─────
 const client = new Client({
@@ -66,6 +67,9 @@ client.once('ready', () => {
 
     // Bilow scheduler-ka 24h DM xusuusinta
     setupReminderScheduler(client);
+
+    // Bilow suuqa Forex & Crypto
+    initializeMarket();
 });
 
 // ───── Khaladaad aan la filanayn ─────
