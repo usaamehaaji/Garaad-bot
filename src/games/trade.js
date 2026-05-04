@@ -2,7 +2,7 @@
 // GARAAD BOT - Forex/Crypto Trading Game
 // =====================================================================
 
-const { userData, saveData } = require('../store');
+const { userData, saveData, activeTrades } = require('../store');
 const { EmbedBuilder } = require('discord.js');
 const { getMarketState } = require('./marketManager');
 const { addXp } = require('../utils/helpers');
@@ -17,6 +17,45 @@ function formatAsset(amount, symbol) {
 
 function randomPercent() {
     return (Math.random() * 2 - 1) / 100;
+}
+
+function createTradeState(userId) {
+    const existing = activeTrades.get(userId);
+    if (existing) return existing;
+
+    const state = {
+        userId,
+        prices: {
+            BTC: 27500 + Math.random() * 5000,
+            EUR: 1.05 + Math.random() * 0.15,
+        },
+        trend: {
+            BTC: 0,
+            EUR: 0,
+        },
+        lastUpdated: Date.now(),
+    };
+
+    activeTrades.set(userId, state);
+    return state;
+}
+
+function getTradeState(userId) {
+    return activeTrades.get(userId);
+}
+
+function refreshTradePrices(state) {
+    if (!state) return;
+    const assets = Object.keys(state.prices);
+    assets.forEach(asset => {
+        const change = randomPercent();
+        const oldPrice = state.prices[asset];
+        const newPrice = Math.max(oldPrice * (1 + change), asset === 'EUR' ? 0.5 : 1000);
+        state.prices[asset] = newPrice;
+        state.trend[asset] = newPrice - oldPrice;
+    });
+    state.lastUpdated = Date.now();
+    return state;
 }
 
 function getPriceText(asset, price, diff) {
