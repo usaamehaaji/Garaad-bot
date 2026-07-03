@@ -3772,7 +3772,11 @@ module.exports = function setupInteractionHandler(client) {
             return handleSoloLeaderboard(interaction);
         }
 
-        // ── Minno Challenge buttons ──
+        // ── Minno buttons ──
+        if (id.startsWith('minno_tile_')) {
+            const { handleTilePick } = require('../../data/commands/minno');
+            return handleTilePick(interaction);
+        }
         if (id.startsWith('minno_accept_')) {
             const { handleMinnoAccept } = require('../../data/commands/minno');
             return handleMinnoAccept(interaction);
