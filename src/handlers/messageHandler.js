@@ -286,9 +286,6 @@ module.exports = function setupMessageHandler(client) {
             case 'w':
                 return withdrawAnyCmd(message, args);
 
-            case 'bp':
-                return bankPasswordCmd(message, args);
-
             // ── Public Banks ──
             case 'banks':
                 return allBanksCmd(message);
@@ -355,13 +352,6 @@ module.exports = function setupMessageHandler(client) {
             // ── Personal / Relationship ──
             case 'personal':
                 return personalCmd(message);
-
-            case 'friend':
-                return friendCmd(message);
-            case 'unfriend':
-                return unfriendCmd(message);
-            case 'friends':
-                return friendsListCmd(message);
             case 'propose':
                 return proposeCmd(message);
             case 'partner':
