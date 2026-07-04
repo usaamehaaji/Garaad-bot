@@ -37,6 +37,7 @@ const tradeCmd        = require('../../data/commands/economy/trade');
 const robCmd          = require('../../data/commands/economy/rob');
 const cashflipCmd     = require('../../data/commands/economy/cashflip');
 const { minnoCmd }    = require('../../data/commands/minno');
+const slotsCmd        = require('../../data/commands/economy/slots');
 const wipeCmd         = require('../../data/commands/admin/wipe');
 const investCmd       = require('../../data/commands/economy/invest');
 const giveCmd         = require('../../data/commands/economy/give');
@@ -247,6 +248,9 @@ module.exports = function setupMessageHandler(client) {
 
             case 'minno':
                 return minnoCmd(message, args);
+
+            case 'slots':
+                return slotsCmd(message, args);
 
             case 'wipe':
                 return wipeCmd(message, args);
