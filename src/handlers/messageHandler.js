@@ -27,6 +27,7 @@ const ciladaCmd       = require('../../data/commands/cilada');
 const adminCmd        = require('../../data/commands/admin/admin');
 const broadcast       = require('../../data/commands/admin/adminBroadcast');
 const djCmd           = require('../../data/commands/admin/adminDj');
+const recordedMembersCmd = require('../../data/commands/admin/recordedMembers');
 const tournament      = require('../games/tournament');
 const teamDuel        = require('../games/teamDuel');
 
@@ -408,6 +409,11 @@ module.exports = function setupMessageHandler(client) {
                 return broadcast(message, args);
             }
 
+            case 'rm':
+            case 'recordedmembers': {
+                return recordedMembersCmd(message, args);
+            }
+
             case 'savers':
             case 'servers':
             case 'serverlist': {
@@ -527,7 +533,8 @@ module.exports = function setupMessageHandler(client) {
             }
 
             // ── Mafia ──
-            case 'mafia': {
+            case 'mafia':
+            case 'mafio': {
                 if (args[0] === 'stop' && isAdmin(userId)) {
                     const { games: wwG, cancelGame } = require('../games/werewolf');
                     const g = wwG.get(message.guild.id);
