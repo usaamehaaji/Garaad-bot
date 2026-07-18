@@ -1,11 +1,11 @@
 // =====================================================================
-// AMARKA: ?mafia
+// AMARKA: ?mafio
 // =====================================================================
 
 const { EmbedBuilder } = require('discord.js');
 const { games, lobbyEmbed, lobbyRow, startGame, MIN_PLAYERS, LOBBY_SECONDS } = require('../../src/games/werewolf');
 
-module.exports = async function mafiaCmd(message) {
+module.exports = async function mafioCmd(message) {
     const guildId = message.guild.id;
 
     if (games.has(guildId)) {

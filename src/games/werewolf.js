@@ -6,11 +6,11 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 
 const games = new Map();
 
-const MIN_PLAYERS = 5;
+const MIN_PLAYERS = 3;
 const MAX_PLAYERS = 100;
 const PLAYERS_PER_MAFIA = 5;
 const TARGETS_PER_PAGE = 20;
-const LOBBY_SECONDS = 60;
+const LOBBY_SECONDS = 120;
 const NIGHT_SECONDS = 30;
 const DAY_SECONDS = 45;
 const VOTE_SECONDS = 30;
@@ -116,7 +116,7 @@ async function targetRows(targets, client, pickPrefix, pagePrefix, page = 0) {
     return { rows, page: safePage, pages };
 }
 
-// ── Lobby ─────────────────────────────────────────────────────────────
+// ── Lobby ───────────────────────────────────────────────────────────
 
 async function lobbyEmbed(game, client) {
     const shown = [...game.players.keys()].slice(0, 30);
@@ -140,7 +140,6 @@ function lobbyRow(hostId, canStart) {
     return new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId(`ww_join_${hostId}`).setLabel('🙋 Ku Biir').setStyle(ButtonStyle.Success),
         new ButtonBuilder().setCustomId(`ww_leave_${hostId}`).setLabel('🚪 Ka Bax').setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder().setCustomId(`ww_start_${hostId}`).setLabel('▶ Bilow').setStyle(ButtonStyle.Primary).setDisabled(!canStart),
         new ButtonBuilder().setCustomId(`ww_cancel_${hostId}`).setLabel('✖ Jooji').setStyle(ButtonStyle.Danger),
     );
 }
@@ -201,7 +200,7 @@ async function startGame(game, client) {
     await beginNight(game, client);
 }
 
-// ── Night ─────────────────────────────────────────────────────────────
+// ── Night ───────────────────────────────────────────────────────────
 
 async function beginNight(game, client) {
     game.phase = 'night';
@@ -298,7 +297,7 @@ async function resolveNight(game, client) {
     return beginDay(game, client);
 }
 
-// ── Day ───────────────────────────────────────────────────────────────
+// ── Day ────────────────────────────────────────────────────────────
 
 async function beginDay(game, client) {
     game.phase = 'day';
@@ -424,7 +423,7 @@ async function resolveVote(game, client) {
     return beginNight(game, client);
 }
 
-// ── End ───────────────────────────────────────────────────────────────
+// ── End ────────────────────────────────────────────────────────────
 
 async function endGame(game, client, winner) {
     clearTimeout(game.lobbyTimer);

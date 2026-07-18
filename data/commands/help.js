@@ -137,13 +137,13 @@ function buildWwEmbed() {
         .setColor('#c0392b')
         .setDescription(
             `**🎮 Bilow**\n` +
-            `**\`${PREFIX}mafia\`** — Lobby fur (5–100 qof)\n` +
-            `**\`${PREFIX}mafia stop\`** — ⚙️ Admin: game jooji\n\n` +
+            `**\`${PREFIX}mafio\`** — Lobby fur (3–100 qof, 2 min)\n` +
+            `**\`${PREFIX}mafio stop\`** — ⚙️ Admin: game jooji\n\n` +
 
             `**⏱️ Wareegyada**\n` +
-            `🌙 **Habeenka** (60s) — Killer Mafia DM ayuu qof ku doortaa\n` +
+            `🌙 **Habeenka** (30s) — Killer Mafia DM ayuu qof ku doortaa\n` +
             `☀️ **Maalinta** (45s) — Ku hadla channel-ka\n` +
-            `🗳️ **Codeynta** (60s) — Qofka Mafia ah codeeya\n\n` +
+            `🗳️ **Codeynta** (30s) — Qofka Mafia ah codeeya\n\n` +
 
             `**🔪 Killer Mafia**\n` +
             `5 qof kasta waxaa ku jira **1 Killer Mafia**: 5=1, 10=2, 15=3.\n` +
@@ -156,7 +156,7 @@ function buildWwEmbed() {
             `🔪 Mafia: Mafia ≥ Shacab tirada\n` +
             `👥 Shacab: Dhammaan Mafia la saaro`
         )
-        .setFooter({ text: 'Garaad Bot • Mafia • ?mafia bilow' });
+        .setFooter({ text: 'Garaad Bot • Mafia • ?mafio start' });
 }
 
 module.exports = async function helpCommand(message) {
