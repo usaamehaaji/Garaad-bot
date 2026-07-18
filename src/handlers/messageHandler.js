@@ -27,7 +27,6 @@ const ciladaCmd       = require('../../data/commands/cilada');
 const adminCmd        = require('../../data/commands/admin/admin');
 const broadcast       = require('../../data/commands/admin/adminBroadcast');
 const djCmd           = require('../../data/commands/admin/adminDj');
-const recordedMembersCmd = require('../../data/commands/admin/recordedMembers');
 const tournament      = require('../games/tournament');
 const teamDuel        = require('../games/teamDuel');
 
@@ -68,6 +67,7 @@ const adminBankCmd    = require('../../data/commands/admin/adminBank');
 const saversCmd       = require('../../data/commands/savers');
 const setupTempVc     = require('../../data/commands/admin/tempVc');
 const { vcSetupCmd, vcRemoveCmd } = require('../handlers/voiceMaster');
+const recentMembersCmd = require('../../data/commands/recentMembers');
 
 
 let _music = null;
@@ -139,7 +139,7 @@ module.exports = function setupMessageHandler(client) {
 
         if (!message.content.startsWith(PREFIX)) return;
         if (disabledChannels.has(message.channel.id) && !isAdmin(message.author.id))
-            return message.reply('🔕 **Channel-kan bot waa la joojiyay.** Admin kala xiriir.').catch(() => {});
+            return message.reply('🕕 **Channel-kan bot waa la joojiyay.** Admin kala xiriir.').catch(() => {});
 
         const args    = message.content.slice(PREFIX.length).trim().split(/ +/g);
         const command = args.shift().toLowerCase();
@@ -150,7 +150,7 @@ module.exports = function setupMessageHandler(client) {
             if (command !== 'caawin' && command !== 'caaawin' && command !== 'help') {
                 return message.reply(
                     `⛔ Amarkan DM-ka kama shaqeeyo.\n\n` +
-                    `📍 Tag **server-kaaga** oo halkaas ku isticmaal, ama ku biir server-kan:\n` +
+                    `📑 Tag **server-kaaga** oo halkaas ku isticmaal, ama ku biir server-kan:\n` +
                     `🔗 **https://discord.gg/FyNKRyAKc9**\n\n` +
                     `_(Haddaad u baahan tahay caawimad, isticmaal \`?caawin\`)_`
                 ).catch(() => {});
@@ -409,11 +409,6 @@ module.exports = function setupMessageHandler(client) {
                 return broadcast(message, args);
             }
 
-            case 'rm':
-            case 'recordedmembers': {
-                return recordedMembersCmd(message, args);
-            }
-
             case 'savers':
             case 'servers':
             case 'serverlist': {
@@ -477,7 +472,7 @@ module.exports = function setupMessageHandler(client) {
                 const chId = args[0] || message.channel.id;
                 disabledChannels.add(chId);
                 saveConfig();
-                return message.reply(`🔕 Channel \`${chId}\` bot waa la joojiyay.`);
+                return message.reply(`🕕 Channel \`${chId}\` bot waa la joojiyay.`);
             }
 
             case 'on': {
@@ -485,7 +480,7 @@ module.exports = function setupMessageHandler(client) {
                 const chId = args[0] || message.channel.id;
                 disabledChannels.delete(chId);
                 saveConfig();
-                return message.reply(`🔔 Channel \`${chId}\` bot waa la furay.`);
+                return message.reply(`🕔 Channel \`${chId}\` bot waa la furay.`);
             }
 
             case 'reminder':
@@ -496,14 +491,14 @@ module.exports = function setupMessageHandler(client) {
                 if (sub === 'off' || sub === 'jooji') {
                     d.reminderOptOut = true;
                     require('../store').saveData();
-                    return message.reply('🔕 **Xusuusinta waa la joojiyay.** Dib u fur: `?reminder on`');
+                    return message.reply('🕕 **Xusuusinta waa la joojiyay.** Dib u fur: `?reminder on`');
                 }
                 if (sub === 'on' || sub === 'fur') {
                     d.reminderOptOut = false;
                     require('../store').saveData();
-                    return message.reply('🔔 **Xusuusinta waa la furay.** DM ayaa la soo diri doonaa haddaad maqnaato.');
+                    return message.reply('🕔 **Xusuusinta waa la furay.** DM ayaa la soo diri doonaa haddaad maqnaato.');
                 }
-                const status = d.reminderOptOut ? '🔕 Joojisan' : '🔔 Firfircoon';
+                const status = d.reminderOptOut ? '🕕 Joojisan' : '🕔 Firfircoon';
                 return message.reply(`**Xusuusinta:** ${status}\n\`?reminder off\` — Jooji\n\`?reminder on\` — Fur`);
             }
 
@@ -544,6 +539,11 @@ module.exports = function setupMessageHandler(client) {
                 }
                 return mafiaCmd(message);
             }
+
+            // ── Recent Members ──
+            case 'rm':
+            case 'recentmembers':
+                return recentMembersCmd(message);
         }
     });
 };
