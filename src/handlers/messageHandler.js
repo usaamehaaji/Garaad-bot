@@ -532,9 +532,9 @@ module.exports = function setupMessageHandler(client) {
                 if (args[0] === 'stop' && isAdmin(userId)) {
                     const { games: impG, cancelGame } = require('../games/imposter');
                     const g = impG.get(message.guild.id);
-                    if (!g) return message.reply('⚠️ No Imposter game is running.');
+                    if (!g) return message.reply('⚠️ No Find the Imposter game is running.');
                     cancelGame(message.guild.id);
-                    return message.reply('🛑 Imposter game stopped.');
+                    return message.reply('🛑 Find the Imposter game stopped.');
                 }
                 return imposterCmd(message);
             }

@@ -29,7 +29,7 @@ async function lobbyEmbed(game, client) {
 
     return new EmbedBuilder()
         .setColor(COLORS.lobby)
-        .setTitle('🎭 Imposter Lobby')
+        .setTitle('🎭 Find the Imposter — Lobby')
         .setDescription(
             `**Host:** ${hostName}\n` +
             `**Players (${game.players.size}/${MAX_PLAYERS}):**\n` +
@@ -39,20 +39,20 @@ async function lobbyEmbed(game, client) {
             `🗡️ Imposters at start: **${expected}**\n\n` +
             `_Balance: 3–5→1 · 6–10→2 · 11–15→3 · 16–20→4_`
         )
-        .setFooter({ text: 'Garaad Bot • Imposter' });
+        .setFooter({ text: 'Garaad Bot • Find the Imposter' });
 }
 
 function startingEmbed() {
     return new EmbedBuilder()
         .setColor(COLORS.starting)
-        .setTitle('🎭 Imposter — Starting...')
+        .setTitle('🎭 Find the Imposter — Starting...')
         .setDescription('Roles are being sent via DM. Get ready!');
 }
 
 function lobbyClosedEmbed() {
     return new EmbedBuilder()
         .setColor(COLORS.neutral)
-        .setTitle('🎭 Imposter — Lobby Closed')
+        .setTitle('🎭 Find the Imposter — Lobby Closed')
         .setDescription(`Need at least **${MIN_PLAYERS} players** to start.`);
 }
 
@@ -67,7 +67,7 @@ async function gameStartEmbed(game, client, imposterIds) {
 
     return new EmbedBuilder()
         .setColor(COLORS.lobby)
-        .setTitle('🎭 Imposter — Game Started!')
+        .setTitle('🎭 Find the Imposter — Game Started!')
         .setDescription(
             `**${playerIds.length}** players are in.\n\n` +
             `${playerList.join('\n')}${extra}\n\n` +
@@ -103,7 +103,7 @@ function nightPhaseEmbed(round) {
 function nightPickEmbed(page, pages) {
     return new EmbedBuilder()
         .setColor(COLORS.night)
-        .setTitle('🗡️ Imposter — Choose a Victim')
+        .setTitle('🗡️ Find the Imposter — Choose a Victim')
         .setDescription(`Vote secretly for one Citizen to eliminate.\nPage **${page + 1}/${pages}**`);
 }
 
@@ -163,14 +163,14 @@ async function gameOverEmbed(game, client, winner) {
 
     return new EmbedBuilder()
         .setColor(citizensWon ? COLORS.citizensWin : COLORS.impostersWin)
-        .setTitle(citizensWon ? '🏆 Game Over — Citizens Win!' : '🏆 Game Over — Imposters Win!')
+        .setTitle(citizensWon ? '🏆 Find the Imposter — Citizens Win!' : '🏆 Find the Imposter — Imposters Win!')
         .setDescription(
             (citizensWon
                 ? 'All Imposters have been eliminated.'
                 : 'Imposters equal or outnumber the Citizens.') +
             `\n\n**Roles:**\n${safeReveal}`
         )
-        .setFooter({ text: 'Garaad Bot • Imposter' });
+        .setFooter({ text: 'Garaad Bot • Find the Imposter' });
 }
 
 module.exports = {

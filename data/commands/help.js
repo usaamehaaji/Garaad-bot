@@ -133,7 +133,7 @@ function buildShopEmbed() {
 
 function buildWwEmbed() {
     return new EmbedBuilder()
-        .setTitle('🎭 Imposter — Game')
+        .setTitle('🎭 Find the Imposter')
         .setColor('#3498db')
         .setDescription(
             `**🎮 Start**\n` +
@@ -160,7 +160,7 @@ function buildWwEmbed() {
             `👤 Citizens: all Imposters eliminated\n` +
             `🗡️ Imposters: Imposters ≥ Citizens`
         )
-        .setFooter({ text: 'Garaad Bot • Imposter • ?imposter' });
+        .setFooter({ text: 'Garaad Bot • Find the Imposter • ?imposter' });
 }
 
 module.exports = async function helpCommand(message) {
