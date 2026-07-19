@@ -40,13 +40,13 @@ async function handleImposterInteraction(interaction) {
     if (id.startsWith('imp_join_')) {
         const hostId = id.replace('imp_join_', '');
         const game = findLobbyByHost(hostId);
-        if (!game) return safeReply(interaction, '⚠️ Lobby not found.');
-        if (game.starting) return safeReply(interaction, '⚠️ Game is already starting.');
+        if (!game) return safeReply(interaction, '⚠️ Qolka ciyaarta lama helin.');
+        if (game.starting) return safeReply(interaction, '⚠️ Ciyaartu durba way bilaabanaysaa.');
         if (game.players.size >= MAX_PLAYERS) {
-            return safeReply(interaction, `⚠️ Lobby is full (max ${MAX_PLAYERS}).`);
+            return safeReply(interaction, `⚠️ Qolka wuu buuxaa (ugu badnaan ${MAX_PLAYERS}).`);
         }
         if (game.players.has(interaction.user.id)) {
-            return safeReply(interaction, '⚠️ You already joined.');
+            return safeReply(interaction, '⚠️ Hore ayaad ugu biirtay.');
         }
 
         game.players.set(interaction.user.id, null);
@@ -60,12 +60,12 @@ async function handleImposterInteraction(interaction) {
     if (id.startsWith('imp_leave_')) {
         const hostId = id.replace('imp_leave_', '');
         const game = findLobbyByHost(hostId);
-        if (!game) return safeReply(interaction, '⚠️ Lobby not found.');
+        if (!game) return safeReply(interaction, '⚠️ Qolka ciyaarta lama helin.');
         if (interaction.user.id === hostId) {
-            return safeReply(interaction, '⚠️ Host cannot leave. Use `?imposter stop` (admin) to cancel.');
+            return safeReply(interaction, '⚠️ Martigeliyuhu kama bixi karo. Isticmaal `?imposter stop` (admin) si loo joojiyo.');
         }
         if (!game.players.has(interaction.user.id)) {
-            return safeReply(interaction, '⚠️ You are not in this lobby.');
+            return safeReply(interaction, '⚠️ Qolkan kuma jirto.');
         }
 
         game.players.delete(interaction.user.id);
@@ -79,13 +79,13 @@ async function handleImposterInteraction(interaction) {
     if (id.startsWith('imp_start_')) {
         const hostId = id.replace('imp_start_', '');
         if (interaction.user.id !== hostId) {
-            return safeReply(interaction, '⚠️ Only the host can start the game.');
+            return safeReply(interaction, '⚠️ Martigeliyaha oo keliya ayaa ciyaarta bilaabi kara.');
         }
         const game = findLobbyByHost(hostId);
-        if (!game) return safeReply(interaction, '⚠️ Lobby not found.');
-        if (game.starting) return safeReply(interaction, '⚠️ Game is already starting.');
+        if (!game) return safeReply(interaction, '⚠️ Qolka ciyaarta lama helin.');
+        if (game.starting) return safeReply(interaction, '⚠️ Ciyaartu durba way bilaabanaysaa.');
         if (game.players.size < MIN_PLAYERS) {
-            return safeReply(interaction, 'Need at least 3 players.');
+            return safeReply(interaction, `Waxaa loo baahan yahay ugu yaraan ${MIN_PLAYERS} ciyaartoy.`);
         }
 
         game.starting = true;
@@ -102,19 +102,19 @@ async function handleImposterInteraction(interaction) {
         const guildId = parts[3];
         const page = parseInt(parts[4], 10) || 0;
         const game = games.get(guildId);
-        if (!game) return safeReply(interaction, '⚠️ Game not found.');
+        if (!game) return safeReply(interaction, '⚠️ Ciyaarta lama helin.');
 
         if (kind === 'vote') {
-            if (game.phase !== 'vote') return safeReply(interaction, '⚠️ Voting is not active.');
+            if (game.phase !== 'vote') return safeReply(interaction, '⚠️ Codbixintu hadda ma socoto.');
             await beginVoting(game, interaction.client, page);
             return interaction.deferUpdate().catch(() => {});
         }
 
         if (kind === 'night') {
-            if (game.phase !== 'night') return safeReply(interaction, '⚠️ Night phase is not active.');
+            if (game.phase !== 'night') return safeReply(interaction, '⚠️ Habeenku hadda ma socdo.');
             const player = game.players.get(interaction.user.id);
             if (!player || !player.alive || !isImposter(player.role)) {
-                return safeReply(interaction, '⚠️ You are not an Imposter.');
+                return safeReply(interaction, '⚠️ Adigu Imposter ma tihid.');
             }
 
             const targets = aliveCitizens(game);
@@ -139,20 +139,20 @@ async function handleImposterInteraction(interaction) {
         const targetId = parts[4];
         const game = games.get(guildId);
         if (!game || game.phase !== 'night') {
-            return safeReply(interaction, '⚠️ Night phase is not active.');
+            return safeReply(interaction, '⚠️ Habeenku hadda ma socdo.');
         }
 
         const player = game.players.get(interaction.user.id);
         const target = game.players.get(targetId);
         if (!player || !player.alive || !isImposter(player.role)) {
-            return safeReply(interaction, '⚠️ You are not an Imposter.');
+            return safeReply(interaction, '⚠️ Adigu Imposter ma tihid.');
         }
         if (!target || !target.alive || isImposter(target.role)) {
-            return safeReply(interaction, '⚠️ That player cannot be targeted.');
+            return safeReply(interaction, '⚠️ Ciyaartoygaas lama beegsan karo.');
         }
 
         const na = game.nightActions;
-        if (!na) return safeReply(interaction, '⚠️ Night actions unavailable.');
+        if (!na) return safeReply(interaction, '⚠️ Ficillada habeenka lama heli karo.');
 
         // Prevent double-voting spam — update is allowed once, then buttons disabled
         const already = na.imposterVotes.has(interaction.user.id);
@@ -169,8 +169,8 @@ async function handleImposterInteraction(interaction) {
                 .setColor(0x9b59b6)
                 .setDescription(
                     already
-                        ? `🗡️ Vote updated: **${tn}**. Waiting for night to end...`
-                        : `🗡️ You voted to eliminate: **${tn}**. Waiting for night to end...`
+                        ? `🗡️ Codkaaga waa la cusbooneysiiyey: **${tn}**. Waxaa la sugayaa dhammaadka habeenka...`
+                        : `🗡️ Waxaad u codaysay in la saaro: **${tn}**. Waxaa la sugayaa dhammaadka habeenka...`
                 )],
             components: [],
         });
@@ -184,18 +184,18 @@ async function handleImposterInteraction(interaction) {
         const targetId = parts[3];
         const game = games.get(guildId);
         if (!game || game.phase !== 'vote') {
-            return safeReply(interaction, '⚠️ Voting is not active.');
+            return safeReply(interaction, '⚠️ Codbixintu hadda ma socoto.');
         }
 
         const voter = game.players.get(interaction.user.id);
         if (!voter || !voter.alive) {
-            return safeReply(interaction, '⚠️ You cannot vote.');
+            return safeReply(interaction, '⚠️ Ma codeyn kartid.');
         }
         if (interaction.user.id === targetId) {
-            return safeReply(interaction, '⚠️ You cannot vote for yourself.');
+            return safeReply(interaction, '⚠️ Naftaada uma codeyn kartid.');
         }
         if (!game.players.get(targetId)?.alive) {
-            return safeReply(interaction, '⚠️ That player is not alive.');
+            return safeReply(interaction, '⚠️ Ciyaartoygaas ma noola.');
         }
 
         const already = game.votes.has(interaction.user.id);
@@ -209,7 +209,7 @@ async function handleImposterInteraction(interaction) {
 
         await safeReply(
             interaction,
-            already ? `✅ Vote updated: **@${tn}**` : `✅ Your vote: **@${tn}**`
+            already ? `✅ Codkaaga waa la cusbooneysiiyey: **@${tn}**` : `✅ Codkaagu waa la diiwaangeliyey: **@${tn}**`
         );
         return;
     }

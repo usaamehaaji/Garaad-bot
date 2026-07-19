@@ -8,14 +8,14 @@ const ROLES = {
         emoji: '🗡️',
         name: 'Imposter',
         color: '#8b0000',
-        dm: 'At night, secretly vote with your fellow Imposters to eliminate a Citizen. Stay hidden during the day.',
+        dm: 'Habeenkii si qarsoodi ah ula codee Imposters-ka kale si aad Shacab u dishaan. Maalintii is qari.',
     },
     citizen: {
         id: 'citizen',
         emoji: '👤',
-        name: 'Citizen',
+        name: 'Shacab',
         color: '#2980b9',
-        dm: 'Discuss during the day, then vote to eliminate who you think is an Imposter. Survive the nights.',
+        dm: 'Maalintii dood sameeya, kadibna u codee qofka aad u malaynayso inuu yahay Imposter. Habeennada ka badbaad.',
     },
 };
 

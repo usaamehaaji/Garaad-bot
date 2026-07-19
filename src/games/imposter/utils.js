@@ -11,7 +11,7 @@ async function fetchName(uid, client) {
         const user = await client.users.fetch(uid);
         return user.username;
     } catch {
-        return 'User';
+        return 'Ciyaartoy';
     }
 }
 

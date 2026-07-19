@@ -7,9 +7,9 @@ const MAX_PLAYERS = 100;
 const TARGETS_PER_PAGE = 20;
 
 const LOBBY_SECONDS = 120;
-const NIGHT_SECONDS = 30;
-const DAY_SECONDS = 45;
-const VOTE_SECONDS = 30;
+const NIGHT_SECONDS = 45;
+const DAY_SECONDS = 120;
+const VOTE_SECONDS = 45;
 
 const COLORS = {
     lobby: 0x3498db,       // Blue

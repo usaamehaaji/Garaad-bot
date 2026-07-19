@@ -48,23 +48,25 @@ async function resolveVote(game, client) {
     }
 
     const sorted = tallyVotes(game.votes || new Map());
-    let desc = '🤷 No votes were cast. Moving to the next night.';
+    let desc = '🤷 Wax cod ah lama helin. Waxaa loo gudbayaa habeenka xiga.';
+    let eliminatedPlayer = false;
 
     if (sorted.length) {
         if (sorted.length > 1 && sorted[0][1] === sorted[1][1]) {
-            desc = '🤝 The vote is tied. Nobody is eliminated.';
+            desc = '🤝 Waxaa dhacay barbaro, qofna lama saarin.';
         } else {
             const eliminated = sorted[0][0];
             const player = game.players.get(eliminated);
             if (player?.alive) {
                 player.alive = false;
+                eliminatedPlayer = true;
                 const name = await fetchName(eliminated, client);
-                desc = `🪓 **${name}** has been eliminated.\nThey were **${roleLabel(player.role)}**.`;
+                desc = `🪓 **${name}** waa la saaray.\nWuxuu ahaa **${roleLabel(player.role)}**.`;
 
                 try {
                     const user = await client.users.fetch(eliminated);
                     await user.send(
-                        `🪓 You were voted out. You were a ${ROLES[player.role].name}.`
+                        `❌ Waa lagaa saaray. Waxaad ahayd ${ROLES[player.role].name}.`
                     ).catch(() => {});
                 } catch { /* ignore */ }
             }
@@ -73,8 +75,10 @@ async function resolveVote(game, client) {
 
     await game.textChannel.send({ embeds: [voteResultEmbed(desc)] });
 
-    const result = checkWin(game);
-    if (result) return endGame(game, client, result);
+    if (eliminatedPlayer) {
+        const result = checkWin(game);
+        if (result) return endGame(game, client, result);
+    }
 
     game.round++;
     game.voteMsg = null;

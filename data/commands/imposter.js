@@ -1,5 +1,5 @@
 // =====================================================================
-// COMMAND: ?imposter / ?mafia (alias)
+// COMMAND: ?imposter / ?mafia (alias) — Find the Imposter
 // =====================================================================
 
 const {
@@ -15,7 +15,7 @@ module.exports = async function imposterCmd(message) {
     const guildId = message.guild.id;
 
     if (games.has(guildId)) {
-        return message.reply('⚠️ An Imposter game is already running. Finish it or ask an admin to stop it.');
+        return message.reply('⚠️ Ciyaar Imposter ah ayaa durba socota. Dhammee ama admin ka codso inuu joojiyo.');
     }
 
     const game = createLobbyGame(message);

@@ -16,7 +16,6 @@ const {
     nightPickEmbed,
     morningEmbed,
 } = require('./embeds');
-const { checkWin } = require('./win');
 
 async function beginNight(game, client) {
     game.phase = 'night';
@@ -53,7 +52,6 @@ async function beginNight(game, client) {
 
 async function resolveNight(game, client) {
     const { beginDay } = require('./day');
-    const { endGame } = require('./index');
 
     clearTimeout(game.nightTimer);
     if (game.phase !== 'night') return;
@@ -74,28 +72,25 @@ async function resolveNight(game, client) {
         }
     }
 
-    let desc = '🛡️ Nobody died tonight.';
+    let desc = '🛡️ Caawa qofna lama dilin.';
 
     if (killed && game.players.get(killed)?.alive) {
         game.players.get(killed).alive = false;
         const name = await fetchName(killed, client);
 
         if (mysterious) {
-            desc = `👻 Nobody was attacked tonight. A citizen mysteriously disappeared.\n\n☠️ **${name}** is gone.`;
+            desc = `👻 Caawa Imposter-ku qof ma dooran.\n\n☠️ **${name}** oo Shacab ah ayaa si qarsoodi ah u lumay.`;
         } else {
-            desc = `☠️ **${name}** was eliminated during the night.\nThey were a **👤 Citizen**.`;
+            desc = `☠️ **${name}** ayaa habeenkii la dilay.\nWuxuu ahaa **👤 Shacab**.`;
         }
 
         try {
             const user = await client.users.fetch(killed);
-            await user.send('☠️ You were eliminated at night. You are out of the game.').catch(() => {});
+            await user.send('☠️ Habeenkii ayaa lagaa saaray. Ciyaarta waad ka baxday.').catch(() => {});
         } catch { /* ignore */ }
     }
 
     await game.textChannel.send({ embeds: [morningEmbed(desc)] });
-
-    const result = checkWin(game);
-    if (result) return endGame(game, client, result);
     return beginDay(game, client);
 }
 

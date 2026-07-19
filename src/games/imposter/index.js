@@ -51,7 +51,7 @@ async function startGame(game, client) {
 
     for (const [uid, { role }] of game.players) {
         const teammates = role === 'imposter' && imposterIds.length > 1
-            ? `\n\n🗡️ **Fellow Imposters:** ${imposterIds.filter(id => id !== uid).map(id => `<@${id}>`).join(', ')}`
+            ? `\n\n🗡️ **Imposters-ka kula jira:** ${imposterIds.filter(id => id !== uid).map(id => `<@${id}>`).join(', ')}`
             : '';
 
         try {

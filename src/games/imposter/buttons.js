@@ -8,17 +8,17 @@ function lobbyRow(hostId) {
     return new ActionRowBuilder().addComponents(
         new ButtonBuilder()
             .setCustomId(`imp_join_${hostId}`)
-            .setLabel('Join')
+            .setLabel('Ku Biir')
             .setEmoji('🟢')
             .setStyle(ButtonStyle.Success),
         new ButtonBuilder()
             .setCustomId(`imp_leave_${hostId}`)
-            .setLabel('Leave')
+            .setLabel('Ka Bax')
             .setEmoji('🔴')
             .setStyle(ButtonStyle.Danger),
         new ButtonBuilder()
             .setCustomId(`imp_start_${hostId}`)
-            .setLabel('Start Game')
+            .setLabel('Bilow Ciyaarta')
             .setEmoji('▶️')
             .setStyle(ButtonStyle.Primary),
     );
