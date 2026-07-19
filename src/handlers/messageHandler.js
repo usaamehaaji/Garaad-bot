@@ -61,7 +61,7 @@ const qcCmd       = require('../../data/commands/qc');
 const { bankCreateCmd, bankPasswordCmd, bankViewCmd, bankDirectoryCmd, depositAnyCmd, withdrawAnyCmd, allBanksCmd, jbCmd } = require('../../data/commands/economy/personalBank');
 const { createPublicBankCmd, listPublicBanksCmd, topBanksCmd, bankFundCmd, bankDepositCmd, bankWithdrawCmd, bankInfoCmd, bankOwnerCmd, bankHistoryCmd, bankCloseCmd } = require('../../data/commands/economy/publicBank');
 const { getDisTube } = require('../music/disTubeSetup');
-const mafiaCmd        = require('../../data/commands/werewolf');
+const imposterCmd     = require('../../data/commands/imposter');
 const { joinCmd, leaveCmd: vcLeaveCmd } = require('../../data/commands/join');
 const adminBankCmd    = require('../../data/commands/admin/adminBank');
 const saversCmd       = require('../../data/commands/savers');
@@ -102,19 +102,18 @@ module.exports = function setupMessageHandler(client) {
     client.on('messageCreate', async (message) => {
         if (message.author.bot)                  return;
 
-        // ── Mafia Night Chat: DM relay between alive mafia members ──
+        // ── Imposter Night Chat: DM relay between alive Imposters ──
         if (!message.guild && !message.content.startsWith(PREFIX)) {
             try {
-                const { games: wwGames, isMafia, alivePlayers } = require('../games/werewolf');
-                for (const game of wwGames.values()) {
+                const { games: impGames, isImposter, aliveImposters } = require('../games/imposter');
+                for (const game of impGames.values()) {
                     if (game.phase !== 'night') continue;
                     const player = game.players.get(message.author.id);
-                    if (!player || !player.alive || !isMafia(player.role)) continue;
+                    if (!player || !player.alive || !isImposter(player.role)) continue;
 
-                    // Relay to all other alive mafia
-                    const mafiaTeam = alivePlayers(game).filter(([, p]) => isMafia(p.role) && p !== player);
-                    if (!mafiaTeam.length) {
-                        await message.reply('🔪 Adiga kaligaa ah Mafia Killer-ka nool — cidna kuma jiro chat-ka.').catch(() => {});
+                    const team = aliveImposters(game).filter(([uid]) => uid !== message.author.id);
+                    if (!team.length) {
+                        await message.reply('🗡️ You are the only living Imposter — no one else is in the chat.').catch(() => {});
                         return;
                     }
 
@@ -124,16 +123,16 @@ module.exports = function setupMessageHandler(client) {
                         senderName = member?.nickname || message.author.globalName || message.author.username;
                     } catch {}
 
-                    for (const [uid] of mafiaTeam) {
+                    for (const [uid] of team) {
                         try {
                             const user = await client.users.fetch(uid);
-                            await user.send(`🔪 **${senderName}:** ${message.content}`).catch(() => {});
+                            await user.send(`🗡️ **${senderName}:** ${message.content}`).catch(() => {});
                         } catch {}
                     }
                     await message.react('✅').catch(() => {});
                     return;
                 }
-            } catch (e) { console.error('[MafiaChat] Error:', e.message); }
+            } catch (e) { console.error('[ImposterChat] Error:', e.message); }
         }
 
         if (!message.content.startsWith(PREFIX)) return;
@@ -526,16 +525,18 @@ module.exports = function setupMessageHandler(client) {
                 return vcRemoveCmd(message);
             }
 
-            // ── Mafia ──
-            case 'mafia': {
+            // ── Imposter (aliases: mafia, mafio) ──
+            case 'imposter':
+            case 'mafia':
+            case 'mafio': {
                 if (args[0] === 'stop' && isAdmin(userId)) {
-                    const { games: wwG, cancelGame } = require('../games/werewolf');
-                    const g = wwG.get(message.guild.id);
-                    if (!g) return message.reply('⚠️ Ciyaar ma jirto.');
+                    const { games: impG, cancelGame } = require('../games/imposter');
+                    const g = impG.get(message.guild.id);
+                    if (!g) return message.reply('⚠️ No Imposter game is running.');
                     cancelGame(message.guild.id);
-                    return message.reply('🛑 Mafia game la joojiyay.');
+                    return message.reply('🛑 Imposter game stopped.');
                 }
-                return mafiaCmd(message);
+                return imposterCmd(message);
             }
         }
     });

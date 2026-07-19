@@ -133,30 +133,34 @@ function buildShopEmbed() {
 
 function buildWwEmbed() {
     return new EmbedBuilder()
-        .setTitle('🔪 Mafia — Ciyaarta')
-        .setColor('#c0392b')
+        .setTitle('🎭 Imposter — Game')
+        .setColor('#3498db')
         .setDescription(
-            `**🎮 Bilow**\n` +
-            `**\`${PREFIX}mafio\`** — Lobby fur (3–100 qof, 2 min)\n` +
-            `**\`${PREFIX}mafio stop\`** — ⚙️ Admin: game jooji\n\n` +
+            `**🎮 Start**\n` +
+            `**\`${PREFIX}imposter\`** — Open lobby (aliases: \`${PREFIX}mafia\`)\n` +
+            `**\`${PREFIX}imposter stop\`** — ⚙️ Admin: stop game\n\n` +
 
-            `**⏱️ Wareegyada**\n` +
-            `🌙 **Habeenka** (30s) — Killer Mafia DM ayuu qof ku doortaa\n` +
-            `☀️ **Maalinta** (45s) — Ku hadla channel-ka\n` +
-            `🗳️ **Codeynta** (30s) — Qofka Mafia ah codeeya\n\n` +
+            `**Lobby**\n` +
+            `🟢 Join · 🔴 Leave · ▶️ Start Game (host only)\n` +
+            `Minimum **3** players. Host can start anytime; timer is backup.\n\n` +
 
-            `**🔪 Killer Mafia**\n` +
-            `5 qof kasta waxaa ku jira **1 Killer Mafia**: 5=1, 10=2, 15=3.\n` +
-            `Habeenkii Mafia waxay doortaan qof Shacab ah oo la dilo.\n\n` +
+            `**⏱️ Phases**\n` +
+            `🌙 **Night** (30s) — Imposters secretly pick a victim\n` +
+            `☀️ **Day** (45s) — Discuss in the channel\n` +
+            `🗳️ **Voting** (30s) — Everyone votes; ties = nobody out\n\n` +
 
-            `**👥 Shacab**\n` +
-            `Shacabku maalintii way doodaan, kadibna way codeeyaan qofka ay u malaynayaan inuu Mafia yahay.\n\n` +
+            `**🗡️ Imposters**\n` +
+            `3–5→1 · 6–10→2 · 11–15→3 · 16–20→4\n` +
+            `If nobody is attacked, a Citizen mysteriously disappears.\n\n` +
 
-            `**🏆 Guusha**\n` +
-            `🔪 Mafia: Mafia ≥ Shacab tirada\n` +
-            `👥 Shacab: Dhammaan Mafia la saaro`
+            `**👤 Citizens**\n` +
+            `Find and vote out the Imposters before they take over.\n\n` +
+
+            `**🏆 Win**\n` +
+            `👤 Citizens: all Imposters eliminated\n` +
+            `🗡️ Imposters: Imposters ≥ Citizens`
         )
-        .setFooter({ text: 'Garaad Bot • Mafia • ?mafio start' });
+        .setFooter({ text: 'Garaad Bot • Imposter • ?imposter' });
 }
 
 module.exports = async function helpCommand(message) {
