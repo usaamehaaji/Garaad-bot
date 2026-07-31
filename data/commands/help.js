@@ -38,6 +38,7 @@ function buildEduEmbed(userId) {
             statusLine +
             `\n**🎮 Ciyaaraha Aqoonta**\n` +
             `**\`${PREFIX}solo\`** — Su'aal kuu yimaada, jawaab degdeg (+3 IQ)\n` +
+            `**\`${PREFIX}guess\`** — Qiyaas waddanka calanka iyo caasimadda (+1 IQ)\n` +
             `**\`${PREFIX}duel @qof\`** — Tartam qof, IQ ayaa danbeeysa\n` +
             `**\`${PREFIX}deul 2v2\`** — Team duel (1v1 / 2v2 / 3v3)\n` +
             `**\`${PREFIX}quiz\`** — Koox la ciyaar, tartam\n\n` +

@@ -58,6 +58,7 @@ const { friendCmd, unfriendCmd, friendsListCmd, proposeCmd, partnerCmd, breakupC
 const personalCmd = require('../../data/commands/personal');
 const qCmd        = require('../../data/commands/q');
 const qcCmd       = require('../../data/commands/qc');
+const guessCmd    = require('../../data/commands/guess');
 const { bankCreateCmd, bankPasswordCmd, bankViewCmd, bankDirectoryCmd, depositAnyCmd, withdrawAnyCmd, allBanksCmd, jbCmd } = require('../../data/commands/economy/personalBank');
 const { createPublicBankCmd, listPublicBanksCmd, topBanksCmd, bankFundCmd, bankDepositCmd, bankWithdrawCmd, bankInfoCmd, bankOwnerCmd, bankHistoryCmd, bankCloseCmd } = require('../../data/commands/economy/publicBank');
 const { getDisTube } = require('../music/disTubeSetup');
@@ -180,6 +181,11 @@ module.exports = function setupMessageHandler(client) {
             case 'qc':
             case 'quiz_category':
                 return qcCmd(message, args);
+
+            case 'guess':
+            case 'gues':
+            case 'country':
+                return guessCmd(message, args);
 
 
 
