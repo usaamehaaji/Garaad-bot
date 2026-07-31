@@ -4,3 +4,4 @@ data/users.json
 data/economy.json
 data/market.json
 package-lock.json
+data/cache/

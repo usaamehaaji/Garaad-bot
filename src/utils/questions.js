@@ -12,14 +12,20 @@ const { checkUser, shuffleArray } = require('./helpers');
 const { TWO_WEEKS_MS, PREFIX }    = require('../config');
 
 const QUESTIONS_DIR = path.join(__dirname, '..', '..', 'data', 'questions');
+const CACHE_QUESTIONS_DIR = path.join(__dirname, '..', '..', 'data', 'cache', 'questions');
 const GAMES = ['solo', 'duel', 'quiz', 'tournament', 'team'];
 const questionsByGame = {};
 
 function loadQuestionsFromDisk() {
     for (const game of GAMES) {
         try {
-            const file = path.join(QUESTIONS_DIR, `${game}.json`);
-            questionsByGame[game] = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const cacheFile = path.join(CACHE_QUESTIONS_DIR, `${game}.json`);
+            if (fs.existsSync(cacheFile)) {
+                questionsByGame[game] = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+            } else {
+                const file = path.join(QUESTIONS_DIR, `${game}.json`);
+                questionsByGame[game] = JSON.parse(fs.readFileSync(file, 'utf8'));
+            }
         } catch (e) {
             console.warn(`[Questions] Faylka ${game}.json lama helin — poolka madhan yahay`);
             questionsByGame[game] = [];

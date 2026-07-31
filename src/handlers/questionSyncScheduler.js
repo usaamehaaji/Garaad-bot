@@ -10,7 +10,7 @@ const { reloadQuestions, getQuestionCounts } = require('../utils/questions');
 
 const INTERVAL_MS = 15 * 60 * 1000; // 15 daqiiqo
 const GAMES = ['solo', 'duel', 'quiz', 'tournament', 'team'];
-const QUESTIONS_DIR = path.join(__dirname, '../../data/questions');
+const CACHE_QUESTIONS_DIR = path.join(__dirname, '../../data/cache/questions');
 
 function githubApiRequest(method, urlPath, token) {
     return new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ function githubApiRequest(method, urlPath, token) {
 
 async function pullQuestionFile(repo, token, game) {
     const remote = `data/questions/${game}.json`;
-    const local  = path.join(QUESTIONS_DIR, `${game}.json`);
+    const local  = path.join(CACHE_QUESTIONS_DIR, `${game}.json`);
 
     const data = await githubApiRequest('GET', `/repos/${repo}/contents/${remote}`, token);
     if (!data || !data.content) return false;
@@ -59,10 +59,18 @@ async function pullQuestionFile(repo, token, game) {
     let localCount = 0;
     if (fs.existsSync(local)) {
         try { localCount = JSON.parse(fs.readFileSync(local, 'utf8')).length; } catch { localCount = 0; }
+    } else {
+        const fallback = path.join(__dirname, '../../data/questions', `${game}.json`);
+        if (fs.existsSync(fallback)) {
+            try { localCount = JSON.parse(fs.readFileSync(fallback, 'utf8')).length; } catch { localCount = 0; }
+        }
     }
 
     if (remoteParsed.length <= localCount) return false;
 
+    if (!fs.existsSync(CACHE_QUESTIONS_DIR)) {
+        fs.mkdirSync(CACHE_QUESTIONS_DIR, { recursive: true });
+    }
     fs.writeFileSync(local, JSON.stringify(remoteParsed, null, 2));
     console.log(`[QuestionSync] ✅ ${game}.json: ${localCount} → ${remoteParsed.length} su'aalood`);
     return true;
