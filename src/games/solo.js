@@ -134,10 +134,6 @@ async function sendQuestion(messageOrInteraction, qNumber, currentMsg = null) {
 
         const row = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-                .setCustomId(`solo_leaderboard_${userId}`)
-                .setLabel('🏆 IQ Leaderboard')
-                .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
                 .setCustomId(`solo_replay_${userId}`)
                 .setLabel('🎮 Ciyaar mar kale')
                 .setStyle(ButtonStyle.Success),
@@ -412,6 +408,7 @@ async function restoreSoloGames(client) {
     if (restored > 0) console.log(`[Solo] ✅ ${restored} solo game(s) restored from database`);
 }
 
+// ── "Ciyaar mar kale" → muuji doorashada tirada su'aalaha ─────────────
 async function handleSoloReplay(interaction) {
     const userId = interaction.customId.replace('solo_replay_', '');
     if (interaction.user.id !== userId) {
@@ -422,8 +419,50 @@ async function handleSoloReplay(interaction) {
         return interaction.reply({ content: `⚠️ Waxaad ku jirtaa ciyaar **${busy}**!`, flags: 64 });
     }
 
+    // Muuji 4 baadhan oo tirada su'aalaha ah
+    const countRow = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+            .setCustomId(`solo_replaycount_10_${userId}`)
+            .setLabel('10 Su\'aalood')
+            .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+            .setCustomId(`solo_replaycount_15_${userId}`)
+            .setLabel('15 Su\'aalood')
+            .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+            .setCustomId(`solo_replaycount_20_${userId}`)
+            .setLabel('20 Su\'aalood')
+            .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+            .setCustomId(`solo_replaycount_25_${userId}`)
+            .setLabel('25 Su\'aalood')
+            .setStyle(ButtonStyle.Primary),
+    );
+
+    return interaction.reply({
+        content: `🎮 **Imisa su'aalood ayaad rabtaa?** Dooro hoos:`,
+        components: [countRow],
+        flags: 64,
+    });
+}
+
+// ── Qofku doortay tirada su'aalaha → bilow ciyaarta ───────────────────
+async function handleSoloReplayCount(interaction) {
+    // customId: solo_replaycount_<count>_<userId>
+    const parts  = interaction.customId.split('_');
+    // parts: ['solo','replaycount','<count>','<userId>']
+    const count  = parseInt(parts[2]);
+    const userId = parts[3];
+
+    if (interaction.user.id !== userId) {
+        return interaction.reply({ content: 'Ciyaartaada qoro!', flags: 64 });
+    }
+    const busy = require('../store').isUserBusy(userId);
+    if (busy) {
+        return interaction.reply({ content: `⚠️ Waxaad ku jirtaa ciyaar **${busy}**!`, flags: 64 });
+    }
+
     resetSeenSoloQuestions(userId);
-    const count = SOLO_DEFAULT_QUESTIONS;
     const picked = pickQuestionsForGame(userId, 'solo', count);
     if (!picked || picked.length === 0) {
         return interaction.reply({
@@ -440,7 +479,8 @@ async function handleSoloReplay(interaction) {
         channelId: interaction.channel.id,
     });
 
-    await interaction.update({ components: [] }).catch(() => {});
+    // Tirtir baadhanada doorashada
+    await interaction.update({ content: `✅ **${count} su'aalood** la doortay — bilaabaysa! 🎯`, components: [] }).catch(() => {});
     await interaction.followUp({
         content: `🔄 **Dib-u-ciyaar** bilaabatay — **${picked.length}** su'aalood. IQ ma heli doontid, BTC kaliya! 💰`,
     }).catch(() => {});
@@ -454,4 +494,4 @@ async function handleSoloReplay(interaction) {
     sendQuestion(fakeMsg, 1);
 }
 
-module.exports = { sendQuestion, handleSoloAnswer, handleSoloLeaderboard, handleSoloReplay, restoreSoloGames };
+module.exports = { sendQuestion, handleSoloAnswer, handleSoloLeaderboard, handleSoloReplay, handleSoloReplayCount, restoreSoloGames };
