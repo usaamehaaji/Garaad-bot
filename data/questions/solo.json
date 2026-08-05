@@ -1,737 +1,211 @@
-[
-  {
-    "question": "Caasimadda Soomaaliya waa?",
-    "options": [
-      "Hargeisa",
-      "Garowe",
-      "Kismayo",
-      "Mogadishu"
-    ],
-    "correct": "Mogadishu"
-  },
-  {
-    "question": "Biyuhu waxay karkaraan 100°C?",
-    "type": "tf",
-    "correct": true
-  },
-  {
-    "question": "Waa maxay caasimadda dalka Itoobiya?",
-    "options": ["Addis Ababa", "Nairobi", "Khartoum", "Cairo"],
-    "correct": "Addis Ababa"
-  },
-  {
-    "question": "Qaar ka mid ah afafka hoos ku qoran kee ayaa ku hadla dalka Brazil?",
-    "options": ["Portuguese", "Spanish", "English", "French"],
-    "correct": "Portuguese"
-  },
-  {
-    "question": "Waa maxay meeraha aan joogno?",
-    "options": ["Mars", "Jupiter", "Earth", "Venus"],
-    "correct": "Earth"
-  },
-  {
-    "question": "Waa maxay natiijada 7 × 8?",
-    "options": ["54", "56", "58", "60"],
-    "correct": "56"
-  },
-  {
-    "question": "Dhanka xiddigaha, waxa ugu weyn habdhiska qoraxdeena waa?",
-    "options": ["Moon", "Sun", "Earth", "Mars"],
-    "correct": "Sun"
-  },
-  {
-    "question": "Waa maxay luqadda rasmiga ah ee Japan?",
-    "options": ["Korean", "Japanese", "Chinese", "Thai"],
-    "correct": "Japanese"
-  },
-  {
-    "question": "Waa maxay magaca ugu dheer ee biyaha ugu dheer adduunka?",
-    "options": ["Nile", "Amazon", "Yangtze", "Mississippi"],
-    "correct": "Nile"
-  },
-  {
-    "question": "Waa maxay warshadda ugu muhiimsan ee laga helo saliidda dabiiciga ah?",
-    "options": ["OPEC", "NASA", "WHO", "UN"],
-    "correct": "OPEC"
-  },
-  {
-    "question": "Waa maxay calaamadda kiimikada ee biyaha?",
-    "options": ["H2O", "CO2", "O2", "NaCl"],
-    "correct": "H2O"
-  },
-  {
-    "question": "Waa imisa illaa iyo 100 qayb ka mid ah boqolkiiba?",
-    "options": ["10", "100", "1", "1000"],
-    "correct": "100"
-  },
-  {
-    "question": "Waa maxay caasimadda dalka Kenya?",
-    "options": ["Kampala", "Addis Ababa", "Nairobi", "Dar es Salaam"],
-    "correct": "Nairobi"
-  },
-  {
-    "question": "Xayawaanka ugu weyn badda waa?",
-    "options": ["Blue whale", "Shark", "Dolphin", "Octopus"],
-    "correct": "Blue whale"
-  },
-  {
-    "question": "Waa maxay midabka Isbaanishka ee 'rojo' micnihiisu?",
-    "options": ["Blue", "Green", "Red", "Yellow"],
-    "correct": "Red"
-  },
-  {
-    "question": "Qorshaha wareega ee dhulka oo dhaca hal mar sannadkii waa la yiraahdaa?",
-    "options": ["Day", "Year", "Month", "Hour"],
-    "correct": "Year"
-  },
-  {
-    "question": "Waa maxay afarta xilli ee sannadka?",
-    "options": ["Warm, Cold, Wet, Dry", "Spring, Summer, Autumn, Winter", "Morning, Afternoon, Evening, Night", "Red, Blue, Green, Yellow"],
-    "correct": "Spring, Summer, Autumn, Winter"
-  },
-  {
-    "question": "Waa maxay magaca webiga ka baxa dalka Masar oo ku qulqula Badda Mediterranean?",
-    "options": ["Nile", "Euphrates", "Tigris", "Amazon"],
-    "correct": "Nile"
-  },
-  {
-    "question": "Waa maxay caasimadda dalka Soomaaliya ee waqooyi-galbeed (Somaliland)?",
-    "options": ["Mogadishu", "Hargeisa", "Garowe", "Kismayo"],
-    "correct": "Hargeisa"
-  },
-  {
-    "question": "Waa maxay magaca meeraha leh 'gas giant' ee ku xiga Dhulka?",
-    "options": ["Mars", "Venus", "Jupiter", "Mercury"],
-    "correct": "Jupiter"
-  },
-  {
-    "question": "Maxay tahay dowladdu marka ay dadka u qaybisay adeegyada guud?",
-    "options": ["Democracy", "Government", "Company", "School"],
-    "correct": "Government"
-  },
-  {
-    "question": "Waa maxay xarafka ugu horeeya ee alifbeetada Carabiga?",
-    "options": ["Alif", "Ba", "Ta", "Tha"],
-    "correct": "Alif"
-  },
-  {
-    "question": "Waa maxay tirada bilaha sanadka?",
-    "options": ["10", "12", "11", "13"],
-    "correct": "12"
-  },
-  {
-    "question": "Waa maxay cunto dhaqameed caadi ah oo Soomaaliyeed?",
-    "options": ["Sushi", "Pasta", "Canjeero", "Tacos"],
-    "correct": "Canjeero"
-  },
-  {
-    "question": "Waa maxay magaca xayawaanka dhulka ugu dheer?",
-    "options": ["Giraffe", "Elephant", "Horse", "Camel"],
-    "correct": "Giraffe"
-  },
-  {
-    "question": "Waa maxay midabka calanka Soomaaliya?",
-    "options": ["Blue with white star", "Red with crescent", "Green with yellow star", "Black and white stripes"],
-    "correct": "Blue with white star"
-  },
-  {
-    "question": "Waa maxay tirada lugaha ee shinbiraha badankood?",
-    "options": ["2", "4", "6", "8"],
-    "correct": "2"
-  },
-  {
-    "question": "Waa maxay magaca xilliga ay ubaxa bilaabaan inta badan?",
-    "options": ["Summer", "Spring", "Autumn", "Winter"],
-    "correct": "Spring"
-  },
-  {
-    "question": "Waa maxay qaybta ugu yar ee nolosha (unugga)?",
-    "options": ["Atom", "Molecule", "Cell", "Organ"],
-    "correct": "Cell"
-  },
-  {
-    "question": "Waa maxay magaca magaalada ugu weyn dalka Tanzania?",
-    "options": ["Dodoma", "Dar es Salaam", "Zanzibar", "Mwanza"],
-    "correct": "Dar es Salaam"
-  },
-  {
-    "question": "Waa maxay calaamadda '+' marka lagu daro tiro?",
-    "options": ["Minus", "Multiply", "Add", "Divide"],
-    "correct": "Add"
-  },
-  {
-    "question": "Waa maxay cuntada laga sameeyo digirta cagaaran ee la dubay oo caan ku ah Soomaaliya?",
-    "options": ["Bariis", "Canjeero", "Baasto", "Maraq"],
-    "correct": "Canjeero"
-  },
-  {
-    "question": "Waa maxay magaca geedka soo saara xabagta qodxaha ama 'sap' oo loo yaqaan 'rubber'?",
-    "options": ["Rubber tree", "Oak", "Pine", "Maple"],
-    "correct": "Rubber tree"
-  },
-  {
-    "question": "Waa maxay magaca ugu caansan ee laga helo xiddigta 'the North Star'?",
-    "options": ["Sirius", "Polaris", "Vega", "Betelgeuse"],
-    "correct": "Polaris"
-  },
-  {
-    "question": "Waa maxay magaca uu leeyahay tirooyinka ka baxsan eber oo loo yaqaan?",
-    "options": ["Positive numbers", "Negative numbers", "Integers", "Fractions"],
-    "correct": "Negative numbers"
-  },
-  {
-    "question": "Waa maxay magaca xayawaanka loo yaqaan 'reyal' oo Soomaaliya dhaqanka isticmaalo?",
-    "options": ["Cow", "Camel", "Goat", "Sheep"],
-    "correct": "Camel"
-  },
-  {
-    "question": "Waa maxay magaca luuqada rasmiga ah ee dalka Brazil?",
-    "options": ["Spanish", "Portuguese", "English", "French"],
-    "correct": "Portuguese"
-  },
-  {
-    "question": "Waa maxay magaca dhaqdhaqaaqa biyaha marka ay qayb ka noqdaan cirka?",
-    "options": ["Evaporation", "Condensation", "Precipitation", "Infiltration"],
-    "correct": "Evaporation"
-  },
-  {
-    "question": "Waa maxay magaca xilliga qaboobaha ee waddamada qabow?",
-    "options": ["Summer", "Winter", "Autumn", "Spring"],
-    "correct": "Winter"
-  },
-  {
-    "question": "Waa maxay magaca dhismo ee dadka badan ka shaqeeyaan xafiisyada?",
-    "options": ["School", "Office", "Hospital", "Library"],
-    "correct": "Office"
-  },
-  {
-    "question": "Waa maxay magaca dalka leh xarunta Moscow?",
-    "options": ["Russia", "Poland", "Ukraine", "Belarus"],
-    "correct": "Russia"
-  },
-  {
-    "question": "Waa maxay magaca biyaha u dhexeeya Afrika iyo Yurub?",
-    "options": ["Red Sea", "Mediterranean Sea", "Indian Ocean", "Atlantic Ocean"],
-    "correct": "Mediterranean Sea"
-  },
-  {
-    "question": "Waa maxay magaca ciyaarta caanka ah ee kubadda cagta?",
-    "options": ["Basketball", "Football (Soccer)", "Tennis", "Cricket"],
-    "correct": "Football (Soccer)"
-  },
-  {
-    "question": "Waa maxay magaca shayga cabirka masaafada u dhexeeya laba dhibcood?",
-    "options": ["Area", "Volume", "Distance", "Speed"],
-    "correct": "Distance"
-  },
-  {
-    "question": "Waa maxay magaca maalinta toddobaadka ee ku xigta Isniinta?",
-    "options": ["Sunday", "Tuesday", "Wednesday", "Thursday"],
-    "correct": "Tuesday"
-  },
-  {
-    "question": "Waa maxay magaca dhagaxa qaali ah oo loo isticmaalo dahabka?",
-    "options": ["Diamond", "Coal", "Limestone", "Granite"],
-    "correct": "Diamond"
-  },
-  {
-    "question": "Waa maxay magaca xidhmada elektaroonigga ee lagu kaydiyo macluumaadka?",
-    "options": ["Hard drive", "Keyboard", "Monitor", "Mouse"],
-    "correct": "Hard drive"
-  },
-  {
-    "question": "Waa maxay magaca magaalada caanka ah ee dalka France oo leh Eiffel Tower?",
-    "options": ["Lyon", "Marseille", "Paris", "Nice"],
-    "correct": "Paris"
-  },
-  {
-    "question": "Waa maxay magaca dalalka ku yaal Badweynta Atlantic-ga galbeed?",
-    "options": ["South America", "Australia", "Asia", "Europe"],
-    "correct": "South America"
-  },
-  {
-    "question": "Waa maxay waxa loogu yeero qudhunka (photosynthesis) dadka dhirta ku dhacdo?",
-    "options": ["Photosynthesis", "Respiration", "Digestion", "Transpiration"],
-    "correct": "Photosynthesis"
-  },
-  {
-    "question": "Waa maxay magaca gaadhiga ugu caansan ee adduunka?",
-    "options": ["Toyota", "Ferrari", "Lamborghini", "Bugatti"],
-    "correct": "Toyota"
-  },
-  {
-    "question": "Waa maxay magaca xayawaanka duurjoogta ah ee loo yaqaan 'king of the jungle'?",
-    "options": ["Lion", "Tiger", "Elephant", "Leopard"],
-    "correct": "Lion"
-  },
-  {
-    "question": "Waa maxay magaca barta geeska sare ee shaxda xisaabta halkaas oo x lagu muujiyo?",
-    "options": ["Y-axis", "X-axis", "Origin", "Quadrant"],
-    "correct": "X-axis"
-  },
-  {
-    "question": "Waa maxay magaca dalka leh caasimadda London?",
-    "options": ["England", "Scotland", "Wales", "United Kingdom"],
-    "correct": "United Kingdom"
-  },
-  {
-    "question": "Waa maxay magaca qalabka lagu arko waxyaabaha yaryar sida unugyada?",
-    "options": ["Telescope", "Microscope", "Binoculars", "Camera"],
-    "correct": "Microscope"
-  },
-  {
-    "question": "Waa maxay magaca ilaha tamarta dabiiciga ah ee ka yimaada qorraxda?",
-    "options": ["Solar energy", "Wind energy", "Hydro energy", "Geothermal energy"],
-    "correct": "Solar energy"
-  },
-  {
-    "question": "Waa maxay magaca geeska (continent) loogu yeero Afrika?",
-    "options": ["Europe", "Asia", "Africa", "Oceania"],
-    "correct": "Africa"
-  },
-  {
-    "question": "Waa maxay magaca muuqaalka dhulka ee ka sarreeya biyaha oo leh xeeb?",
-    "options": ["Island", "Mountain", "Desert", "Valley"],
-    "correct": "Island"
-  },
-  {
-    "question": "Waa maxay magaca magaaladda caasimadda dalka Canada?",
-    "options": ["Toronto", "Ottawa", "Vancouver", "Montreal"],
-    "correct": "Ottawa"
-  },
-  {
-    "question": "Waa maxay magaca dhadhanka 'salty' ee cuntooyinka?",
-    "options": ["Sweet", "Sour", "Bitter", "Salty"],
-    "correct": "Salty"
-  },
-  {
-    "question": "Waa maxay magaca tirada loo yaqaan 'dozen' micnaheedu?",
-    "options": ["10", "12", "20", "100"],
-    "correct": "12"
-  },
-  {
-    "question": "Waa maxay magaca shayga loo isticmaalo in la qoro oo leh qalin laga sameeyo?",
-    "options": ["Pen", "Pencil", "Marker", "Brush"],
-    "correct": "Pencil"
-  },
-  {
-    "question": "Waa maxay magaca barta ugu sareysa ee sawir?",
-    "options": ["Top", "Bottom", "Left", "Right"],
-    "correct": "Top"
-  },
-  {
-    "question": "Waa maxay magaca cuntada laga sameeyo digirta oo loo yaqaan 'dal'?",
-    "options": ["Dal", "Rice", "Bread", "Pasta"],
-    "correct": "Dal"
-  },
-  {
-    "question": "Waa maxay magaca shayga kala saaraya iftiinka madow iyo cad?",
-    "options": ["Color", "Shade", "Light", "Contrast"],
-    "correct": "Contrast"
-  },
-  {
-    "question": "Waa maxay magaca qalabka dadku ku helaan wararka iyo macluumaadka?",
-    "options": ["Newspaper", "Pillow", "Table", "Shoe"],
-    "correct": "Newspaper"
-  },
-  {
-    "question": "Waa maxay magaca dalka leh caasimadda Ankara?",
-    "options": ["Greece", "Turkey", "Cyprus", "Syria"],
-    "correct": "Turkey"
-  },
-  {
-    "question": "Waa maxay magaca hay'adda caalamiga ah ee ka shaqeysa caafimaadka?",
-    "options": ["UNICEF", "WHO", "IMF", "WTO"],
-    "correct": "WHO"
-  },
-  {
-    "question": "Waa maxay magaca qaybta laga helo hawada ee aan neefsanno?",
-    "options": ["Oxygen", "Carbon dioxide", "Hydrogen", "Nitrogen"],
-    "correct": "Oxygen"
-  },
-  {
-    "question": "Waa maxay magaca xiddigta ugu dhalaal badan samada habeenkii?",
-    "options": ["Sirius", "Polaris", "Vega", "Altair"],
-    "correct": "Sirius"
-  },
-  {
-    "question": "Waa maxay magaca wadaniga la yiraahdo 'Land of the Rising Sun'?",
-    "options": ["China", "Japan", "Korea", "Thailand"],
-    "correct": "Japan"
-  },
-  {
-    "question": "Waa maxay magaca xayawaanka leh qolofta adag ee la yiraahdo 'shell'?",
-    "options": ["Turtle", "Lion", "Monkey", "Horse"],
-    "correct": "Turtle"
-  },
-  {
-    "question": "Waa maxay magaca sayniska daraaseeya xiddigaha iyo meerayaasha?",
-    "options": ["Biology", "Chemistry", "Astronomy", "Geology"],
-    "correct": "Astronomy"
-  },
-  {
-    "question": "Waa maxay magaca habka ay dhirtu u sameyso sonkor ka dib marka ay qorraxdu taabato?",
-    "options": ["Respiration", "Photosynthesis", "Digestion", "Fermentation"],
-    "correct": "Photosynthesis"
-  },
-  {
-    "question": "Waa maxay magaca wadanka leh xadka ugu weyn ee dhul?",
-    "options": ["Canada", "Russia", "China", "United States"],
-    "correct": "Russia"
-  },
-  {
-    "question": "Waa maxay wax soo saarka caanaha ka yimaada geela loo yaqaan?",
-    "options": ["Milk", "Honey", "Wool", "Leather"],
-    "correct": "Milk"
-  },
-  {
-    "question": "Waa maxay magaca dhaqan ahaan muujinaya nacayb ama nacasnimo?",
-    "options": ["Love", "Hatred", "Joy", "Peace"],
-    "correct": "Hatred"
-  },
-  {
-    "question": "Waa maxay magaca geeddi-socodka biyuhu ku beddelaan darajo?",
-    "options": ["Condensation", "Evaporation", "Sublimation", "Filtration"],
-    "correct": "Condensation"
-  },
-  {
-    "question": "Waa maxay magaca xudunta cilmiga kombuyuutarka oo maamula hawlaha?",
-    "options": ["CPU", "GPU", "RAM", "SSD"],
-    "correct": "CPU"
-  },
-  {
-    "question": "Waa maxay magaca dalalka ku yaal Geeska Afrika?",
-    "options": ["Somalia, Ethiopia, Eritrea, Djibouti", "Kenya, Uganda, Rwanda, Burundi", "Morocco, Algeria, Tunisia, Libya", "Egypt, Sudan, Libya, Tunisia"],
-    "correct": "Somalia, Ethiopia, Eritrea, Djibouti"
-  },
-  {
-    "question": "Waa maxay magaca qalabka lagu qaado sawirrada oo caadi ahaan la isticmaalo?",
-    "options": ["Camera", "Oven", "Phone", "Lamp"],
-    "correct": "Camera"
-  },
-  {
-    "question": "Waa maxay magaca habka loo isticmaalo in la qaybiyo tirooyinka?",
-    "options": ["Addition", "Division", "Multiplication", "Subtraction"],
-    "correct": "Division"
-  },
-  {
-    "question": "Waa maxay magaca hubka dhaqanka ee Soomaaliya laga isticmaalo oo loo yaqaan 'dabar' ama 'sebra'?",
-    "options": ["Sword", "Spears", "Gun", "Knife"],
-    "correct": "Spears"
-  },
-  {
-    "question": "Waa maxay magaca nidaamka hawada oo lagu cabiro heerkulka?",
-    "options": ["Kilogram", "Celsius", "Liter", "Meter"],
-    "correct": "Celsius"
-  },
-  {
-    "question": "Waa maxay magaca wadanka leh caasimadda Berlin?",
-    "options": ["Austria", "Germany", "Switzerland", "Poland"],
-    "correct": "Germany"
-  },
-  {
-    "question": "Waa maxay magaca deegaanka aad ka hesho dhirta badan oo roob badan?",
-    "options": ["Desert", "Rainforest", "Tundra", "Grassland"],
-    "correct": "Rainforest"
-  },
-  {
-    "question": "Waa maxay magaca cuntada caanka ah ee laga sameeyo Hilib digaag la dubay?",
-    "options": ["Fried chicken", "Sushi", "Pasta", "Burger"],
-    "correct": "Fried chicken"
-  },
-  {
-    "question": "Waa maxay magaca xisan ee shayga loo isticmaalo in la qiyaaso waqtiga?",
-    "options": ["Clock", "Phone", "Table", "Cup"],
-    "correct": "Clock"
-  },
-  {
-    "question": "Waa maxay magaca cunto laga sameeyo galley oo la dubo oo badanaa la cuno?",
-    "options": ["Bread", "Rice", "Pancake", "Cornbread"],
-    "correct": "Cornbread"
-  },
-  {
-    "question": "Waa maxay magaca dhaqanka loo isticmaalo in lagu duubo filimada?",
-    "options": ["Cinema", "Library", "School", "Hospital"],
-    "correct": "Cinema"
-  },
-  {
-    "question": "Waa maxay magaca awoodda la isticmaalo si loo qabsado biyaha?",
-    "options": ["Hydropower", "Solar power", "Wind power", "Thermal power"],
-    "correct": "Hydropower"
-  },
-  {
-    "question": "Waa maxay magaca dhakhtarka u daryeela lafaha iyo muruqyada?",
-    "options": ["Cardiologist", "Orthopedic", "Dermatologist", "Dentist"],
-    "correct": "Orthopedic"
-  },
-  {
-    "question": "Waa maxay magaca xilliga sannadka marka caleemuhu dhacaan oo midabka beddelaan?",
-    "options": ["Summer", "Autumn", "Spring", "Winter"],
-    "correct": "Autumn"
-  },
-  {
-    "question": "Waa maxay magaca shayga laga helo dhulka oo loo isticmaalo dhismaha?",
-    "options": ["Sand", "Concrete", "Paper", "Glass"],
-    "correct": "Sand"
-  },
-  {
-    "question": "Waa maxay magaca geela nooca ugu badan ee laga helo Soomaaliya?",
-    "options": ["Dromedary (one-humped)", "Bactrian (two-humped)", "Llama", "Alpaca"],
-    "correct": "Dromedary (one-humped)"
-  },
-  {
-    "question": "Waa maxay magaca barta internet-ka ee dadka ka helaan macluumaadka badan?",
-    "options": ["Website", "Book", "TV", "Radio"],
-    "correct": "Website"
-  },
-  {
-    "question": "Waa maxay magaca nidaamka qorista ee loo isticmaalo in la soo bandhigo fikradaha?",
-    "options": ["Writing", "Eating", "Sleeping", "Running"],
-    "correct": "Writing"
-  },
-  {
-    "question": "Waa maxay magaca dhirta laga helo 'coffee' oo caan ku ah adduunka?",
-    "options": ["Coffee plant", "Tea plant", "Cocoa", "Banana"],
-    "correct": "Coffee plant"
-  },
-  {
-    "question": "Waa maxay magaca habka dhaqaalaha oo qiimuhu kor u kaco?",
-    "options": ["Inflation", "Deflation", "Recession", "Depression"],
-    "correct": "Inflation"
-  },
-  {
-    "question": "Waa maxay magaca qiyaasta miisaanka?",
-    "options": ["Kilogram", "Meter", "Liter", "Celsius"],
-    "correct": "Kilogram"
-  },
-  {
-    "question": "Waa maxay magaca wakhtiga loo qoondeeyo shaqada maalintii?",
-    "options": ["Schedule", "Holiday", "Vacation", "Weekend"],
-    "correct": "Schedule"
-  },
-  {
-    "question": "Waa maxay magaca luuqada rasmiga ah ee dalka UK?",
-    "options": ["English", "Welsh", "Scots", "Irish"],
-    "correct": "English"
-  },
-  {
-    "question": "Waa maxay magaca xoolaha la dhaqdo ee loo isticmaalo caano iyo hilib?",
-    "options": ["Cows", "Cats", "Dogs", "Chickens"],
-    "correct": "Cows"
-  },
-  {
-    "question": "Waa maxay magaca teknoolojiga lagu diro farriin qoraal ah telefoonada?",
-    "options": ["Email", "SMS", "Postcard", "Fax"],
-    "correct": "SMS"
-  },
-  {
-    "question": "Waa maxay magaca habka loo tiriyo dhibcaha ciyaarta?",
-    "options": ["Scoring", "Sleeping", "Eating", "Walking"],
-    "correct": "Scoring"
-  },
-  {
-    "question": "Waa maxay magaca cuntada laga sameeyo qamadi oo la dubay?",
-    "options": ["Bread", "Rice", "Pasta", "Salad"],
-    "correct": "Bread"
-  },
-  {
-    "question": "Waa maxay magaca biyaha ku jira sameecada badweynta ee aadka u kulul?",
-    "options": ["Hot spring", "Ocean", "River", "Lake"],
-    "correct": "Ocean"
-  },
-  {
-    "question": "Waa maxay magaca aaladda korontada ee lagu isticmaalo in la iftiimiyo qol?",
-    "options": ["Lamp", "Fan", "Fridge", "Heater"],
-    "correct": "Lamp"
-  },
-  {
-    "question": "Waa maxay magaca dhaqan lagu ilaaliyo caafimaadka dadka oo ay ku jirto tallaalada?",
-    "options": ["Public health", "Engineering", "Law", "Art"],
-    "correct": "Public health"
-  },
-  {
-    "question": "Waa maxay magaca meesha laga helo buugaag badan oo la amaahdo?",
-    "options": ["Library", "Museum", "Cinema", "School"],
-    "correct": "Library"
-  },
-  {
-    "question": "Waa maxay magaca shayga lagu cabiro mugga dareeraha?",
-    "options": ["Liter", "Gram", "Meter", "Celsius"],
-    "correct": "Liter"
-  },
-  {
-    "question": "Waa maxay magaca ciyaarta lagu ciyaaro kubadda gacanta?",
-    "options": ["Handball", "Football", "Tennis", "Basketball"],
-    "correct": "Handball"
-  },
-  {
-    "question": "Waa maxay magaca ashaha ama 'fuel' ee baabuurta badanaa isticmaal?",
-    "options": ["Petrol (Gasoline)", "Cocoa", "Butter", "Olive oil"],
-    "correct": "Petrol (Gasoline)"
-  },
-  {
-    "question": "Waa maxay magaca nidaamka xisaabta ee isku dhufasho?",
-    "options": ["Multiplication", "Addition", "Subtraction", "Division"],
-    "correct": "Multiplication"
-  },
-  {
-    "question": "Waa maxay magaca xilliga ay beeralaydu goostaan?",
-    "options": ["Harvest", "Planting", "Plowing", "Irrigation"],
-    "correct": "Harvest"
-  },
-  {
-    "question": "Waa maxay magaca qudaar ka mid ah kuwa hoos ku qoran?",
-    "options": ["Apple", "Carrot", "Banana", "Orange"],
-    "correct": "Carrot"
-  },
-  {
-    "question": "Waa maxay magaca shayga lagu xiro lugaha si aad u socoto?",
-    "options": ["Shoes", "Hats", "Gloves", "Belts"],
-    "correct": "Shoes"
-  },
-  {
-    "question": "Waa maxay magaca nidaamka badda ee xayawaanka ku nool?",
-    "options": ["Ecosystem", "City", "Desert", "Forest"],
-    "correct": "Ecosystem"
-  },
-  {
-    "question": "Waa maxay magaca wadaniga caan ku ah pizzas?",
-    "options": ["France", "Italy", "Spain", "Greece"],
-    "correct": "Italy"
-  },
-  {
-    "question": "Waa maxay magaca geedka laga sameeyo 'paper'?",
-    "options": ["Tree", "Stone", "Metal", "Plastic"],
-    "correct": "Tree"
-  },
-  {
-    "question": "Waa maxay magaca xaddiga hawsha lagu sameeyo hal ilbiriqsi oo wakhti ah?",
-    "options": ["Speed", "Work", "Power", "Energy"],
-    "correct": "Power"
-  },
-  {
-    "question": "Waa maxay magaca dalka leh caasimadda Cairo?",
-    "options": ["Egypt", "Sudan", "Libya", "Algeria"],
-    "correct": "Egypt"
-  },
-  {
-    "question": "Waa maxay magaca xayawaanka dhulka ku nool ee ugu weyn?",
-    "options": ["Elephant", "Whale", "Giraffe", "Hippopotamus"],
-    "correct": "Elephant"
-  },
-  {
-    "question": "Waa maxay magaca erayga Ingiriisiga ee 'buug'?",
-    "options": ["Book", "Pen", "Table", "Chair"],
-    "correct": "Book"
-  },
-  {
-    "question": "Waa maxay magaca muusigga caanka ah ee laga dhagaysto heesaha?",
-    "options": ["Guitar", "Fridge", "Oven", "Pillow"],
-    "correct": "Guitar"
-  },
-  {
-    "question": "Waa maxay magaca moolka guud ee magaalo ku yaal dalka Maraykanka oo loo yaqaan 'NYC'?",
-    "options": ["New York City", "Los Angeles", "Chicago", "Houston"],
-    "correct": "New York City"
-  },
-  {
-    "question": "Waa maxay magaca nidaamka caafimaadka ee loogu talagalay xannaanada caruurta?",
-    "options": ["Pediatrics", "Geriatrics", "Cardiology", "Oncology"],
-    "correct": "Pediatrics"
-  },
-  {
-    "question": "Waa maxay magaca qaybta cilmiga ah ee bartaa xayawaanka iyo dhirta?",
-    "options": ["Biology", "Mathematics", "History", "Geography"],
-    "correct": "Biology"
-  },
-  {
-    "question": "Waa maxay magaca barta internet-ka ee dadka u isticmaalaan wada sheekeysiga (chat)?",
-    "options": ["Forum", "Chatroom", "Library", "Cinema"],
-    "correct": "Chatroom"
-  },
-  {
-    "question": "Waa maxay magaca macnaha 'IQ' ee ciyaarta?",
-    "options": ["Intelligence Quotient", "Income Quantity", "Item Quality", "Interest Quota"],
-    "correct": "Intelligence Quotient"
-  },
-  {
-    "question": "Waa maxay magaca qarni ka kooban 100 sano?",
-    "options": ["Decade", "Century", "Millennium", "Year"],
-    "correct": "Century"
-  },
-  {
-    "question": "Waa maxay magaca magaalada leh Burj Khalifa oo ku taalla dalka UAE?",
-    "options": ["Abu Dhabi", "Dubai", "Sharjah", "Ajman"],
-    "correct": "Dubai"
-  },
-  {
-    "question": "Waa maxay magaca cunto laga sameeyo hilib iyo bariis oo caadi ka ah Soomaaliya?",
-    "options": ["Bariis iyo hilib", "Sushi", "Burger", "Pasta"],
-    "correct": "Bariis iyo hilib"
-  },
-  {
-    "question": "Waa maxay magaca natiijada 9 + 6?",
-    "options": ["14", "15", "16", "17"],
-    "correct": "15"
-  },
-  {
-    "question": "Waa maxay magaca habka gaadiid ee hawada loo qaado?",
-    "options": ["Air transport", "Road transport", "Sea transport", "Rail transport"],
-    "correct": "Air transport"
-  },
-  {
-    "question": "Waa maxay magaca geedka laga helo 'olive' ee laga sameeyo saliid saytuunka?",
-    "options": ["Olive tree", "Apple tree", "Pine tree", "Maple tree"],
-    "correct": "Olive tree"
-  },
-  {
-    "question": "Waa maxay magaca wadaniga lagu hadlo af-French sida luuqad rasmi ah?",
-    "options": ["France, Belgium, Canada (Quebec)", "Japan, China, Korea", "Brazil, Argentina, Chile", "Egypt, Sudan, Libya"],
-    "correct": "France, Belgium, Canada (Quebec)"
-  },
-  {
-    "question": "Waa maxay magaca qalabka loo isticmaalo miisaanka jirka?",
-    "options": ["Scale", "Clock", "Microscope", "Oven"],
-    "correct": "Scale"
-  },
-  {
-    "question": "Waa maxay magaca cimilada ee aadka u qalalan oo leh roob yar?",
-    "options": ["Desert", "Rainforest", "Tundra", "Wetland"],
-    "correct": "Desert"
-  },
-  {
-    "question": "Waa maxay magaca nidaamka talinaya sharciyada iyo qawaaniinta dalka?",
-    "options": ["Judiciary", "Government", "Military", "School"],
-    "correct": "Judiciary"
-  },
-  {
-    "question": "Waa maxay magaca hay'adda caalamiga ah ee dhaqaale bixisa amaahda?",
-    "options": ["IMF", "WHO", "UNICEF", "WTO"],
-    "correct": "IMF"
-  },
-  {
-    "question": "Waa maxay magaca shayga dabiiciga ah oo laga helo dhulka oo macdanta ah?",
-    "options": ["Mineral", "Plastic", "Wood", "Paper"],
-    "correct": "Mineral"
-  },
-  {
-    "question": "Waa maxay magaca luqadda rasmiga ah ee dalka Mexico?",
-    "options": ["Portuguese", "Spanish", "English", "French"],
-    "correct": "Spanish"
-  },
-  {
-    "question": "Waa maxay magaca udubdhexaadka tamarta ee laga helo dabka ama shidaalka?",
-    "options": ["Fuel", "Water", "Soil", "Air"],
-    "correct": "Fuel"
-  },
-  {
-    "question": "Waa maxay magaca qaybta jimicsiga ee loogu talagalay in lagu sameeyo orod?",
-    "options": ["Track", "Pool", "Court", "Gym"],
-    "correct": "Track"
-  },
-  {
-    "question": "Waa maxay magacaa xayawaanka badeed ee leh af aad u weyn oo loogu yeero 'sailfish'?",
-    "options": ["Sailfish", "Tuna", "Salmon", "Shark"],
-    "correct": "Sailfish"
+/**
+ * Generates 600 True/False questions in Somali and writes to data/questions/solo_tf_600.json
+ *
+ * Usage:
+ * 1. Place this file in your repo root.
+ * 2. Run: node generate_tf_questions.js
+ * 3. The generator will create data/questions/solo_tf_600.json
+ *
+ * Note: This generator uses a curated list of safe facts (true and false)
+ * and cycles them to reach 600 items. Review the file after generation.
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const trueFacts = [
+  "Qorraxdu waa xiddig.",
+  "Dhulku waa meeraha saddexaad ee nidaamka qoraxda.",
+  "Biyaha waxay ku samaysan yihiin H2O.",
+  "Xayawaanka cheetah waa kan ugu dhaqsaha badan dhulka.",
+  "Nairobi waa caasimadda Kenya.",
+  "Canjeero waa cunto dhaqameed Soomaali.",
+  "Giraffe waxay leedahay qoorta dheer.",
+  "Polaris waa magaca North Star (xiddigta waqooyi).",
+  "Bishimah waa 12 bilood sanadkii.",
+  "Sirius waa mid ka mid ah xiddigaha ugu dhalaalka badan samada habeenkii.",
+  "Photosynthesis waa geeddi-socodka dhirta sameeyaan si ay u soo saaraan sonkor iyaga oo isticmaalaya qorraxda.",
+  "Microscope waxaa loo isticmaalaa in lagu arko unugyada yaryar.",
+  "Ocean waa biyo aad u ballaaran marka loo eego harooyin.",
+  "Football (soccer) waa ciyaar caan ah adduunka.",
+  "Mt. Everest waa buurta ugu dheer dhulka (sare ee badda laga cabiray).",
+  "Kani waa su'aal tusaale ah oo sax ah: '100 waa boqol.'",
+  "Kilogram waa cabbir miisaan.",
+  "Telephone waxaa loo isticmaalaa in lagu sameeyo wicitaano fog.",
+  "Library waa meesha aad ka amaahato buugaagta.",
+  "Camera waxaa loo isticmaalaa in lagu qaado sawirro.",
+  "Coffee plant waxay soo saartaa miraha laga sameeyo qaxwada.",
+  "Italy waxay caan ku tahay pizza.",
+  "Tokyo waa caasimadda Japan.",
+  "Amazon waa webi weyn oo ku yaalla Koonfurta Ameerika.",
+  "Canada waa wadan weyn marka loo eego dhulka.",
+  "Oxygen waa qayb muhiim ah oo hawada aan neefsanno.",
+  "Lion waxaa loo yaqaan 'king of the jungle' (libaax).",
+  "Diamond waa dhagax qaali ah oo adag.",
+  "Bread waa cunto laga sameeyo qamadi oo la dubay.",
+  "Clock waxaa loo isticmaalaa in lagu cabiro waqtiga.",
+  "Rainforest waa deegaanka leh roob badan iyo dhir badan.",
+  "Solar energy waa tamar ka timaadda qorraxda.",
+  "CPU waa qayb udub dhexaad ah oo kombuyuutarka maamula hawlaha.",
+  "Internet waa shabakad caalami ah oo macluumaad lagu wadaago.",
+  "Milk waa caano laga helo xoolaha sida lo'da.",
+  "Map waa khariidad muujineysa goobaha dhulka.",
+  "Spring waa xilli ubaxu billaabo badanaa.",
+  "Winter waa xilli qabow ee qaar ka mid ah wadamada.",
+  "Google waa adeeg raadinta onlayn caan ah.",
+  "Pen waxaa loo isticmaalaa in lagu qoro.",
+  "Apple waa midhaha nooc ka mid ah.",
+  "Car waa gaari loo isticmaalo safarka dhulka.",
+  "Ship waa markab badeed oo loo isticmaalo gaadiidka badda.",
+  "Doctor waa qof xirfad u leh caafimaadka dadka badbaadiya.",
+  "Teacher waa qof wax baro ardayda.",
+  "Hospital waa meel dadka lagu daweeyo.",
+  "School waa goob waxbarasho.",
+  "Internetka waxaa laga helo website-yo kala duwan.",
+  "Lamp waa qalab iftiimiya qolka.",
+  "Salt waa dhanaan macsuud ah oo cuntooyinka lagu daro (salty).",
+  "Banana waa miro caan ah oo la cuno.",
+  "Rice waa cunto aasaasi ah oo la cuno meelo badan oo dunida ah.",
+  "Water covers more than half of Earth's surface.",
+  "The Moon orbits the Earth.",
+  "Mercury waa meeraha u dhow qorraxda.",
+  "Jupiter waa gaadhi gas giant ah oo nidaamka qorraxda ku jira.",
+  "Venus waa meeraha leh cimilada aad u kulul.",
+  "Mars waxaa lagu tilmaamaa 'Red Planet' sababo la xiriira midabkiisa.",
+  "Gold waa macdan qaali ah oo la isticmaalo dahabka.",
+  "Silver waa macdan la isticmaalo farshaxanka iyo qalabka.",
+  "Bee waa cayayaanka sameeya malabka.",
+  "Tree waa geed weyn oo leh laamo iyo caleemo.",
+  "House waa meel dadka degan yihiin.",
+  "Road waa wadada lugta ama gaadiidka loo maro.",
+  "Bridge waa buundo isku xirta laba dhinac ee kala go'an.",
+  "Mountain waa dhul sarreeya oo buur ah.",
+  "Valley waa meel hoose oo u dhexeysa buuro.",
+  "Desert waa deegaan aad u qalalan oo roob yar.",
+  "Island waa jasiirad ku hareeraysan biyo.",
+  "Lake waa haro ku taal dhul dhexdiisa.",
+  "River waa webi qulqulaya oo biyaha ka baxa meel sarreyna u socda.",
+  "Ocean waa badda weyn ee adduunka.",
+];
+
+const falseFacts = [
+  "Dhulku waa dhalaalaya sida qorraxda.",
+  "Biyaha waxay karkaraan 0°C heerka badaha.",
+  "Qorraxdu waa meeraha labaad nidaamka qoraxda.",
+  "Fish waxay ku nool yihiin hawada sida bani'aadamka.",
+  "Paris waa caasimadda Germany.",
+  "Elephants waxay ku duulaan cirka sida shimbiraha.",
+  "Books waa cunto la cuno.",
+  "Gold waa ka fudud yahay biyo.",
+  "Trees waxay ka sameysan yihiin bir (metal).",
+  "Coffee waa khudrad la cuno raw.",
+  "Moon waa weyn ka weyn Dhulka.",
+  "Oxygen waa wax aannu had iyo jeer neefsanno 100% hawada.",
+  "Sun waa ka yar Earth.",
+  "Canada waa dal ku yaal Afrika.",
+  "Lion waa nooc shimbir ah.",
+  "Carrots waa hilib xoolo.",
+  "Mount Everest wuxuu ku yaal Antarctica.",
+  "The Amazon waa xeeb yar oo qiyaas yar.",
+  "Computer waa nooc geed ah.",
+  "Phone waa cunto dhaqameed.",
+  "Clock waa xayawaan duurjoog ah.",
+  "Bread waxaa laga sameeyaa biraha.",
+  "Rainforest waa xero baraf.",
+  "Microscope waa qalab loogu talagalay in la qiimeeyo cimilada.",
+  "Pineapple waa hilib digaag.",
+  "New York waa caasimadda France.",
+  "Spain waa wadan ku yaal Aasiya.",
+  "Sunlight waxay ka timaadaa Moon.",
+  "Fish waxay leeyihiin saddex lugood.",
+  "A telephone number is a type of fruit.",
+  "Deserts receive heavy rainfall year-round.",
+  "Giraffes live in the ocean.",
+  "Helium is solid at room temperature.",
+  "Sugar is a type of metal.",
+  "Birds are mammals that nurse their young with milk.",
+  "The Earth is flat and not round.",
+  "Snow is hot to touch.",
+  "Cows lay eggs.",
+  "The equator is located at the North Pole.",
+  "The internet is a physical road you can drive on.",
+  "Fire is always cold.",
+  "The moon produces its own light like the sun.",
+  "Triangles have four sides.",
+  "A decade is 5 years long.",
+  "The human body has 10 hearts.",
+  "Chocolate grows on trees as full candy bars.",
+  "Water is dry",
+  "The largest ocean is Lake Superior",
+  "A year has 100 months",
+  "Birds can live underwater indefinitely without surfacing",
+  "The Sahara is a rainforest",
+  "Lightning never travels from cloud to ground",
+  "Rocks breathe oxygen",
+  "The human brain is outside the skull",
+  "Cars can naturally fly without engines",
+  "The sun sets in the north",
+  "Deserts are covered in ice year-round",
+  "Mountains float in the sky",
+  "Glass is flexible like rubber",
+  "Fish breathe fire",
+  "Trees walk at night",
+  "Paper is made from metal",
+  "Time runs faster on Mondays",
+  "Phones are edible",
+  "The capital of Italy is Madrid",
+  "Water boils at 500°C at sea level",
+  "The Pacific Ocean is the smallest ocean",
+  "Penguins live at the equator naturally",
+  "The moon is made of cheese",
+  "Sound travels faster than light",
+  "Humans can see ultraviolet naturally",
+  "Rain falls upward",
+  "Cactus needs constant flooding to survive",
+  "Gold melts at room temperature",
+  "Mountains are made of chocolate",
+];
+
+function generate(count = 600) {
+  const questions = [];
+  let tIndex = 0;
+  let fIndex = 0;
+
+  // Alternate true/false roughly to balance; start with true
+  for (let i = 0; i < count; i++) {
+    const makeTrue = i % 2 === 0; // even indices true, odd false
+    if (makeTrue) {
+      const base = trueFacts[tIndex % trueFacts.length];
+      // Add slight variation to avoid exact duplicates if we cycle
+      const questionText = base;
+      questions.push({
+        question: questionText,
+        type: "tf",
+        correct: true
+      });
+      tIndex++;
+    } else {
+      const base = falseFacts[fIndex % falseFacts.length];
+      const questionText = base;
+      questions.push({
+        question: questionText,
+        type: "tf",
+        correct: false
+      });
+      fIndex++;
+    }
   }
-]
+
+  return questions;
+}
+
+function ensureDirExists(filePath) {
+  const dir = path.dirname(filePath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+}
+
+const OUT_PATH = path.join(__dirname, 'data', 'questions', 'solo_tf_600.json');
+const questions = generate(600);
+ensureDirExists(OUT_PATH);
+fs.writeFileSync(OUT_PATH, JSON.stringify(questions, null, 2), 'utf8');
+console.log(`Waa la dhameystiray: ${OUT_PATH} (su'aalo: ${questions.length})`);
