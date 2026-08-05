@@ -1,211 +1,352 @@
-/**
- * Generates 600 True/False questions in Somali and writes to data/questions/solo_tf_600.json
- *
- * Usage:
- * 1. Place this file in your repo root.
- * 2. Run: node generate_tf_questions.js
- * 3. The generator will create data/questions/solo_tf_600.json
- *
- * Note: This generator uses a curated list of safe facts (true and false)
- * and cycles them to reach 600 items. Review the file after generation.
- */
+# -*- coding: utf-8 -*-
+import json, random
 
-const fs = require('fs');
-const path = require('path');
+random.seed(42)
 
-const trueFacts = [
-  "Qorraxdu waa xiddig.",
-  "Dhulku waa meeraha saddexaad ee nidaamka qoraxda.",
-  "Biyaha waxay ku samaysan yihiin H2O.",
-  "Xayawaanka cheetah waa kan ugu dhaqsaha badan dhulka.",
-  "Nairobi waa caasimadda Kenya.",
-  "Canjeero waa cunto dhaqameed Soomaali.",
-  "Giraffe waxay leedahay qoorta dheer.",
-  "Polaris waa magaca North Star (xiddigta waqooyi).",
-  "Bishimah waa 12 bilood sanadkii.",
-  "Sirius waa mid ka mid ah xiddigaha ugu dhalaalka badan samada habeenkii.",
-  "Photosynthesis waa geeddi-socodka dhirta sameeyaan si ay u soo saaraan sonkor iyaga oo isticmaalaya qorraxda.",
-  "Microscope waxaa loo isticmaalaa in lagu arko unugyada yaryar.",
-  "Ocean waa biyo aad u ballaaran marka loo eego harooyin.",
-  "Football (soccer) waa ciyaar caan ah adduunka.",
-  "Mt. Everest waa buurta ugu dheer dhulka (sare ee badda laga cabiray).",
-  "Kani waa su'aal tusaale ah oo sax ah: '100 waa boqol.'",
-  "Kilogram waa cabbir miisaan.",
-  "Telephone waxaa loo isticmaalaa in lagu sameeyo wicitaano fog.",
-  "Library waa meesha aad ka amaahato buugaagta.",
-  "Camera waxaa loo isticmaalaa in lagu qaado sawirro.",
-  "Coffee plant waxay soo saartaa miraha laga sameeyo qaxwada.",
-  "Italy waxay caan ku tahay pizza.",
-  "Tokyo waa caasimadda Japan.",
-  "Amazon waa webi weyn oo ku yaalla Koonfurta Ameerika.",
-  "Canada waa wadan weyn marka loo eego dhulka.",
-  "Oxygen waa qayb muhiim ah oo hawada aan neefsanno.",
-  "Lion waxaa loo yaqaan 'king of the jungle' (libaax).",
-  "Diamond waa dhagax qaali ah oo adag.",
-  "Bread waa cunto laga sameeyo qamadi oo la dubay.",
-  "Clock waxaa loo isticmaalaa in lagu cabiro waqtiga.",
-  "Rainforest waa deegaanka leh roob badan iyo dhir badan.",
-  "Solar energy waa tamar ka timaadda qorraxda.",
-  "CPU waa qayb udub dhexaad ah oo kombuyuutarka maamula hawlaha.",
-  "Internet waa shabakad caalami ah oo macluumaad lagu wadaago.",
-  "Milk waa caano laga helo xoolaha sida lo'da.",
-  "Map waa khariidad muujineysa goobaha dhulka.",
-  "Spring waa xilli ubaxu billaabo badanaa.",
-  "Winter waa xilli qabow ee qaar ka mid ah wadamada.",
-  "Google waa adeeg raadinta onlayn caan ah.",
-  "Pen waxaa loo isticmaalaa in lagu qoro.",
-  "Apple waa midhaha nooc ka mid ah.",
-  "Car waa gaari loo isticmaalo safarka dhulka.",
-  "Ship waa markab badeed oo loo isticmaalo gaadiidka badda.",
-  "Doctor waa qof xirfad u leh caafimaadka dadka badbaadiya.",
-  "Teacher waa qof wax baro ardayda.",
-  "Hospital waa meel dadka lagu daweeyo.",
-  "School waa goob waxbarasho.",
-  "Internetka waxaa laga helo website-yo kala duwan.",
-  "Lamp waa qalab iftiimiya qolka.",
-  "Salt waa dhanaan macsuud ah oo cuntooyinka lagu daro (salty).",
-  "Banana waa miro caan ah oo la cuno.",
-  "Rice waa cunto aasaasi ah oo la cuno meelo badan oo dunida ah.",
-  "Water covers more than half of Earth's surface.",
-  "The Moon orbits the Earth.",
-  "Mercury waa meeraha u dhow qorraxda.",
-  "Jupiter waa gaadhi gas giant ah oo nidaamka qorraxda ku jira.",
-  "Venus waa meeraha leh cimilada aad u kulul.",
-  "Mars waxaa lagu tilmaamaa 'Red Planet' sababo la xiriira midabkiisa.",
-  "Gold waa macdan qaali ah oo la isticmaalo dahabka.",
-  "Silver waa macdan la isticmaalo farshaxanka iyo qalabka.",
-  "Bee waa cayayaanka sameeya malabka.",
-  "Tree waa geed weyn oo leh laamo iyo caleemo.",
-  "House waa meel dadka degan yihiin.",
-  "Road waa wadada lugta ama gaadiidka loo maro.",
-  "Bridge waa buundo isku xirta laba dhinac ee kala go'an.",
-  "Mountain waa dhul sarreeya oo buur ah.",
-  "Valley waa meel hoose oo u dhexeysa buuro.",
-  "Desert waa deegaan aad u qalalan oo roob yar.",
-  "Island waa jasiirad ku hareeraysan biyo.",
-  "Lake waa haro ku taal dhul dhexdiisa.",
-  "River waa webi qulqulaya oo biyaha ka baxa meel sarreyna u socda.",
-  "Ocean waa badda weyn ee adduunka.",
-];
+MC = []  # multiple choice
+TF = []  # true/false
 
-const falseFacts = [
-  "Dhulku waa dhalaalaya sida qorraxda.",
-  "Biyaha waxay karkaraan 0°C heerka badaha.",
-  "Qorraxdu waa meeraha labaad nidaamka qoraxda.",
-  "Fish waxay ku nool yihiin hawada sida bani'aadamka.",
-  "Paris waa caasimadda Germany.",
-  "Elephants waxay ku duulaan cirka sida shimbiraha.",
-  "Books waa cunto la cuno.",
-  "Gold waa ka fudud yahay biyo.",
-  "Trees waxay ka sameysan yihiin bir (metal).",
-  "Coffee waa khudrad la cuno raw.",
-  "Moon waa weyn ka weyn Dhulka.",
-  "Oxygen waa wax aannu had iyo jeer neefsanno 100% hawada.",
-  "Sun waa ka yar Earth.",
-  "Canada waa dal ku yaal Afrika.",
-  "Lion waa nooc shimbir ah.",
-  "Carrots waa hilib xoolo.",
-  "Mount Everest wuxuu ku yaal Antarctica.",
-  "The Amazon waa xeeb yar oo qiyaas yar.",
-  "Computer waa nooc geed ah.",
-  "Phone waa cunto dhaqameed.",
-  "Clock waa xayawaan duurjoog ah.",
-  "Bread waxaa laga sameeyaa biraha.",
-  "Rainforest waa xero baraf.",
-  "Microscope waa qalab loogu talagalay in la qiimeeyo cimilada.",
-  "Pineapple waa hilib digaag.",
-  "New York waa caasimadda France.",
-  "Spain waa wadan ku yaal Aasiya.",
-  "Sunlight waxay ka timaadaa Moon.",
-  "Fish waxay leeyihiin saddex lugood.",
-  "A telephone number is a type of fruit.",
-  "Deserts receive heavy rainfall year-round.",
-  "Giraffes live in the ocean.",
-  "Helium is solid at room temperature.",
-  "Sugar is a type of metal.",
-  "Birds are mammals that nurse their young with milk.",
-  "The Earth is flat and not round.",
-  "Snow is hot to touch.",
-  "Cows lay eggs.",
-  "The equator is located at the North Pole.",
-  "The internet is a physical road you can drive on.",
-  "Fire is always cold.",
-  "The moon produces its own light like the sun.",
-  "Triangles have four sides.",
-  "A decade is 5 years long.",
-  "The human body has 10 hearts.",
-  "Chocolate grows on trees as full candy bars.",
-  "Water is dry",
-  "The largest ocean is Lake Superior",
-  "A year has 100 months",
-  "Birds can live underwater indefinitely without surfacing",
-  "The Sahara is a rainforest",
-  "Lightning never travels from cloud to ground",
-  "Rocks breathe oxygen",
-  "The human brain is outside the skull",
-  "Cars can naturally fly without engines",
-  "The sun sets in the north",
-  "Deserts are covered in ice year-round",
-  "Mountains float in the sky",
-  "Glass is flexible like rubber",
-  "Fish breathe fire",
-  "Trees walk at night",
-  "Paper is made from metal",
-  "Time runs faster on Mondays",
-  "Phones are edible",
-  "The capital of Italy is Madrid",
-  "Water boils at 500°C at sea level",
-  "The Pacific Ocean is the smallest ocean",
-  "Penguins live at the equator naturally",
-  "The moon is made of cheese",
-  "Sound travels faster than light",
-  "Humans can see ultraviolet naturally",
-  "Rain falls upward",
-  "Cactus needs constant flooding to survive",
-  "Gold melts at room temperature",
-  "Mountains are made of chocolate",
-];
+def add_mc(q, options, correct):
+    assert correct in options, q
+    assert len(options) == 4, q
+    MC.append({"question": q, "options": options, "correct": correct})
 
-function generate(count = 600) {
-  const questions = [];
-  let tIndex = 0;
-  let fIndex = 0;
+def add_tf(q, correct):
+    TF.append({"question": q, "type": "tf", "correct": correct})
 
-  // Alternate true/false roughly to balance; start with true
-  for (let i = 0; i < count; i++) {
-    const makeTrue = i % 2 === 0; // even indices true, odd false
-    if (makeTrue) {
-      const base = trueFacts[tIndex % trueFacts.length];
-      // Add slight variation to avoid exact duplicates if we cycle
-      const questionText = base;
-      questions.push({
-        question: questionText,
-        type: "tf",
-        correct: true
-      });
-      tIndex++;
-    } else {
-      const base = falseFacts[fIndex % falseFacts.length];
-      const questionText = base;
-      questions.push({
-        question: questionText,
-        type: "tf",
-        correct: false
-      });
-      fIndex++;
-    }
-  }
+# ============ SOMALI HISTORY ============
+add_mc("Sannadkee ayay Soomaaliya qaadatay xorriyadda?", ["1950","1960","1970","1980"], "1960")
+add_mc("Waa kuma Halgamaha caanka ah ee dagaalkii Taleex?", ["Sayid Maxamed Cabdulle Xasan","Maxamed Siyaad Barre","Aadan Cabdulle Cismaan","Xaaji Ibrahim Nuur"], "Sayid Maxamed Cabdulle Xasan")
+add_mc("Waa ayo magaca ugu horreeyay ee Jamhuuriyadda Soomaaliya?", ["Jamhuuriyadda Dimuqraadiga Soomaaliya","Jamhuuriyadda Soomaaliya","Dawladda Federaalka Soomaaliya","Ummadda Soomaaliyeed"], "Jamhuuriyadda Soomaaliya")
+add_mc("Ninkee ayaa ahaa Madaxweynihii ugu horreeyay Jamhuuriyadda Soomaaliya?", ["Aadan Cabdulle Cismaan","Maxamed Siyaad Barre","Cabdirashiid Cali Sharma-arke","Cabdullaahi Yuusuf"], "Aadan Cabdulle Cismaan")
+add_mc("Sannadkee ayaa dhacay kacaankii militari ee Maxamed Siyaad Barre?", ["1960","1969","1977","1991"], "1969")
+add_mc("Waa maxay taariikhda ay Soomaaliland ku dhawaaqday go'doonkeeda?", ["1960","1988","1991","2000"], "1991")
+add_mc("Waa ayo boqortooyadii soo maray gobolka Soomaaliya ee waqooyi?", ["Boqortooyadii Ajuuraan","Boqortooyadii Warsangeli","Boqortooyadii Cismaaniyiinta","Boqortooyadii Adal"], "Boqortooyadii Adal")
+add_mc("Sannadkee ayaa Soomaalida Waqooyi (Somaliland) ay xorriyadda ka qaadateen Ingiriiska?", ["26 Juun 1960","1 Luulyo 1960","20 Oktoobar 1969","21 Oktoobar 1969"], "26 Juun 1960")
+add_mc("Sannadkee ayay Koonfurta Soomaaliya xorriyadda ka qaadatay Talyaaniga?", ["26 Juun 1960","1 Luulyo 1960","1 Janaayo 1960","9 Meey 1960"], "1 Luulyo 1960")
+add_mc("Boqortooyadii Ajuuraan waxay xukumi jirtay gobolka?", ["Waqooyiga Soomaaliya","Bariga Afrika (Koonfurta Soomaaliya)","Itoobiya","Kenya"], "Bariga Afrika (Koonfurta Soomaaliya)")
+add_mc("Dagaalkii Sokeeye ee Soomaaliya wuxuu bilaabmay isla markaa dawladdii dhexe ay burburtay sannadkee?", ["1988","1991","1995","2000"], "1991")
+add_mc("Waa ayo taliskii ugu horreeyay ee dagaal la galay gumeystaha ee Soomaaliya?", ["Xarakada Daraawiishta","Xisbiga SYL","Kacaankii 1969","Isbahaysiga UP"], "Xarakada Daraawiishta")
+add_mc("Xisbiga SYL wuxuu taagnaa dhinaca?", ["Xoraynta iyo midnimada Soomaaliyeed","Dhaqanka gumeysiga","Boqortooyada Talyaaniga","Ka soo horjeedka xorriyadda"], "Xoraynta iyo midnimada Soomaaliyeed")
+add_mc("Sannadkee ayaa la aasaasay Xisbiga SYL (Somali Youth League)?", ["1943","1950","1960","1969"], "1943")
+add_mc("Wax barashadii Soomaalida ee dhaqan ahaan waxay ku salaysnayd inta badan?", ["Af-Soomaaliga qoraal ahaan", "Dhaqan afka iyo maansada", "Buugaagta Talyaaniga", "Waraaqaha gumeystaha"], "Dhaqan afka iyo maansada")
+add_mc("Sannadkee ayaa la aasaasay Ururkii Midowga Afrika (indha-indhaynta Soomaaliya ka qaybgashay)?", ["1963","1970","1980","1991"], "1963")
+add_mc("Xilligii kacaanka Maxamed Siyaad Barre, nidaamka dawladda ee la doortay wuxuu ahaa?", ["Hantiwadaag", "Dimuqraadiyad", "Boqortooyo", "Xisbi badan"], "Hantiwadaag")
+add_mc("Dagaalkii Ogaadeen ee Soomaaliya iyo Itoobiya wuxuu dhacay sannadkee?", ["1964","1977-1978","1988","1991"], "1977-1978")
+add_mc("Farta Soomaaliga ee rasmiga ah waxaa la aqbalay sannadkee?", ["1960","1972","1980","1991"], "1972")
+add_mc("Ninkee baa ahaa hormuudka rukumida farta Soomaaliga?", ["Shire Jaamac Axmed", "Maxamed Siyaad Barre", "Sayid Maxamed", "Cabdullaahi Yuusuf"], "Shire Jaamac Axmed")
+add_mc("Magaca hore ee Soomaaliya ee ay isticmaali jireen dhulka kale?", ["Bariga Sicir la'aanta", "Dhulka Xamar", "Bariga Foosha xun", "Somaliland-Italiana kaliya"], "Bariga Sicir la'aanta")
+add_tf("Soomaaliya waxay xorriyadda ka qaadatay Talyaaniga iyo Ingiriiska sannadkii 1960kii.", True)
+add_tf("Sayid Maxamed Cabdulle Xasan wuxuu horseeday Dagaalkii Daraawiishta.", True)
+add_tf("Maxamed Siyaad Barre wuxuu ahaa Madaxweynihii ugu horreeyay ee Soomaaliya.", False)
+add_tf("Kacaankii Siyaad Barre wuxuu dhacay sannadkii 1969.", True)
+add_tf("Dagaalkii Ogaadeen wuxuu u dhexeeyay Soomaaliya iyo Kenya.", False)
 
-  return questions;
-}
+# ============ SOMALI GEOGRAPHY ============
+add_mc("Waa maxay dalka ugu weyn dhulka Geeska Afrika?", ["Itoobiya","Soomaaliya","Kenya","Jabuuti"], "Itoobiya")
+add_mc("Soomaaliya waxay ku taal qaaradda?", ["Aasiya","Afrika","Yurub","Ameerika"], "Afrika")
+add_mc("Soomaaliya waxay la wadaagtaa xudduud dalalka?", ["Kenya, Itoobiya, Jabuuti","Kenya, Sudan, Masar","Yemen, Masar","Sudan, Chad"], "Kenya, Itoobiya, Jabuuti")
+add_mc("Badda ku xeeran dhinaca bari ee Soomaaliya waa?", ["Badweynta Hindiya", "Badda Cas", "Badweynta Atlantika", "Badda Mediterranean"], "Badweynta Hindiya")
+add_mc("Webiga ugu dheer Soomaaliya waa?", ["Webi Shabeelle", "Webi Jubba", "Webi Nayl", "Webi Congo"], "Webi Jubba")
+add_mc("Buurta ugu dheer Soomaaliya waa?", ["Buur Shimbiris", "Buur Heybe", "Buur Gaduud", "Buur Dhuxul"], "Buur Shimbiris")
+add_mc("Gobolka ugu weyn dhulka Soomaaliya waa?", ["Bari","Sool","Woqooyi Galbeed","Nugaal"], "Bari")
+add_mc("Xeebta ugu dheer qaaradda Afrika waxay leedahay?", ["Soomaaliya","Kenya","Masar","Nigeria"], "Soomaaliya")
+add_mc("Cimilada guud ee Soomaaliya waa?", ["Qoyan oo qabow", "Qallalan oo kulul", "Barafowga", "Dabaylo joogto ah oo qabow"], "Qallalan oo kulul")
+add_mc("Lamadegaanka ku yaal waqooyiga Soomaaliya waxaa lagu magacaabaa?", ["Lamadegaanka Guban", "Lamadegaanka Sahara", "Lamadegaanka Nubia", "Lamadegaanka Kalahari"], "Lamadegaanka Guban")
+add_mc("Webiga Shabeelle wuxuu ka soo bilaabmaa?", ["Itoobiya","Kenya","Jabuuti","Sudan"], "Itoobiya")
+add_mc("Xeebaha Soomaaliya waxay ku dheer yihiin kiiloomitir ku dhawaad?", ["1,000 km","2,000 km","3,300 km","5,000 km"], "3,300 km")
+add_mc("Aagga ugu qallalan Soomaaliya waa?", ["Guban", "Doolow", "Baay", "Shabeellaha Hoose"], "Guban")
+add_mc("Nugaal Valley waxay ku taal gobolka?", ["Nugaal","Bari","Sanaag","Mudug"], "Nugaal")
+add_mc("Meesha kalluumeysiga ee ugu caansan Soomaaliya waa?", ["Eyl", "Baidoa", "Hargeysa", "Garoowe"], "Eyl")
+add_tf("Soomaaliya waxay leedahay xeebaha ugu dheer Afrika.", True)
+add_tf("Webi Jubba wuxuu ku dhacaa Badweynta Atlantika.", False)
+add_tf("Soomaaliya ma lahan wax webiyo ah.", False)
+add_tf("Gobolka Guban wuxuu ku yaalaa waqooyiga Soomaaliya, wuxuuna ahaa aag kulul oo qallalan.", True)
+add_tf("Itoobiya iyo Kenya labaduba waxay la wadaagaan xudduud Soomaaliya.", True)
 
-function ensureDirExists(filePath) {
-  const dir = path.dirname(filePath);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
+# ============ SOMALI REGIONS AND DISTRICTS ============
+add_mc("Caasimadda Soomaaliya waa?", ["Muqdisho","Hargeysa","Boosaaso","Garoowe"], "Muqdisho")
+add_mc("Caasimadda Puntland waa?", ["Garoowe","Boosaaso","Gaalkacyo","Qardho"], "Garoowe")
+add_mc("Caasimadda Soomaaliland waa?", ["Hargeysa","Berbera","Burco","Boorama"], "Hargeysa")
+add_mc("Gobolka Bay caasimaddiisu waa?", ["Baydhabo","Diinsoor","Buurhakaba","Xudur"], "Baydhabo")
+add_mc("Gobolka Jubbada Hoose caasimaddiisu waa?", ["Kismaayo","Afmadow","Jamaame","Badhaadhe"], "Kismaayo")
+add_mc("Gobolka Woqooyi Galbeed caasimaddiisu waa?", ["Hargeysa","Berbera","Gebiley","Baligubadle"], "Hargeysa")
+add_mc("Degmada Boosaaso waxay ku taal gobolka?", ["Bari","Nugaal","Sool","Sanaag"], "Bari")
+add_mc("Gobolka Hiiraan caasimaddiisu waa?", ["Beledweyne","Jalalaqsi","Mataban","Buulobarde"], "Beledweyne")
+add_mc("Gobolka Shabeellaha Dhexe caasimaddiisu waa?", ["Jowhar","Balcad","Cadale","Mahaday"], "Jowhar")
+add_mc("Gobolka Galguduud caasimaddiisu waa?", ["Dhuusamareeb","Ceel Buur","Ceel Dheer","Cabudwaaq"], "Dhuusamareeb")
+add_mc("Gobolka Mudug caasimaddiisu waa?", ["Gaalkacyo","Xaradheere","Jariiban","Ceel Dheer"], "Gaalkacyo")
+add_mc("Gobolka Togdheer caasimaddiisu waa?", ["Burco","Sheekh","Buuhoodle","Owdweyne"], "Burco")
+add_mc("Gobolka Sool caasimaddiisu waa?", ["Laascaanood","Taleex","Xudun","Caynabo"], "Laascaanood")
+add_mc("Gobolka Sanaag caasimaddiisu waa?", ["Ceerigaabo","Laasqoray","Badhan","Dhahar"], "Ceerigaabo")
+add_mc("Gobolka Awdal caasimaddiisu waa?", ["Boorama","Baki","Lughaya","Zeylac"], "Boorama")
+add_mc("Gobolka Banaadir wuxuu ku jiraa magaalada?", ["Muqdisho","Kismaayo","Marka","Baraawe"], "Muqdisho")
+add_mc("Gobolka Shabeellaha Hoose caasimaddiisu waa?", ["Marka","Afgooye","Wanlaweyn","Qoryooley"], "Marka")
+add_mc("Gobolka Bakool caasimaddiisu waa?", ["Xudur","Waajid","Ceel Barde","Tayeeglow"], "Xudur")
+add_mc("Gobolka Gedo caasimaddiisu waa?", ["Garbahaarey","Luuq","Baardheere","Doolow"], "Garbahaarey")
+add_mc("Gobolka Nugaal caasimaddiisu waa?", ["Garoowe","Eyl","Burtinle","Dangorayo"], "Garoowe")
+add_tf("Caasimadda Puntland waa Boosaaso.", False)
+add_tf("Muqdisho waxay ku taal gobolka Banaadir.", True)
+add_tf("Laascaanood waa caasimadda gobolka Sool.", True)
+add_tf("Kismaayo waxay ku taal gobolka Jubbada Hoose.", True)
+add_tf("Hargeysa waa caasimadda Puntland.", False)
 
-const OUT_PATH = path.join(__dirname, 'data', 'questions', 'solo_tf_600.json');
-const questions = generate(600);
-ensureDirExists(OUT_PATH);
-fs.writeFileSync(OUT_PATH, JSON.stringify(questions, null, 2), 'utf8');
-console.log(`Waa la dhameystiray: ${OUT_PATH} (su'aalo: ${questions.length})`);
+# ============ SOMALI CULTURE AND TRADITIONS ============
+add_mc("Guriga dhaqameed ee reer guuraaga Soomaalidu waxaa lagu magacaabaa?", ["Aqal","Villa","Daar","Xero"], "Aqal")
+add_mc("Dharka dhaqameed ee haweenka Soomaalidu waxaa lagu magacaabaa?", ["Guntiino","Jeans","Skirt","Boombo"], "Guntiino")
+add_mc("Dharka dhaqameed ee ragga Soomaalidu waxaa lagu magacaabaa?", ["Ma'awis","Suit","Kanzu ​​kaliya oo Carab ah","T-shirt"], "Ma'awis")
+add_mc("Casharka reer guuraaga ee guriga la qaado marka la guuro waxaa la yiraahdaa?", ["Guri-guur","Aqal-guur","Guri-wareeg","Aqal-dhaqaale"], "Aqal-guur")
+add_mc("Cuntada dhaqameed ee ugu caansan Soomaalida waa?", ["Baris iyo hilib", "Pizza", "Sushi", "Pasta"], "Baris iyo hilib")
+add_mc("Casharka dhaqameed ee geela la siiyo qoyska aroosku waxaa la yiraahdaa?", ["Yarad", "Dahab", "Meher", "Cashuur"], "Yarad")
+add_mc("Waa maxay hidda-socodku Soomaalida?", ["Reer-guuraanimada", "Beeraha kaliya", "Kalluumeysi kaliya", "Warshadaha"], "Reer-guuraanimada")
+add_mc("Xeer-dhaqameedka Soomaalida ee qabyada iyo dhaqanka lagu xalliyo khilaafaadka waxaa lagu magacaabaa?", ["Xeer","Sharci","Shuruud","Cadaalad Rasmi"], "Xeer")
+add_mc("Qoyska Soomaaliyeed wuxuu inta badan ku dhisan yahay?", ["Nidaam qabiil iyo tol", "Nidaam gobol kaliya", "Nidaam magaalo kaliya", "Nidaam warshadeed"], "Nidaam qabiil iyo tol")
+add_mc("Diiwaanka gabayada Soomaalida waxaa loo yaqaanaa?", ["Maansada", "Riwaayadda", "Sheekada", "Filimka"], "Maansada")
+add_tf("Aqalku waa guriga dhaqameed ee reer guuraaga Soomaalidu ku noolaadaan.", True)
+add_tf("Guntiino waa dharka dhaqameed ee ragga Soomaalidu xidhaan.", False)
+add_tf("Reer guuraanimada waa qayb muhiim ah oo ka mid ah dhaqanka Soomaalida.", True)
+
+# ============ SOMALI LANGUAGE ============
+add_mc("Farta Soomaaliga waxaa lagu qoraa?", ["Xaraf Laatiin", "Xaraf Carabi", "Xaraf Giriig", "Xaraf Cirilik"], "Xaraf Laatiin")
+add_mc("Immisa xaraf ayuu ka kooban yahay alifbeetada Soomaaliga?", ["21","24","26","28"], "21")
+add_mc("Af-Soomaaliga wuxuu ka mid yahay qoyska luqadaha?", ["Cushitic", "Semitic", "Bantu", "Nilotic"], "Cushitic")
+add_mc("Ereyga 'salaan' macnihiisu waa?", ["Nabad-gelyo", "Guri", "Cunto", "Waqti"], "Nabad-gelyo")
+add_mc("Turjubaanka ugu horreeya ee farta Soomaaliga soo saaray waxaa lagu tilmaamaa?", ["Shire Jaamac Axmed","Cismaan Yuusuf Keenadiid","Cabdullaahi Qarshe","Sheekh Ahmed"], "Cismaan Yuusuf Keenadiid")
+add_mc("Hadalka la isticmaalo si aad u salaanto qof aad la kulanto waa?", ["Nabad miyaa", "Ku noqo", "Waan tagayaa", "Soo dhawoow"], "Nabad miyaa")
+add_tf("Farta Soomaaliga waxaa lagu dejiyay sannadkii 1972.", True)
+add_tf("Af-Soomaaligu ma lahan alifbeeto rasmi ah.", False)
+
+# ============ ISLAM ============
+add_mc("Diinta rasmiga ah ee Soomaaliya waa?", ["Islaamka","Masiixiyadda","Yahuudinimada","Hinduuga"], "Islaamka")
+add_mc("Immisa jeer ayuu Muslimku salaad ku tukadaa maalintii?", ["3","4","5","6"], "5")
+add_mc("Bishii Soonka ee Muslimiintu ay soomaan waa?", ["Ramadaan","Shawaal","Muharram","Rajab"], "Ramadaan")
+add_mc("Rukunka koowaad ee Islaamku waa?", ["Shahaadada","Salaadda","Zakada","Xajka"], "Shahaadada")
+add_mc("Xajku waa safarka loo aado?", ["Makka","Madiina","Al-Quds","Kaaba oo ku yaal Masar"], "Makka")
+add_mc("Kitaabka weyn ee Muslimiintu waa?", ["Quraanka","Injiilka","Tawreedka","Zabuurka"], "Quraanka")
+add_mc("Nebi Muxammad (SCW) wuxuu ku dhashay magaalada?", ["Makka","Madiina","Baghdaad","Al-Quds"], "Makka")
+add_mc("Sanadka Islaamku wuxuu ku salaysan yahay?", ["Dayaxa (Qamari)", "Qorraxda (Shamsi)", "Xiddigaha", "Cimilada"], "Dayaxa (Qamari)")
+add_mc("Rukunnada Islaamku waa immisa?", ["3","4","5","6"], "5")
+add_mc("Suuradda ugu horreysa ee Quraanka waa?", ["Al-Faatixa","Al-Baqara","An-Naas","Al-Ikhlaas"], "Al-Faatixa")
+add_mc("Ciidda ugu horreysa ee sanadka Islaamku dhacdo waa?", ["Ciida Fitrka","Ciida Adxada","Ciida Cusub","Ciida Mawliid"], "Ciida Fitrka")
+add_mc("Rukunka Zakada wuxuu ka mid yahay?", ["Bixinta hantida masaakiinta", "Soonka", "Salaadda", "Xajka"], "Bixinta hantida masaakiinta")
+add_mc("Malaa'igta u dhow Ilaahay ee wax soo dejisay Nebiga waa?", ["Jibriil","Miikaayiil","Israafiil","Malakalmowt"], "Jibriil")
+add_tf("Rukunnada Islaamku waa shan.", True)
+add_tf("Muslimku wuxuu salaad ku tukadaa laba jeer maalintii.", False)
+add_tf("Ramadaan waa bisha Soonka Islaamka.", True)
+add_tf("Quraanku wuxuu ka kooban yahay 114 suuradood.", True)
+add_tf("Xajku waa safar loo aado Madiina oo kaliya.", False)
+
+# ============ EDUCATION ============
+add_mc("Dugsiga ugu hooseeya ee waxbarashadu waxaa loo yaqaanaa?", ["Dugsiga Hoose","Jaamacadda","Dugsiga Sare","Machadka"], "Dugsiga Hoose")
+add_mc("Meesha wax lagu barto marxaladda ugu sarreysa waxaa loo yaqaanaa?", ["Jaamacad","Xanaano","Dugsi Hoose","Xarun Dugsi"], "Jaamacad")
+add_mc("Jaamacadda ugu weyn ee Soomaaliya waa?", ["Jaamacadda Ummadda Soomaaliyeed","Harvard","Oxford","Al-Azhar"], "Jaamacadda Ummadda Soomaaliyeed")
+add_mc("Qofka wax dhiga fasalka waxaa loo yaqaanaa?", ["Macallin","Xanaano","Xisaabiye","Suuqle"], "Macallin")
+add_tf("Waxbarashadu waa xaq u leh dhammaan carruurta.", True)
+add_tf("Jaamacadu waa marxalad ka hooseysa dugsiga hoose.", False)
+
+# ============ SCIENCE ============
+add_mc("Nooca hawada ugu badan ee hawada dhulku ka kooban tahay waa?", ["Nitrogen","Oxygen","Carbon dioxide","Hydrogen"], "Nitrogen")
+add_mc("Xubinta jirka ee wax dhiig-mareeya waa?", ["Wadnaha","Beerka","Kelyaha","Sambabada"], "Wadnaha")
+add_mc("Halka biyuhu ku kulmaan 100 darajo Celsius waxay noqdaan?", ["Uumi","Baraf","Barafowga","Sonkorow"], "Uumi")
+add_mc("Cilmiga baaraya wax-yaabaha ku yaal cirka waxaa lagu magacaabaa?", ["Astronomy","Biology","Chemistry","Geology"], "Astronomy")
+add_mc("Unugyada aasaasiga ah ee jirka noolaha waxaa lagu magacaabaa?", ["Cells","Tissues","Organs","Atoms"], "Cells")
+add_mc("Maxay ku kooban tahay nooca hawada ay geedaha soo saaraan?", ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"], "Oxygen")
+add_mc("Cusbooneysiinta jirka waxay ka dhacdaa unugyada la yiraahdo?", ["Cells","Molecules","Atoms","Bacteria"], "Cells")
+add_mc("Waa maxay saameynta cadceedda ee ugu weyn nolosha dhulka?", ["Iftiin iyo kuleyl", "Qabow", "Mugdi", "Roob"], "Iftiin iyo kuleyl")
+add_mc("Alaabta waxaa lagu qiyaasaa miisaanka la yiraahdo?", ["Kilogaraam","Litir","Mitir","Sekend"], "Kilogaraam")
+add_mc("Qofka baara sayniska waxaa lagu magacaabaa?", ["Saynisyahan","Suuqle","Ganacsade","Waraysade"], "Saynisyahan")
+add_tf("Hawadu waxay inta badan ka kooban tahay Nitrogen.", True)
+add_tf("Wadnuhu wuxuu ka tirsan yahay habka dheefshiidka.", False)
+add_tf("Biyuhu waxay noqdaan uumi marka la kululeeyo 100 darajo Celsius.", True)
+
+# ============ MATHEMATICS ============
+add_mc("Waa immisa 12 + 8?", ["18","20","22","24"], "20")
+add_mc("Waa immisa 9 x 9?", ["72","81","91","99"], "81")
+add_mc("Waa immisa 100 - 45?", ["45","55","65","50"], "55")
+add_mc("Saddex geesle wuxuu ka kooban yahay geesaha?", ["2","3","4","5"], "3")
+add_mc("Waa immisa 15 / 3?", ["3","5","4","6"], "5")
+add_mc("Tirada aan la qaybin karin laba oo keliya iyo hal waxaa loo yaqaanaa?", ["Tiro aasaasi (prime)","Tiro tacaddud","Tiro dhinaceed","Tiro taban"], "Tiro aasaasi (prime)")
+add_mc("Afar geesle siman dhinacyadiisu waxaa loo yaqaanaa?", ["Kuadrad","Saddex geesle","Goobo","Shan geesle"], "Kuadrad")
+add_mc("Waa immisa 7 x 6?", ["36","42","48","40"], "42")
+add_mc("Waa immisa qiyaasta 25 boqolkiiba 200?", ["25","50","75","100"], "50")
+add_mc("Nuqulka '0' waxaa loo yaqaanaa?", ["Eber","Kow","Laba","Toban"], "Eber")
+add_tf("2 + 2 waxay la mid tahay 4.", True)
+add_tf("Saddex geesle wuxuu leeyahay afar geesood.", False)
+
+# ============ TECHNOLOGY ============
+add_mc("Qalabka la isticmaalo si loo helo internetka guriga waxaa loo yaqaanaa?", ["Router","Printer","Scanner","Speaker"], "Router")
+add_mc("Kumbuyuutarka gacanta lagu qaado waxaa loo yaqaanaa?", ["Laptop","Desktop","Server","Printer"], "Laptop")
+add_mc("Taleefanka casriga ah ee internetka isticmaali kara waxaa loo yaqaanaa?", ["Smartphone","Radio","Television","Calculator"], "Smartphone")
+add_mc("Barnaamijka lagu daawado muuqaalada online-ka ah ee caanka ah waa?", ["YouTube","Photoshop","Excel","Word"], "YouTube")
+add_mc("Qalabka lagu daabaco waraaqaha kumbuyuutarka waxaa loo yaqaanaa?", ["Printer","Scanner","Mouse","Keyboard"], "Printer")
+add_tf("Smartphone-ku waa taleefan casri ah oo internetka isticmaali kara.", True)
+add_tf("Router-ku waa qalab lagu daabaco waraaqaha.", False)
+
+# ============ COMPUTERS ============
+add_mc("Qaybta kumbuyuutarka ee xogta ku kaydsan waxaa loo yaqaanaa?", ["Hard Drive","Monitor","Keyboard","Mouse"], "Hard Drive")
+add_mc("Nidaamka hawlgaliya kumbuyuutarka waxaa loo yaqaanaa?", ["Operating System","Hardware","Printer","Modem"], "Operating System")
+add_mc("Nidaamka hawlgalinta ee ugu caansan Microsoft-ku sameeyay waa?", ["Windows","Linux","Android","iOS"], "Windows")
+add_mc("Qalabka lagu qoro xarfaha kumbuyuutarka waxaa loo yaqaanaa?", ["Keyboard","Mouse","Monitor","Speaker"], "Keyboard")
+add_mc("Qalabka lagu wareejiyo cursor-ka shaashadda waxaa loo yaqaanaa?", ["Mouse","Keyboard","Printer","Scanner"], "Mouse")
+add_tf("Hard Drive-ku waa meesha xogta kumbuyuutarka lagu kaydiyo.", True)
+add_tf("Keyboard-ku waa qalabka lagu daawado muuqaalka.", False)
+
+# ============ INTERNET ============
+add_mc("Astaanta lagu qoro cinwaanka internetka waxaa loo yaqaanaa?", ["URL","CPU","RAM","USB"], "URL")
+add_mc("Barnaamijka lagu baadho internetka waxaa loo yaqaanaa?", ["Browser","Printer","Camera","Speaker"], "Browser")
+add_mc("Bogga wesbaydhka bilowga ah ee lagu raadiyo macluumaadka waxaa la yiraahdaa?", ["Search Engine","Server","Router","Cable"], "Search Engine")
+add_mc("Google-ku waa noocee?", ["Search Engine","Social Media","Email","Antivirus"], "Search Engine")
+add_tf("Google waa mid ka mid ah barnaamijyada wax lagu raadiyo internetka (search engine).", True)
+add_tf("Internetku waa shabakad caalami ah oo isku xidha kumbuyuutarada adduunka.", True)
+
+# ============ HEALTH ============
+add_mc("Qofka caafimaadka jirku dhaqtar ka daaweeyo waxaa loo yaqaanaa?", ["Bukaan","Dhaqtar","Macallin","Suuqle"], "Bukaan")
+add_mc("Cuntada ku qanca vitamin badan waa?", ["Khudradda iyo miraha", "Sonkorta oo keliya", "Saliidda oo keliya", "Cusbada"], "Khudradda iyo miraha")
+add_mc("Cudurka sonkorow-ka jirka ku dhaco waxaa loo yaqaanaa?", ["Sonkorow (Diabetes)","Duqsiga (Malaria)","Qandho","Xanuunka calool"], "Sonkorow (Diabetes)")
+add_mc("Talaalka carruurta looga hortago cudurrada waxaa loo yaqaanaa?", ["Tallaal","Dawo xanuun","Malab","Saliid"], "Tallaal")
+add_mc("Dhaqashada gacmaha si joogto ah waxay ka hortagtaa?", ["Faafitaanka cudurrada","Kordhinta miisaanka","Yaraanta dhiiga","Xanuunka madaxa"], "Faafitaanka cudurrada")
+add_mc("Cuntada aasaasiga ah ee tamarta jirka siisa waa?", ["Kaarbohaydraytka","Cusbada","Biyaha oo keliya","Sonkorta oo keliya"], "Kaarbohaydraytka")
+add_tf("Dhaqashada gacmaha waxay ka hortagtaa faafitaanka cudurrada.", True)
+add_tf("Sonkorow-ku (Diabetes) ma ahan cudur.", False)
+
+# ============ ENVIRONMENT ============
+add_mc("Isbeddelka cimilada adduunka waxaa ugu wax badan geystay?", ["Qiiqa warshadaha iyo baabuurta","Roobka","Dabaylaha","Cadceedda"], "Qiiqa warshadaha iyo baabuurta")
+add_mc("Falanqaynta dhirta lagu beero si loo hortago xun-dhaca dhulka waxaa loo yaqaanaa?", ["Dhirta beeridda (Tree planting)","Gubidda kaynta","Dhirta jarid","Gogosha dhulka"], "Dhirta beeridda (Tree planting)")
+add_mc("Qashinka ku daadsan dhulka ayaa ka dhaliya?", ["Wasakhaynta deegaanka","Roob badan","Barafowga","Kuleylka qorraxda"], "Wasakhaynta deegaanka")
+add_mc("Wax-soo-saarka warshadaha marka la xakameeyo waxay yareysaa?", ["Wasakhaynta hawada","Xoolaha","Beeraha","Dadka"], "Wasakhaynta hawada")
+add_tf("Isbeddelka cimiladu wuxuu saameeya deegaanka adduunka.", True)
+add_tf("Dhirta beeridu waxay xun u tahay deegaanka.", False)
+
+# ============ AGRICULTURE ============
+add_mc("Beeraha ugu caansan Soomaaliya waxaa ka mid ah?", ["Sarreenka iyo galleyda","Baraf","Dhagaxyada","Bir"], "Sarreenka iyo galleyda")
+add_mc("Gobolka ugu beeraha badan Soomaaliya waa?", ["Shabeellaha Hoose","Sool","Bari","Sanaag"], "Shabeellaha Hoose")
+add_mc("Waxsoosaarka beeraha ee ugu horreeya Soomaaliya waa?", ["Sarreenka, galleyda, iyo mooska","Saliidda","Macdanta","Xoolaha"], "Sarreenka, galleyda, iyo mooska")
+add_mc("Waqtiga beeraha lagu beero waxaa loo yaqaanaa?", ["Xilliga roobaabka","Xilliga abaaraha","Xilliga qabowga","Xilliga xagaaga oo keliya"], "Xilliga roobaabka")
+add_tf("Webi Shabeelle iyo Jubba waxay muhiim u yihiin beeraha Soomaaliya.", True)
+
+# ============ LIVESTOCK ============
+add_mc("Xoolaha ugu badan ee Soomaalidu dhaqato waa?", ["Geela, ari, sac, iyo lo'","Xamaam","Kalluun oo keliya","Shimbiraha"], "Geela, ari, sac, iyo lo'")
+add_mc("Dalka ugu badan dhoofinta xoolaha ee Geeska Afrika waa?", ["Soomaaliya","Kenya","Jabuuti","Sudan"], "Soomaaliya")
+add_mc("Xayawaanka Soomaalidu u tixgeliso mid ka mid ah hodantinimadooda?", ["Geel","Fahad","Libaax","Maroodi"], "Geel")
+add_mc("Caanaha ugu badan ee Soomaalidu cabaan waxaa laga helaa?", ["Geela iyo lo'da","Doofaarka","Shimbiraha","Kalluunka"], "Geela iyo lo'da")
+add_tf("Geeluhu waa xayawaan aad muhiim ugu ah dhaqaalaha Soomaalida.", True)
+add_tf("Soomaaliya kama dhoofiso xoolaha dalalka kale.", False)
+
+# ============ FOOD ============
+add_mc("Cuntada dhaqameed ee Soomaalidu subax cunto waa?", ["Canjeero","Pizza","Sushi","Burger"], "Canjeero")
+add_mc("Cabitaanka dhaqameed ee Soomaalidu ku caansan tahay waa?", ["Shaah","Kola","Juice-ka warshadaha","Wine"], "Shaah")
+add_mc("Cuntada laga sameeyo baris iyo hilib waxaa lagu magacaabaa?", ["Baris iyo hilib","Canjeero kaliya","Muufo kaliya","Halwo"], "Baris iyo hilib")
+add_mc("Macmacaanka dhaqameed ee Soomaalidu ku caansan tahay waa?", ["Halwo","Chocolate","Ice cream","Cake"], "Halwo")
+add_tf("Canjeero waa cunto dhaqameed oo Soomaalidu badanaa subaxda cunto.", True)
+
+# ============ SPORTS ============
+add_mc("Ciyaarta ugu caansan Soomaaliya waa?", ["Kubadda Cagta","Kubadda Koleyga","Tennis-ka","Golf-ka"], "Kubadda Cagta")
+add_mc("Kooxda qaranka Soomaaliyeed ee kubadda cagta waxaa loo yaqaanaa?", ["Ocean Stars","Desert Eagles","Sea Lions","Red Stars"], "Ocean Stars")
+add_mc("Ciyaaraha Olombikada waxaa la qabtaa mar kasta?", ["4 sano","2 sano","6 sano","10 sano"], "4 sano")
+add_mc("Kubadda cagta, immisa ciyaartoy ayaa kooxi wadaagaan garoonka?", ["9","10","11","12"], "11")
+add_mc("Ciyaarta lagu isticmaalo laambadaha iyo kubadda gacanta waxaa loo yaqaanaa?", ["Basketball","Football","Tennis","Chess"], "Basketball")
+add_tf("Kubadda cagta waa ciyaarta ugu caansan Soomaaliya.", True)
+add_tf("Kooxda kubadda cagta waxay ka kooban tahay 15 ciyaartoy oo garoonka jooga.", False)
+
+# ============ LITERATURE ============
+add_mc("Suugaanta afka Soomaaliga waxaa ugu caansan?", ["Maansada","Riwaayadda kaliya","Sheekada Yurub","Filimada"], "Maansada")
+add_mc("Gabayaa caan ka ah suugaanta Soomaalida?", ["Sayid Maxamed Cabdulle Xasan","Barack Obama","Nelson Mandela","William Shakespeare"], "Sayid Maxamed Cabdulle Xasan")
+add_mc("Sheekooyinka dhaqameed ee Soomaalidu carruurta u sheegto waxaa lagu magacaabaa?", ["Sheeko xariir","Buug cilmi","Wargeys","Joornaal"], "Sheeko xariir")
+add_tf("Maansadu waa qayb muhiim ah oo ka mid ah suugaanta Soomaalida.", True)
+
+# ============ POETRY ============
+add_mc("Nooca maansada Soomaalida ee ugu weyn ee dhaqameed waxaa ka mid ah?", ["Gabay","Song pop","Rap ajnabi","Opera"], "Gabay")
+add_mc("Maanso-yaqaanka caanka ah ee Soomaalida 'Sayidka' loo yaqaan waa?", ["Sayid Maxamed Cabdulle Xasan","Cabdullaahi Qarshe","Maxamed Ibraahin Warsame Hadraawi","Cali Sugulle"], "Sayid Maxamed Cabdulle Xasan")
+add_mc("Hal-abuurka gabayada Soomaalida 'Hadraawi' loo yaqaan magaciisu waa?", ["Maxamed Ibraahin Warsame","Cali Sugulle","Cabdullaahi Qarshe","Cabdi Muxumed Amiin"], "Maxamed Ibraahin Warsame")
+add_tf("Gabay waa nooc ka mid ah maansada dhaqameed ee Soomaalida.", True)
+
+# ============ SOMALI PROVERBS ============
+add_mc("Maahmaahda 'Aqoon la'aani waa iftiin la'aan' macnaheedu waa?", ["Aqoontu waa muhiim","Aqoontu waxba ma tarto","Iftiinku waa qaali","Nuurku ma jiro"], "Aqoontu waa muhiim")
+add_mc("Maahmaahda 'Nin walba geeddigiisa waa loo abaal-marin' macnaheedu waa?", ["Qof kastaa wuxuu helayaa waxa uu istaahilo", "Nin kasta wuu awoodi karaa", "Dhammaan dadka waa isku mid", "Loo abaal-marin ma jiro"], "Qof kastaa wuxuu helayaa waxa uu istaahilo")
+add_mc("Maahmaahda 'Af la isku garto ayaa la is fahmaa' waxay ku saabsan tahay?", ["Isgaarsiinta iyo fahamka", "Cunnada", "Dhaqaalaha", "Xoolaha"], "Isgaarsiinta iyo fahamka")
+add_tf("Maahmaahyadu waa qayb muhiim ah oo ka mid ah dhaqanka Soomaalida.", True)
+
+# ============ NATIONAL SYMBOLS ============
+add_mc("Midabka calanka Soomaaliyeed waa?", ["Buluug","Cagaar","Guduud","Madow"], "Buluug")
+add_mc("Xiddigta ku dhex taal calanka Soomaalidu waxay leedahay geesood?", ["3","4","5","6"], "5")
+add_mc("Heesta qaranka Soomaaliya waxaa loo yaqaanaa?", ["Qolobaa Calankeed","Sooyaal","Xamar Kacay","Waa mid Cusub"], "Qolobaa Calankeed")
+add_mc("Sannadkee ayaa Soomaaliya la aasaasay calankeeda?", ["1954","1960","1969","1991"], "1954")
+add_tf("Calanka Soomaaliyeed wuxuu ka kooban yahay midab buluug ah oo dhex leh xiddig cad.", True)
+add_tf("Xiddigta calanka Soomaaliyeed waxay leedahay lix geesood.", False)
+
+# ============ GOVERNMENT ============
+add_mc("Nidaamka dawladeed ee Soomaaliya hadda waa?", ["Federaal","Boqortooyo","Hantiwadaag","Gumeysi"], "Federaal")
+add_mc("Golaha ugu sarreeya ee sharci-dejinta Soomaaliya waxaa loo yaqaanaa?", ["Baarlamaanka","Golaha Wasiirrada","Maxkamadda","Xafiiska Madaxweynaha"], "Baarlamaanka")
+add_mc("Qofka ugu sarreeya dawladda Soomaaliya waxaa loo yaqaanaa?", ["Madaxweyne","Wasiir","Guddoomiye","Taliye"], "Madaxweyne")
+add_mc("Ra'iisul Wasaaraha wuxuu u shaqeeyaa qaybta?", ["Fulinta dawladda","Sharci-dejinta oo keliya","Garsoorka oo keliya","Militariga oo keliya"], "Fulinta dawladda")
+add_tf("Soomaaliya waxay hadda leedahay nidaam dawladeed oo Federaal ah.", True)
+
+# ============ SOMALI CURRENCY ============
+add_mc("Lacagta rasmiga ah ee Soomaaliya waxaa loo yaqaanaa?", ["Shilin Soomaaliyeed","Dollar","Euro","Riyaal"], "Shilin Soomaaliyeed")
+add_mc("Lacagta Soomaaliland waxaa loo yaqaanaa?", ["Shilin Soomaaliland","Dollar Soomaaliland","Riyaal Soomaaliland","Dirham"], "Shilin Soomaaliland")
+add_tf("Shilinka Soomaaliyeed waa lacagta rasmiga ah ee Soomaaliya.", True)
+
+# ============ CITIES ============
+add_mc("Magaalada ugu weyn Soomaaliya waa?", ["Muqdisho","Hargeysa","Boosaaso","Kismaayo"], "Muqdisho")
+add_mc("Magaalada dekedda badda leh ee Puntland ugu weyn waa?", ["Boosaaso","Garoowe","Qardho","Eyl"], "Boosaaso")
+add_mc("Magaalada Burco waxay ku taal gobolka?", ["Togdheer","Sool","Sanaag","Awdal"], "Togdheer")
+add_mc("Magaalada Kismaayo waxay ku taal xeebta?", ["Badweynta Hindiya","Badda Cas","Badweynta Atlantika","Badda Mediterranean"], "Badweynta Hindiya")
+add_tf("Muqdisho waa magaalada ugu weyn ee Soomaaliya.", True)
+
+# ============ OCEANS AND RIVERS ============
+add_mc("Badweynta ugu weyn adduunka waa?", ["Badweynta Baasifigga (Pacific)","Badweynta Atlantika","Badweynta Hindiya","Badweynta Arctic"], "Badweynta Baasifigga (Pacific)")
+add_mc("Webiga ugu dheer adduunka waa?", ["Webiga Nile","Webiga Amazon","Webiga Congo","Webiga Mississippi"], "Webiga Nile")
+add_mc("Badda ugu weyn ee ku xeeran Bariga Dhexe waa?", ["Badda Cas","Badweynta Hindiya","Badda Mediterranean","Badweynta Atlantika"], "Badda Cas")
+add_mc("Webiga Nile wuxuu inta badan mareeyaa dalka?", ["Masar","Kenya","Nigeria","Ghana"], "Masar")
+add_tf("Webiga Nile ayaa ah webiga ugu dheer adduunka.", True)
+add_tf("Badweynta Baasifigga waa badweynta ugu yar adduunka.", False)
+
+# ============ ASTRONOMY ============
+add_mc("Meeraha ugu dhow Qorraxda waa?", ["Mercury","Venus","Earth","Mars"], "Mercury")
+add_mc("Meeraha aan ku noolnahay waxaa loo yaqaanaa?", ["Earth (Dhulka)","Mars","Venus","Jupiter"], "Earth (Dhulka)")
+add_mc("Xiddigga ugu dhow dhulka waa?", ["Qorraxda","Dayaxa","Mars","Venus"], "Qorraxda")
+add_mc("Nidaamka meerayaasha wuxuu ku wareegaa?", ["Qorraxda","Dayaxa","Dhulka","Xiddig kale"], "Qorraxda")
+add_mc("Meeraha ugu weyn nidaamka qoraxeed waa?", ["Jupiter","Saturn","Earth","Mars"], "Jupiter")
+add_mc("Dayaxu wuxuu ku wareegaa?", ["Dhulka","Qorraxda","Mars","Venus"], "Dhulka")
+add_tf("Dhulku waa meeraha saddexaad ee ka fog Qorraxda.", True)
+add_tf("Dayaxu wuxuu iftiin abuurtaa isaga qudhiisa.", False)
+
+# ============ ANIMALS ============
+add_mc("Xayawaanka ugu weyn dhulka waa?", ["Maroodiga","Libaaxa","Fardaha","Geela"], "Maroodiga")
+add_mc("Xayawaanka loo yaqaan 'Boqorka duurka' waa?", ["Libaaxa","Yeyga","Shabeelka","Fahadka"], "Libaaxa")
+add_mc("Xayawaanka ugu dheer dhulka waa?", ["Geeraafaha (Giraffe)","Maroodiga","Ferada","Libaaxa"], "Geeraafaha (Giraffe)")
+add_mc("Xayawaanka ku nool biyaha oo neefsada hawada waa?", ["Nibiriga (Whale)","Kalluunka caadiga ah","Shark-ga","Jellyfish"], "Nibiriga (Whale)")
+add_mc("Xayawaanka ugu dheereeya jirka ee ka dhex socda dabaqadaha waa?", ["Bahalka (Snake)","Faras","Ari","Sac"], "Bahalka (Snake)")
+add_tf("Maroodigu waa xayawaanka ugu weyn dhulka.", True)
+add_tf("Libaaxu waa xayawaan ku nool biyaha.", False)
+
+# ============ PLANTS ============
+add_mc("Geedka Soomaaliya caanka ku ah oo dhirta udgoonka laga soo saaro waa?", ["Foox iyo Malmal","Geed Cagaar ah oo caadi ah","Muus","Sarreen"], "Foox iyo Malmal")
+add_mc("Geedaha waxay hawada ka soo saaraan?", ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"], "Oxygen")
+add_mc("Geedka lagu sameeyo shaaha waxaa loo yaqaanaa?", ["Geedka Shaaha","Geedka Sarreenka","Geedka Timirta","Geedka Muuska"], "Geedka Shaaha")
+add_tf("Foox iyo Malmal waa dhir caan ku ah Soomaaliya.", True)
+
+# ============ WEATHER AND CLIMATE ============
+add_mc("Xilliga roobabka Soomaaliya inta badan waxay dhacaan?", ["Gu' iyo Dayr","Xagaa iyo Jiilaal oo keliya","Bishii Diseembar oo keliya","Guud ahaan ma dhici karaan"], "Gu' iyo Dayr")
+add_mc("Xilliga ugu qallalan Soomaaliya waxaa loo yaqaanaa?", ["Jiilaal","Gu'","Dayr","Xagaa"], "Jiilaal")
+add_mc("Qiyaasta heerkulka waxaa lagu cabbiraa?", ["Celsius","Kilogram","Litir","Mitir"], "Celsius")
+add_tf("Xilliga Jiilaalku waa xilli qallalan oo Soomaaliya ka mid ah afarta xilli.", True)
+
+# ============ WORLD GENERAL KNOWLEDGE ============
+add_mc("Qaaradda ugu weyn adduunka waa?", ["Aasiya","Afrika","Yurub","Ameerika Waqooyi"], "Aasiya")
+add_mc("Dalka ugu dadka badan adduunka waa?", ["Hindiya","Shiinaha","USA","Nigeria"], "Hindiya")
+add_mc("Caasimadda Faransiiska waa?", ["Paris","London","Rome","Berlin"], "Paris")
+add_mc("Caasimadda Ingiriiska waa?", ["London","Paris","Madrid","Berlin"], "London")
+add_mc("Caasimadda Masar waa?", ["Qaahira","Alexandria","Luxor","Aswan"], "Qaahira")
+add_mc("Caasimadda Itoobiya waa?", ["Addis Ababa","Nairobi","Jabuuti","Asmara"], "Addis Ababa")
+add_mc("Caasimadda Kenya waa?", ["Nairobi","Mombasa","Kisumu","Addis Ababa"], "Nairobi")
+add_mc("Ururka Qaramada Midoobay waxaa lagu magacaabaa?", ["United Nations (UN)","African Union","Arab League","NATO"], "United Nations (UN)")
+add_mc("Dalka ugu badan dhulka adduunka waa?", ["Russia","Canada","China","USA"], "Russia")
+add_mc("Buurta ugu dheer adduunka waa?", ["Everest","Kilimanjaro","Kenya Mountain","Alps"], "Everest")
+add_mc("Lamadegaanka ugu weyn adduunka waa?", ["Sahara","Gobi","Kalahari","Arabian"], "Sahara")
+add_mc("Dalka gobolka Bariga Dhexe ee Islaamka ku dhashay waa?", ["Sacuudi Carabiya","Faransiiska","Ingiriiska","Jarmalka"], "Sacuudi Carabiya")
+add_tf("Caasimadda Faransiiska waa Paris.", True)
+add_tf("Qaaradda Afrika waa qaaradda ugu weyn adduunka.", False)
+add_tf("Ururka Qaramada Midoobay wuxuu la shaqeeyaa dhammaan dalalka adduunka.", True)
+
+print("MC:", len(MC), "TF:", len(TF))
