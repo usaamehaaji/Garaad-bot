@@ -207,9 +207,11 @@ async function expireDrop(client, guildId, dropId) {
     drop.status = 'expired';
     activeDrops.delete(dropKey(guildId));
     await editDropMessage(client, drop, 'expired');
-    await sendToChannel(client, drop.channelId, {
-        content: '⏰ **Hadiyaddii way dhacday** — cidina ma qaadan 3-da diamonds.',
-    }).catch(() => {});
+
+    // Removed automatic expiry announcement to avoid channel spam:
+    // await sendToChannel(client, drop.channelId, {
+    //     content: '⏰ **Hadiyaddii way dhacday** — cidina ma qaadan 3-da diamonds.',
+    // }).catch(() => {});
 }
 
 async function spawnDrop(client, guildId) {
@@ -315,8 +317,7 @@ async function diamondStatusCmd(message) {
     return message.reply(
         `💎 **Diamond Drop Status**\n` +
         `📍 ${drop ? `<#${drop.channelId}>` : 'Channel-ka waxaa si toos ah loo dooranayaa'}\n` +
-        `${drop?.status === 'open' ? `✅ Hadda waa furan tahay — ${formatCountdown(drop.expiresAt - Date.now())} ayaa haray.` : `⏱️ Drop-ka xiga qiyaastii ${formatCountdown((entry.nextDropAt || Date.now()) - Date.now())}.`}`
-    );
+        `${drop?.status === 'open' ? `✅ Hadda waa furan tahay — ${formatCountdown(drop.expiresAt - Date.now())} ayaa haray.` : `⏱️ Drop-ka xiga qiyaastii ${formatCountdown((entry.nextDrop[...}]\n    );
 }
 
 async function diamondTakeCmd(message) {
