@@ -285,57 +285,20 @@ function scheduleGuild(client, guildId, delayMs = DROP_INTERVAL_MS) {
 }
 
 function startDiamondDrops(client) {
-    if (started) return;
-    started = true;
-    loadConfig();
-    const registerGuild = guild => {
-        const existing = config.guilds[guild.id];
-        if (!existing) {
-            config.guilds[guild.id] = { nextDropAt: Date.now() + DROP_INTERVAL_MS };
-            saveConfig();
-        }
-        const entry = config.guilds[guild.id];
-        const dueIn = entry.nextDropAt ? entry.nextDropAt - Date.now() : DROP_INTERVAL_MS;
-        scheduleGuild(client, guild.id, dueIn);
-    };
-
-    for (const guild of client.guilds.cache.values()) registerGuild(guild);
-    client.on('guildCreate', registerGuild);
+    // Feature disabled: stop sending automatic drops and expiration messages into channel chats.
+    return;
 }
 
 async function diamondSetupCmd(message) {
-    return message.reply(
-        'ℹ️ **Setup looma baahna.** Bot-ku server kasta ayuu si toos ah ugu diraa drop-ka 40 daqiiqo kasta: ' +
-        'marka hore VC ay dad ku jiraan, haddii kale chat caadi ah.'
-    );
+    return message.reply('ℹ️ **Diamond Drop feature-ka waa la joojiyay.** Bot-ku dib ugu soo diri maayo fariimaha drop-ka channel chats-ka.');
 }
 
 async function diamondStatusCmd(message) {
-    const entry = config.guilds[message.guild?.id];
-    const drop = activeDrops.get(dropKey(message.guild?.id));
-    if (!entry) return message.reply('ℹ️ Server-kan wali lama diiwaangelin; drop-ku wuxuu bilaabanayaa marka bot-ku diyaar noqdo.');
-    return message.reply(
-        `💎 **Diamond Drop Status**\n` +
-        `📍 ${drop ? `<#${drop.channelId}>` : 'Channel-ka waxaa si toos ah loo dooranayaa'}\n` +
-        `${drop?.status === 'open' ? `✅ Hadda waa furan tahay — ${formatCountdown(drop.expiresAt - Date.now())} ayaa haray.` : `⏱️ Drop-ka xiga qiyaastii ${formatCountdown((entry.nextDropAt || Date.now()) - Date.now())}.`}`
-    );
+    return message.reply('ℹ️ **Diamond Drop feature-ka waa la joojiyay.** Bot-ku dib ugu soo diri maayo fariimaha drop-ka channel chats-ka.');
 }
 
 async function diamondTakeCmd(message) {
-    if (!message.guild) return message.reply('⚠️ Server-ka dhexdiisa kaliya.');
-    const drop = activeDrops.get(dropKey(message.guild.id));
-    if (!drop || drop.channelId !== message.channel.id || drop.status !== 'open' || Date.now() >= drop.expiresAt) {
-        return message.reply('⏰ Hadda **diamond drop** furan ma jiro.');
-    }
-
-    // messageCreate is processed serially, so the first accepted command wins.
-    drop.status = 'claimed';
-    drop.claimedBy = message.author.id;
-    await editDropMessage(message.client, drop, 'claimed');
-    return message.reply({
-        embeds: [buildDropEmbed(drop, 'claimed')],
-        components: [buildClaimButtons(drop)],
-    });
+    return message.reply('⏰ Hadda **diamond drop** furan ma jiro (feature-ka waa la joojiyay).');
 }
 
 async function handleDiamondInteraction(interaction) {

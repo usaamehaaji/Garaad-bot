@@ -122,7 +122,7 @@ client.once('ready', () => {
     setupAutoUpdate();
     setupBackupScheduler();
     setupQuestionSync();
-    startDiamondDrops(client);
+    // startDiamondDrops(client); // disabled: automatic channel drops turned off
     restorePredictions(client);
     restoreTournaments(client).catch(e => console.error('[Tournament] Restore failed:', e.message));
     restoreSoloGames(client).catch(e => console.error('[Solo] Restore failed:', e.message));
