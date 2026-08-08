@@ -14,14 +14,12 @@ const {
     Routes,
 } = require('discord.js');
 const { isAdmin } = require('../utils/admin');
-const { checkUser, applyIqChange, saveData } = require('../utils/helpers');
 const { econData, checkEconUser, saveEcon } = require('./econStore');
 
 const DATA_FILE = path.join(__dirname, '../../data/diamondDrops.json');
 const DROP_DIAMONDS = 3;
 const DROP_INTERVAL_MS = 40 * 60 * 1000;
 const CLAIM_WINDOW_MS = 60 * 1000;
-const IQ_PER_DIAMOND = 3;
 const BTC_REWARD = 3_000;
 
 let config = { guilds: {} };
@@ -74,10 +72,10 @@ function buildDropEmbed(drop, status = 'open') {
             isOpen
                 ? `Classic Token wuxuu soo diray **${DROP_DIAMONDS} diamonds**!\n\n` +
                   `Qofka ugu horreeya ee qora \`?take\` ayaa heli kara. ` +
-                  `Waxaad dooran kartaa **${DROP_DIAMONDS * IQ_PER_DIAMOND} IQ** ama **₿${BTC_REWARD.toLocaleString()} Bitcoin**.`
+                  `Hadiyadda waxaa si toos ah loogu beddelayaa **₿${BTC_REWARD.toLocaleString()} Bitcoin**.`
                 : isClaimed
-                    ? `Qofka ugu horreeya ee \`?take\` qoray ayaa helay fursadda doorashada.\n` +
-                      `Fadlan dooro **IQ** ama **Bitcoin** button-ka hoose.`
+                    ? `Qofka ugu horreeya ee \`?take\` qoray ayaa helay fursadda qaadashada.\n` +
+                      `Riix button-ka **Bitcoin** si wallet-kaaga loogu daro abaalmarinta.`
                 : 'Hal daqiiqo ayaa dhammaatay, cidina ma qaadan hadiyadda.'
         )
         .addFields(
@@ -93,28 +91,8 @@ function buildDropEmbed(drop, status = 'open') {
     return embed;
 }
 
-function buildTakeButtons(drop) {
-    const disabled = drop.status !== 'claimed';
-    return new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-            .setCustomId(`diamond_iq_${drop.id}_${drop.claimedBy}`)
-            .setLabel(`🧠 Qaado ${DROP_DIAMONDS * IQ_PER_DIAMOND} IQ`)
-            .setStyle(ButtonStyle.Primary)
-            .setDisabled(disabled),
-        new ButtonBuilder()
-            .setCustomId(`diamond_btc_${drop.id}_${drop.claimedBy}`)
-            .setLabel(`₿ Qaado ${BTC_REWARD.toLocaleString()} BTC`)
-            .setStyle(ButtonStyle.Success)
-            .setDisabled(disabled),
-    );
-}
-
 function buildClaimButtons(drop) {
     return new ActionRowBuilder().addComponents(
-        new ButtonBuilder()
-            .setCustomId(`diamond_iq_${drop.id}_${drop.claimedBy}`)
-            .setLabel(`🧠 Qaado ${DROP_DIAMONDS * IQ_PER_DIAMOND} IQ`)
-            .setStyle(ButtonStyle.Primary),
         new ButtonBuilder()
             .setCustomId(`diamond_btc_${drop.id}_${drop.claimedBy}`)
             .setLabel(`₿ Qaado ${BTC_REWARD.toLocaleString()} BTC`)
@@ -177,8 +155,9 @@ async function expireDrop(client, guildId, dropId) {
     drop.status = 'expired';
     activeDrops.delete(dropKey(guildId));
     await editDropMessage(client, drop, 'expired');
-    const channel = await client.channels.fetch(drop.channelId).catch(() => null);
-    await channel?.send?.('⏰ **Hadiyaddii way dhacday** — cidina ma qaadan 3-da diamonds.').catch(() => {});
+    await sendToChannel(client, drop.channelId, {
+        content: '⏰ **Hadiyaddii way dhacday** — cidina ma qaadan 3-da diamonds.',
+    }).catch(() => {});
 }
 
 async function spawnDrop(client, guildId) {
@@ -327,23 +306,7 @@ async function handleDiamondInteraction(interaction) {
         return interaction.reply({ content: '⏰ Waqtigii doorashada wuu dhammaaday.', flags: MessageFlags.Ephemeral });
     }
 
-    checkUser(interaction.user.id);
     checkEconUser(interaction.user.id);
-    if (choice === 'iq') {
-        const amount = DROP_DIAMONDS * IQ_PER_DIAMOND;
-        const actual = applyIqChange(interaction.user.id, amount);
-        saveData();
-        drop.status = 'claimed_rewarded';
-        activeDrops.delete(dropKey(drop.guildId));
-        await interaction.update({
-            embeds: [buildDropEmbed(drop, 'claimed')],
-            components: [],
-        });
-        return interaction.followUp({
-            content: `✅ <@${interaction.user.id}> waxaad qaadatay **${DROP_DIAMONDS} diamonds → +${actual} IQ**.`,
-            flags: MessageFlags.Ephemeral,
-        });
-    }
     if (choice === 'btc') {
         econData[interaction.user.id].btc = (econData[interaction.user.id].btc || 0) + BTC_REWARD;
         saveEcon();
