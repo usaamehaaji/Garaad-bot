@@ -208,11 +208,12 @@ module.exports = { todayKey, checkUser, getLevel, addXp, applyIqChange, checkAnd
 async function getDisplayName(client, guild, userId, fallbackUser = null) {
     try {
         const member = guild ? await guild.members.fetch(userId).catch(() => null) : null;
+        if (member?.displayName) return member.displayName;
         if (member?.nickname) return member.nickname;
-        const user = member?.user || fallbackUser || await client.users.fetch(userId).catch(() => null);
-        return user?.globalName || user?.username || `User ${userId}`;
+        const user = member?.user || fallbackUser || (client?.users ? await client.users.fetch(userId).catch(() => null) : null);
+        return user?.globalName || user?.displayName || user?.username || `User ${String(userId).slice(-4)}`;
     } catch {
-        return fallbackUser?.globalName || fallbackUser?.username || `User ${userId}`;
+        return fallbackUser?.globalName || fallbackUser?.displayName || fallbackUser?.username || `User ${String(userId).slice(-4)}`;
     }
 }
 

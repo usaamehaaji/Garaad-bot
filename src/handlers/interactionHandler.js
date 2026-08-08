@@ -4333,10 +4333,20 @@ module.exports = function setupInteractionHandler(client) {
             return handleDiamondInteraction(interaction);
         }
 
-        // ── Imposter ──────────────────────────────────────────────────────
-        if (id.startsWith('imp_')) {
-            const { handleImposterInteraction } = require('../games/imposter/interactions');
-            return handleImposterInteraction(interaction);
+        // ── Rich Leaderboard Buttons ──────────────────────────────────────
+        if (id.startsWith('close_rich_')) {
+            const authorId = id.replace('close_rich_', '');
+            if (interaction.user.id !== authorId) {
+                return interaction.reply({ content: '⛔ Qofkii amarka bixiyay kaliya ayaa xiri kara.', flags: MessageFlags.Ephemeral });
+            }
+            return interaction.message.delete().catch(() => {});
+        }
+
+        if (id.startsWith('refresh_rich_')) {
+            const authorId = id.replace('refresh_rich_', '');
+            const { buildRichLeaderboard } = require('../../data/commands/economy/rich');
+            const payload = await buildRichLeaderboard(interaction.client, interaction.guild, authorId);
+            return interaction.update(payload).catch(() => {});
         }
 
         // ── Catch-all: tournament answer buttons orphaned after bot restart ──

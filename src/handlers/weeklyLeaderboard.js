@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { econData, checkEconUser, saveEcon, resetWeeklyEarnings } = require('../economy/econStore');
 const { userData }     = require('../store');
-const { getLevel, getDisplayTitle, checkUser } = require('../utils/helpers');
+const { getLevel, getDisplayTitle, checkUser, getDisplayName } = require('../utils/helpers');
 
 const CHANNEL_IDS      = ['1504517873673048185', '1510701592708517898'];
 const WEEK_MS          = 7 * 24 * 60 * 60 * 1000;
@@ -32,8 +32,7 @@ async function buildEcoLines(client) {
         .slice(0, 10);
 
     const lines = await Promise.all(entries.map(async ({ uid, earned }, i) => {
-        let name = `<@${uid}>`;
-        try { const u = await client.users.fetch(uid); name = u.username; } catch {}
+        const name = await getDisplayName(client, null, uid);
         const medal = MEDALS[i] || `**${i + 1}.**`;
         return `${medal} **${name}** — ₿ ${earned.toLocaleString()} BTC earned`;
     }));
@@ -48,8 +47,7 @@ async function buildIqLines(client) {
         .slice(0, 10);
 
     const lines = await Promise.all(sorted.map(async ([uid, d], i) => {
-        let name = `<@${uid}>`;
-        try { const u = await client.users.fetch(uid); name = u.username; } catch {}
+        const name = await getDisplayName(client, null, uid);
         checkUser(uid);
         const title = getDisplayTitle(uid);
         const titlePart = (title && title !== 'Bilow') ? ` [${title}]` : '';
@@ -70,8 +68,7 @@ async function buildRichLines(client) {
         .slice(0, 10);
 
     const lines = await Promise.all(sorted.map(async ({ uid, btc }, i) => {
-        let name = `<@${uid}>`;
-        try { const u = await client.users.fetch(uid); name = u.username; } catch {}
+        const name = await getDisplayName(client, null, uid);
         const medal = MEDALS[i] || `**${i + 1}.**`;
         return `${medal} **${name}** — ₿ ${btc.toLocaleString()} BTC`;
     }));
