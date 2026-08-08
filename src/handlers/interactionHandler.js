@@ -4327,6 +4327,12 @@ module.exports = function setupInteractionHandler(client) {
             return handleGameRewardChoice(interaction);
         }
 
+        // ── Classic Token diamond drop buttons ───────────────────────────
+        if (id.startsWith('diamond_iq_') || id.startsWith('diamond_btc_')) {
+            const { handleDiamondInteraction } = require('../economy/diamondDrops');
+            return handleDiamondInteraction(interaction);
+        }
+
         // ── Imposter ──────────────────────────────────────────────────────
         if (id.startsWith('imp_')) {
             const { handleImposterInteraction } = require('../games/imposter/interactions');

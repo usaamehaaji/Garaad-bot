@@ -85,6 +85,7 @@ const { restorePredictions }    = require('./src/economy/prediction');
 const { tickMarket }            = require('./src/economy/market');
 const { loadMarketState, startMarketEngine } = require('./src/economy/marketEngine');
 const { loadBanks, loadCompanies } = require('./src/economy/bankStore');
+const { startDiamondDrops } = require('./src/economy/diamondDrops');
 
 // ───── Client ─────
 const client = new Client({
@@ -121,6 +122,7 @@ client.once('ready', () => {
     setupAutoUpdate();
     setupBackupScheduler();
     setupQuestionSync();
+    startDiamondDrops(client);
     restorePredictions(client);
     restoreTournaments(client).catch(e => console.error('[Tournament] Restore failed:', e.message));
     restoreSoloGames(client).catch(e => console.error('[Solo] Restore failed:', e.message));

@@ -68,6 +68,7 @@ const adminBankCmd    = require('../../data/commands/admin/adminBank');
 const saversCmd       = require('../../data/commands/savers');
 const setupTempVc     = require('../../data/commands/admin/tempVc');
 const { vcSetupCmd, vcRemoveCmd } = require('../handlers/voiceMaster');
+const { diamondSetupCmd, diamondStatusCmd, diamondTakeCmd } = require('../economy/diamondDrops');
 
 
 let _music = null;
@@ -330,6 +331,17 @@ module.exports = function setupMessageHandler(client) {
             case 'bhistory':
             case 'bh':
                 return bankHistoryCmd(message, args);
+
+            // ── Classic Token Diamond Drop ──
+            case 'take':
+                return diamondTakeCmd(message);
+
+            case 'diamondsetup':
+            case 'diamonddrop':
+                return diamondSetupCmd(message, args, message.client);
+
+            case 'diamondstatus':
+                return diamondStatusCmd(message);
 
             case 'topbanks':
                 return topBanksCmd(message);
