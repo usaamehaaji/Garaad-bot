@@ -11,6 +11,7 @@ const {
     ButtonStyle,
     EmbedBuilder,
     MessageFlags,
+    Routes,
 } = require('discord.js');
 const { isAdmin } = require('../utils/admin');
 const { checkUser, applyIqChange, saveData } = require('../utils/helpers');
@@ -121,16 +122,50 @@ function buildClaimButtons(drop) {
     );
 }
 
+function serializePayload(payload) {
+    return {
+        ...payload,
+        embeds: payload.embeds?.map(embed => typeof embed.toJSON === 'function' ? embed.toJSON() : embed),
+        components: payload.components?.map(row => typeof row.toJSON === 'function' ? row.toJSON() : row),
+    };
+}
+
+async function sendToChannel(client, channelId, payload) {
+    const channel = await client.channels.fetch(channelId).catch(() => null);
+    if (channel?.send) return channel.send(payload);
+
+    // Discord voice-channel text chat can be message-capable even when
+    // discord.js does not expose .send() on the VoiceChannel object.
+    const raw = await client.rest.post(Routes.channelMessages(channelId), {
+        body: serializePayload(payload),
+    });
+    return {
+        id: raw.id,
+        channelId,
+        edit: async editPayload => client.rest.patch(
+            Routes.channelMessage(channelId, raw.id),
+            { body: serializePayload(editPayload) },
+        ),
+    };
+}
+
 async function editDropMessage(client, drop, status = 'open') {
     if (!drop.messageId || !drop.channelId) return;
     try {
         const channel = await client.channels.fetch(drop.channelId);
-        const message = await channel?.messages?.fetch(drop.messageId);
-        if (!message) return;
-        await message.edit({
+        const message = await Promise.resolve(channel?.messages?.fetch?.(drop.messageId)).catch(() => null);
+        const payload = {
             embeds: [buildDropEmbed(drop, status)],
             components: status === 'claimed' ? [buildClaimButtons(drop)] : [],
-        });
+        };
+        if (message?.edit) {
+            await message.edit(payload);
+        } else {
+            await client.rest.patch(
+                Routes.channelMessage(drop.channelId, drop.messageId),
+                { body: serializePayload(payload) },
+            );
+        }
     } catch (error) {
         console.error('[DiamondDrops] Message update failed:', error.message);
     }
@@ -150,12 +185,6 @@ async function spawnDrop(client, guildId) {
     const entry = config.guilds[guildId];
     if (!entry?.channelId) return null;
 
-    const channel = await client.channels.fetch(entry.channelId).catch(() => null);
-    if (!channel?.send) {
-        console.error(`[DiamondDrops] Channel lama heli karo: ${entry.channelId}`);
-        return null;
-    }
-
     const oldDrop = activeDrops.get(dropKey(guildId));
     if (oldDrop?.status === 'open') return oldDrop;
 
@@ -170,7 +199,7 @@ async function spawnDrop(client, guildId) {
         expiresAt: Date.now() + CLAIM_WINDOW_MS,
     };
 
-    const message = await channel.send({
+    const message = await sendToChannel(client, entry.channelId, {
         embeds: [buildDropEmbed(drop)],
         components: [],
     }).catch(error => {
@@ -223,8 +252,17 @@ async function diamondSetupCmd(message, args, client) {
         return message.reply('✅ Classic Token Diamond Drop waa la joojiyay server-kan.');
     }
 
+    const requestedChannelId = args[0] && /^\d{15,22}$/.test(args[0]) ? args[0] : message.channel.id;
+    const targetChannel = await client.channels.fetch(requestedChannelId).catch(() => null);
+    if (!targetChannel) {
+        return message.reply('⚠️ Channel-kaas lama helin. Isticmaal channel ID sax ah.');
+    }
+    if (targetChannel.guildId && targetChannel.guildId !== message.guild.id) {
+        return message.reply('⚠️ Channel-kaas server-kan kama tirsana.');
+    }
+
     config.guilds[message.guild.id] = {
-        channelId: message.channel.id,
+        channelId: requestedChannelId,
         nextDropAt: Date.now(),
     };
     saveConfig();
@@ -233,7 +271,7 @@ async function diamondSetupCmd(message, args, client) {
 
     await message.reply(
         `✅ **Diamond Drop waa la dejiyay!**\n` +
-        `📍 Channel: ${message.channel}\n` +
+        `📍 Channel: <#${requestedChannelId}>\n` +
         `💎 ${DROP_DIAMONDS} diamonds • ⏱️ 1 daqiiqo claim window\n` +
         `🔁 Drop cusub: 40 daqiiqo kasta`
     );
