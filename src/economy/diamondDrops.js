@@ -11,9 +11,9 @@ const {
     ButtonStyle,
     EmbedBuilder,
     MessageFlags,
+    ChannelType,
     Routes,
 } = require('discord.js');
-const { isAdmin } = require('../utils/admin');
 const { econData, checkEconUser, saveEcon } = require('./econStore');
 
 const DATA_FILE = path.join(__dirname, '../../data/diamondDrops.json');
@@ -25,12 +25,24 @@ const BTC_REWARD = 3_000;
 let config = { guilds: {} };
 const activeDrops = new Map(); // guildId -> drop
 const timers = new Map(); // guildId -> timeout
+let started = false;
 
 function loadConfig() {
     try {
         if (fs.existsSync(DATA_FILE)) {
             const saved = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
             config = { guilds: saved.guilds || {} };
+            // Old versions stored a manually selected channel. Automatic mode
+            // deliberately ignores it and starts a fresh 40-minute schedule.
+            let migrated = false;
+            for (const entry of Object.values(config.guilds)) {
+                if (entry.channelId) {
+                    delete entry.channelId;
+                    entry.nextDropAt = Date.now() + DROP_INTERVAL_MS;
+                    migrated = true;
+                }
+            }
+            if (migrated) saveConfig();
         }
     } catch (error) {
         console.error('[DiamondDrops] Config load failed:', error.message);
@@ -54,6 +66,46 @@ function formatCountdown(ms) {
     const seconds = Math.max(0, Math.ceil(ms / 1000));
     if (seconds < 60) return `${seconds}s`;
     return `${Math.ceil(seconds / 60)} daqiiqo`;
+}
+
+function humanMembers(channel) {
+    return [...(channel.members?.values() || [])].filter(member => !member.user?.bot);
+}
+
+function canUseTextChannel(channel, guild) {
+    if (!channel?.isTextBased?.() || !channel.send) return false;
+    const me = guild.members.me;
+    if (!me) return true;
+    const permissions = channel.permissionsFor(me);
+    return Boolean(
+        permissions?.has('ViewChannel') &&
+        permissions?.has('SendMessages') &&
+        permissions?.has('EmbedLinks')
+    );
+}
+
+function findDropChannel(client, guild) {
+    const channels = [...guild.channels.cache.values()];
+    const activeVoice = channels
+        .filter(channel =>
+            (channel.type === ChannelType.GuildVoice || channel.type === ChannelType.GuildStageVoice) &&
+            humanMembers(channel).length > 0
+        )
+        .sort((a, b) => humanMembers(b).length - humanMembers(a).length);
+
+    // Voice-channel text chat is sent through the Discord REST route below.
+    // It does not expose .send() on every discord.js version, so select it
+    // first and let sendToChannel handle the transport.
+    if (activeVoice[0]) return activeVoice[0];
+
+    const textChannels = channels
+        .filter(channel => channel.type === ChannelType.GuildText)
+        .sort((a, b) => {
+            if (a.id === guild.systemChannelId) return -1;
+            if (b.id === guild.systemChannelId) return 1;
+            return a.position - b.position;
+        });
+    return textChannels.find(channel => canUseTextChannel(channel, guild)) || null;
 }
 
 function buildDropEmbed(drop, status = 'open') {
@@ -162,15 +214,24 @@ async function expireDrop(client, guildId, dropId) {
 
 async function spawnDrop(client, guildId) {
     const entry = config.guilds[guildId];
-    if (!entry?.channelId) return null;
+    const guild = client.guilds.cache.get(guildId);
+    if (!entry || !guild) return null;
 
     const oldDrop = activeDrops.get(dropKey(guildId));
     if (oldDrop?.status === 'open') return oldDrop;
 
+    const targetChannel = findDropChannel(client, guild);
+    if (!targetChannel) {
+        console.warn(`[DiamondDrops] No usable channel in guild ${guildId}; retrying next cycle`);
+        entry.nextDropAt = Date.now() + DROP_INTERVAL_MS;
+        saveConfig();
+        return null;
+    }
+
     const drop = {
         id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`,
         guildId,
-        channelId: entry.channelId,
+        channelId: targetChannel.id,
         messageId: null,
         status: 'open',
         claimedBy: null,
@@ -178,13 +239,29 @@ async function spawnDrop(client, guildId) {
         expiresAt: Date.now() + CLAIM_WINDOW_MS,
     };
 
-    const message = await sendToChannel(client, entry.channelId, {
+    let message = await sendToChannel(client, targetChannel.id, {
         embeds: [buildDropEmbed(drop)],
         components: [],
     }).catch(error => {
         console.error('[DiamondDrops] Drop send failed:', error.message);
         return null;
     });
+    // If an active VC's chat is unavailable, fall back to a normal text chat.
+    if (!message && (targetChannel.type === ChannelType.GuildVoice || targetChannel.type === ChannelType.GuildStageVoice)) {
+        const fallback = [...guild.channels.cache.values()]
+            .filter(channel => channel.type === ChannelType.GuildText)
+            .find(channel => canUseTextChannel(channel, guild));
+        if (fallback) {
+            drop.channelId = fallback.id;
+            message = await sendToChannel(client, fallback.id, {
+                embeds: [buildDropEmbed(drop)],
+                components: [],
+            }).catch(error => {
+                console.error('[DiamondDrops] Text fallback failed:', error.message);
+                return null;
+            });
+        }
+    }
     if (!message) return null;
 
     drop.messageId = message.id;
@@ -206,66 +283,38 @@ function scheduleGuild(client, guildId, delayMs = DROP_INTERVAL_MS) {
 }
 
 function startDiamondDrops(client) {
+    if (started) return;
+    started = true;
     loadConfig();
-    for (const [guildId, entry] of Object.entries(config.guilds)) {
-        const dueIn = entry.nextDropAt ? entry.nextDropAt - Date.now() : DROP_INTERVAL_MS;
-        if (dueIn <= 0) {
-            spawnDrop(client, guildId).finally(() => scheduleGuild(client, guildId));
-        } else {
-            scheduleGuild(client, guildId, dueIn);
+    const registerGuild = guild => {
+        const existing = config.guilds[guild.id];
+        if (!existing) {
+            config.guilds[guild.id] = { nextDropAt: Date.now() + DROP_INTERVAL_MS };
+            saveConfig();
         }
-    }
+        const entry = config.guilds[guild.id];
+        const dueIn = entry.nextDropAt ? entry.nextDropAt - Date.now() : DROP_INTERVAL_MS;
+        scheduleGuild(client, guild.id, dueIn);
+    };
+
+    for (const guild of client.guilds.cache.values()) registerGuild(guild);
+    client.on('guildCreate', registerGuild);
 }
 
-async function diamondSetupCmd(message, args, client) {
-    if (!isAdmin(message.author.id)) return message.reply('🚫 Admin kaliya ayaa dejin kara Diamond Drop.');
-    if (!message.guild) return message.reply('⚠️ Server-ka dhexdiisa kaliya.');
-
-    const sub = (args[0] || '').toLowerCase();
-    if (sub === 'off' || sub === 'stop') {
-        delete config.guilds[message.guild.id];
-        if (timers.has(message.guild.id)) clearTimeout(timers.get(message.guild.id));
-        timers.delete(message.guild.id);
-        activeDrops.delete(dropKey(message.guild.id));
-        saveConfig();
-        return message.reply('✅ Classic Token Diamond Drop waa la joojiyay server-kan.');
-    }
-
-    const requestedChannelId = args[0] && /^\d{15,22}$/.test(args[0]) ? args[0] : message.channel.id;
-    const targetChannel = await client.channels.fetch(requestedChannelId).catch(() => null);
-    if (!targetChannel) {
-        return message.reply('⚠️ Channel-kaas lama helin. Isticmaal channel ID sax ah.');
-    }
-    if (targetChannel.guildId && targetChannel.guildId !== message.guild.id) {
-        return message.reply('⚠️ Channel-kaas server-kan kama tirsana.');
-    }
-
-    config.guilds[message.guild.id] = {
-        channelId: requestedChannelId,
-        nextDropAt: Date.now(),
-    };
-    saveConfig();
-    if (timers.has(message.guild.id)) clearTimeout(timers.get(message.guild.id));
-    timers.delete(message.guild.id);
-
-    await message.reply(
-        `✅ **Diamond Drop waa la dejiyay!**\n` +
-        `📍 Channel: <#${requestedChannelId}>\n` +
-        `💎 ${DROP_DIAMONDS} diamonds • ⏱️ 1 daqiiqo claim window\n` +
-        `🔁 Drop cusub: 40 daqiiqo kasta`
+async function diamondSetupCmd(message) {
+    return message.reply(
+        'ℹ️ **Setup looma baahna.** Bot-ku server kasta ayuu si toos ah ugu diraa drop-ka 40 daqiiqo kasta: ' +
+        'marka hore VC ay dad ku jiraan, haddii kale chat caadi ah.'
     );
-    await spawnDrop(client, message.guild.id);
-    scheduleGuild(client, message.guild.id, DROP_INTERVAL_MS);
 }
 
 async function diamondStatusCmd(message) {
-    if (!isAdmin(message.author.id)) return message.reply('🚫 Admin kaliya.');
     const entry = config.guilds[message.guild?.id];
     const drop = activeDrops.get(dropKey(message.guild?.id));
-    if (!entry) return message.reply('ℹ️ Diamond Drop lama dejin. Isticmaal `?diamondsetup` channel-ka aad rabto.');
+    if (!entry) return message.reply('ℹ️ Server-kan wali lama diiwaangelin; drop-ku wuxuu bilaabanayaa marka bot-ku diyaar noqdo.');
     return message.reply(
         `💎 **Diamond Drop Status**\n` +
-        `📍 <#${entry.channelId}>\n` +
+        `📍 ${drop ? `<#${drop.channelId}>` : 'Channel-ka waxaa si toos ah loo dooranayaa'}\n` +
         `${drop?.status === 'open' ? `✅ Hadda waa furan tahay — ${formatCountdown(drop.expiresAt - Date.now())} ayaa haray.` : `⏱️ Drop-ka xiga qiyaastii ${formatCountdown((entry.nextDropAt || Date.now()) - Date.now())}.`}`
     );
 }
