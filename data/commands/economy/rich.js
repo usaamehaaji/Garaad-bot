@@ -41,7 +41,7 @@ async function buildRichLeaderboard(client, guild, authorId) {
         .setDescription(lines.length > 0 ? lines.join('\n\n') : '_Wali xog hantiileyaal ah ma jirto._')
         .addFields(
             { name: '📊 Total Top 10 Wealth', value: `₿ **${fmt(top10Total)}**`, inline: true },
-            { name: '📍 Jooridaada (Your Rank)', value: authorStatusStr, inline: true }
+            { name: '📍 Your Rank', value: authorStatusStr, inline: true }
         )
         .setFooter({ text: 'Garaad Economy • BTC Leaderboard • 🔄 Live Data', iconURL: BTC_ICON })
         .setTimestamp();
